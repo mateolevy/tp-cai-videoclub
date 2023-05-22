@@ -2,21 +2,21 @@
 
 namespace Videoclub.Consola
 {
-    internal class Utiliddades
+    internal class Utilidades
     {
         internal static int PedirMenu(string mensaje, int min, int max)
         {
-            string input;
+            string? input;
             while (true)
             {
                 Console.WriteLine(mensaje);
                 input = Console.ReadLine();
-                if (input is null || input.Length == 0)
+                if (string.IsNullOrWhiteSpace(input))
                 {
                     Console.WriteLine("Debe ingresar un valor.");
                     continue;
                 }
-                if (!int.TryParse(input, out int num))
+                if (!int.TryParse(input, out _))
                 {
                     Console.WriteLine("Debe ingresar un valor numérico.");
                     continue;
