@@ -11,8 +11,8 @@ namespace Videoclub.Consola
 				while (true)
 				{
                     Console.Clear();
-					int opcMenu = Utiliddades.PedirMenu("Bienvenido al sistema de gestión 'Video Club'!\n" +
-						"1. Menú Clientes \n2. Menú Préstamos \n3. Menú Películas \n4. Menú Copia de Películas \n5. Menú Reportes \n0. Salir", 0, 5);
+                    int opcMenu = Utiliddades.PedirMenu("Bienvenido al sistema de gestión 'Video Club'!\n" +
+                        "1. Menú Clientes \n2. Menú Préstamos \n3. Menú Películas \n4. Menú Copia de Películas \n5. Menú Reportes \n0. Salir", 0, 5);
 					switch (opcMenu)
 					{
 						case 0:
