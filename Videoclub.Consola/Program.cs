@@ -1,4 +1,5 @@
-﻿using Videoclub.Entidades;
+﻿using System.ComponentModel.Design;
+using Videoclub.Entidades;
 using Videoclub.Negocio;
 
 namespace Videoclub.Consola
@@ -146,7 +147,38 @@ namespace Videoclub.Consola
         {
             Console.Clear();
             Console.WriteLine("Pantalla de Consulta de Cliente\n");
-            throw new NotImplementedException();
+
+            var clienteDatos = new ClienteNegocio();
+
+            // Verificamos si existen clientes.
+            if (clienteDatos.ExistenClientesIngresados())
+            {
+                // Traemos clientes e imprimimos.
+                var clientesResponse = clienteDatos.ConsultarClientes();
+
+                // Pedimos DNI a del cliente a buscar.
+                int dni = Utilidades.PedirInt("Ingrese el DNI del cliente que desea visualizar:");
+                foreach (var cliente in clientesResponse.Data)
+                {
+                    if (cliente.Dni == dni)
+                    {
+                        Console.WriteLine($"Nombre: {cliente.Nombre} \nApellido: {cliente.Apellido} \nDNI: {cliente.Dni} \nFecha de Nacimiento: {cliente.FechaNacimiento} \nActivo: {cliente.Activo}");
+                    }
+                    else
+                    {
+                        Console.WriteLine("\nNo existe un cliente registrado bajo el DNI ingresado.");
+                    }
+                    break;
+                    
+                }
+                Console.WriteLine("\nPresione una tecla para continuar.");
+                Console.ReadKey();
+            }
+            else
+            {
+                Console.WriteLine("No existen clientes registrados. \nPresione una tecla para continuar.");
+                Console.ReadKey();
+            }
         }
         
         private static void ConsultarTodosLosClientes()
