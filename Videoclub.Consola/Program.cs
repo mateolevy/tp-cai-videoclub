@@ -103,26 +103,21 @@ namespace Videoclub.Consola
 			}
         }
 
-        private static void VisualizarCopiasPelicula()
-        {
-            throw new NotImplementedException();
-        }
 
-        private static void VisualizarPrestamosCliente()
-        {
-            throw new NotImplementedException();
-        }
-
+        /*********************************************************** COPIAS ************************************************************************/
         private static void ConsultarCopiaPeliculaExistente()
         {
             throw new NotImplementedException();
         }
-
         private static void IngresarCopiaPelicula()
         {
             throw new NotImplementedException();
         }
-
+        private static void VisualizarCopiasPelicula()
+        {
+            throw new NotImplementedException();
+        }
+        /*********************************************************** PELICULAS ************************************************************************/
         private static void ConsultarPeliculaExistente()
         {
             throw new NotImplementedException();
@@ -132,7 +127,7 @@ namespace Videoclub.Consola
         {
             throw new NotImplementedException();
         }
-
+        /*********************************************************** PRESTAMOS ************************************************************************/
         private static void ConsultarPrestamoExistente()
         {
             throw new NotImplementedException();
@@ -142,7 +137,11 @@ namespace Videoclub.Consola
         {
             throw new NotImplementedException();
         }
-
+        private static void VisualizarPrestamosCliente()
+        {
+            throw new NotImplementedException();
+        }
+        /*********************************************************** CLIENTES ************************************************************************/
         private static void ConsultarClienteExistente()
         {
             throw new NotImplementedException();
@@ -150,12 +149,10 @@ namespace Videoclub.Consola
         
         private static void ConsultarTodosLosClientes()
         {
-            var clienteDatos = new ClienteNegocio();
-            var clientesResponse = clienteDatos.ConsultarClientes();
-
-            if (clientesResponse.Success)
+            var clienteDatos = new ClienteNegocio();     
+            if (clienteDatos.ExistenClientesIngresados())
             {
-                Console.WriteLine("\n Listado de Clientes: \n");
+                var clientesResponse = clienteDatos.ConsultarClientes();
                 foreach (var cliente in clientesResponse.Data)
                 {
                     Console.WriteLine($"{cliente.Nombre} {cliente.Apellido} - {cliente.Dni} - {cliente.FechaNacimiento}");
@@ -163,7 +160,8 @@ namespace Videoclub.Consola
             }
             else
             {
-                Console.WriteLine(clientesResponse.Error);
+                Console.WriteLine("No existen clientes registrados. \nPresione una tecla para continuar.");
+                Console.ReadKey();
             }
         }
 
@@ -172,13 +170,13 @@ namespace Videoclub.Consola
             try
             {
                 var clienteDatos = new ClienteNegocio();
-                var clientesResponse = clienteDatos.ConsultarClientes();
                 int idCliente = 1;
 
-                if (clientesResponse.Success)
+                if (clienteDatos.ExistenClientesIngresados())
                 {
+                    var clientes = clienteDatos.ConsultarClientes();
                     int maxId = 0;
-                    foreach (var cliente in clientesResponse.Data)
+                    foreach (var cliente in clientes.Data)
                     {
                         if (cliente.Id > maxId)
                         {
@@ -199,14 +197,9 @@ namespace Videoclub.Consola
 
                 Cliente nuevoCliente = new Cliente(dni, apellido, nombre, fechaNac, idCliente, DateTime.Today, direccion, email, telefono, usuario, activo);
                 var nuevoClienteResponse = clienteDatos.AgregarCliente(nuevoCliente);
-                if (nuevoClienteResponse.Success)
+                if (nuevoClienteResponse)
                 {
                     Console.WriteLine("Cliente agregado con éxito! \nPresione una tecla para continuar.");
-                    Console.ReadKey();
-                }
-                else
-                {
-                    Console.WriteLine("Error al agregar cliente! \nPresione una tecla para continuar.");
                     Console.ReadKey();
                 }
             }

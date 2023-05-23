@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Videoclub.AccesoDatos;
 using Videoclub.AccesoDatos.Utilidades;
 using Videoclub.Entidades;
@@ -14,7 +15,7 @@ public class ClienteNegocio
         _clienteDatos = new ClienteDatos();
     }
 
-    public RestResponse<Cliente> AgregarCliente(Cliente nuevoCliente)
+    public bool AgregarCliente(Cliente nuevoCliente)
     {
         var clientesResponse = _clienteDatos.ConsultarClientes();
         if (nuevoCliente is null)
@@ -32,12 +33,33 @@ public class ClienteNegocio
             }
         }
         var nuevoclienteResponse = _clienteDatos.AltaCliente(nuevoCliente);
-        return nuevoclienteResponse;
+        if (nuevoclienteResponse.Success)
+        {
+            return true;
+        }
+        else
+        {
+            throw new TransactionError(nuevoclienteResponse.Error);
+        }
     }
 
     public RestResponse<List<Cliente>> ConsultarClientes()
     {
         var clientesResponse = _clienteDatos.ConsultarClientes();
         return clientesResponse;
+    }
+
+    public bool ExistenClientesIngresados()
+    {
+        var clienteDatos = new ClienteNegocio();
+        var clientesResponse = clienteDatos.ConsultarClientes();
+        if (clientesResponse.Success)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
