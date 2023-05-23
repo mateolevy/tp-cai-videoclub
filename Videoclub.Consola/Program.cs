@@ -144,19 +144,26 @@ namespace Videoclub.Consola
         /*********************************************************** CLIENTES ************************************************************************/
         private static void ConsultarClienteExistente()
         {
+            Console.Clear();
+            Console.WriteLine("Pantalla de Consulta de Cliente\n");
             throw new NotImplementedException();
         }
         
         private static void ConsultarTodosLosClientes()
         {
+            Console.Clear();
+            Console.WriteLine("Pantalla de Consulta de Todos los Clientes\n");
+
             var clienteDatos = new ClienteNegocio();     
             if (clienteDatos.ExistenClientesIngresados())
             {
                 var clientesResponse = clienteDatos.ConsultarClientes();
                 foreach (var cliente in clientesResponse.Data)
                 {
-                    Console.WriteLine($"{cliente.Nombre} {cliente.Apellido} - {cliente.Dni} - {cliente.FechaNacimiento}");
+                    Console.WriteLine($"Nombre: {cliente.Nombre} - Apellido: {cliente.Apellido} - DNI: {cliente.Dni} - Fecha de Nacimiento: {cliente.FechaNacimiento}");
                 }
+                Console.WriteLine("\nPresione una tecla para continuar.");
+                Console.ReadKey();
             }
             else
             {
@@ -169,6 +176,8 @@ namespace Videoclub.Consola
         {
             try
             {
+                Console.Clear();
+
                 var clienteDatos = new ClienteNegocio();
                 int idCliente = 1;
 
@@ -185,6 +194,7 @@ namespace Videoclub.Consola
                     }
                     idCliente = maxId + 1;
                 }
+                Console.WriteLine("Pantalla de Ingreso de Clientes.\n");
                 int dni = Utilidades.PedirInt("Ingrese su DNI:");
                 string nombre = Utilidades.PedirString("Ingrese su Nombre:");
                 string apellido = Utilidades.PedirString("Ingrese su Apellido:");
