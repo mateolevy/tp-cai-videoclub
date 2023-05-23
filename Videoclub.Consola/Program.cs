@@ -1,4 +1,6 @@
-﻿namespace Videoclub.Consola
+﻿using Videoclub.Negocio;
+
+namespace Videoclub.Consola
 {
     internal abstract class Program
     {
@@ -20,7 +22,7 @@
 							break;
 						case 1:
                             Console.Clear();
-                            int opcClientes = Utilidades.PedirMenu("Menú Clientes.\n1. Ingresar Nuevo Cliente \n2. Consultar Cliente Existente \n0. Volver al Menú Principal", 0, 2);
+                            int opcClientes = Utilidades.PedirMenu("Menú Clientes.\n1. Ingresar Nuevo Cliente \n2. Consultar Cliente Existente \n3. Consultar Todos los Clientes \n0. Volver al Menú Principal", 0, 3);
 							switch (opcClientes)
 							{
 								case 0: break;
@@ -30,6 +32,9 @@
 								case 2:
 									ConsultarClienteExistente();
 									continue;
+                                case 3:
+                                    ConsultarTodosLosClientes();
+                                    continue;
 							}
 							continue;
 						case 2:
@@ -140,6 +145,25 @@
         private static void ConsultarClienteExistente()
         {
             throw new NotImplementedException();
+        }
+        
+        private static void ConsultarTodosLosClientes()
+        {
+            var clienteDatos = new ClienteNegocio();
+            var clientesResponse = clienteDatos.ConsultarClientes();
+
+            if (clientesResponse.Success)
+            {
+                Console.WriteLine("\n Listado de Clientes: \n");
+                foreach (var cliente in clientesResponse.Data)
+                {
+                    Console.WriteLine($"{cliente.Nombre} {cliente.Apellido} - {cliente.Dni} - {cliente.FechaNacimiento}");
+                }
+            }
+            else
+            {
+                Console.WriteLine(clientesResponse.Error);
+            }
         }
 
         private static void IngresarNuevoCliente()

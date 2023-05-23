@@ -6,4 +6,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Videoclub.AccesoDatos\Videoclub.AccesoDatos.csproj" />
+    </ItemGroup>
+
 </Project>

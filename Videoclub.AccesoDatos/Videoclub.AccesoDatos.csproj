@@ -6,4 +6,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Videoclub.Entidades\Videoclub.Entidades.csproj" />
+    </ItemGroup>
+
 </Project>
