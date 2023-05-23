@@ -47,7 +47,32 @@ namespace Videoclub.Consola
             }
             return Convert.ToInt32(input);
         }
-
+        internal static int PedirDNI(string mensaje)
+        {
+            string? input;
+            while (true)
+            {
+                Console.WriteLine(mensaje);
+                input = Console.ReadLine();
+                if (string.IsNullOrWhiteSpace(input))
+                {
+                    Console.WriteLine("Debe ingresar un valor.");
+                    continue;
+                }
+                if (!int.TryParse(input, out _))
+                {
+                    Console.WriteLine("Debe ingresar un valor numérico.");
+                    continue;
+                }
+                if (input.Length != 8)
+                {
+                    Console.WriteLine("El DNI debe contener 8 dígitos.");
+                    continue;
+                }
+                break;
+            }
+            return Convert.ToInt32(input);
+        }
         internal static int PedirMenu(string mensaje, int min, int max)
         {
             string? input;

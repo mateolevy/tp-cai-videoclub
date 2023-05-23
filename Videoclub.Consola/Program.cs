@@ -157,7 +157,7 @@ namespace Videoclub.Consola
                 var clientesResponse = clienteDatos.ConsultarClientes();
 
                 // Pedimos DNI a del cliente a buscar.
-                int dni = Utilidades.PedirInt("Ingrese el DNI del cliente que desea visualizar:");
+                int dni = Utilidades.PedirDNI("Ingrese el DNI del cliente que desea visualizar:");
                 foreach (var cliente in clientesResponse.Data)
                 {
                     if (cliente.Dni == dni)
@@ -234,7 +234,7 @@ namespace Videoclub.Consola
 
                 // Datos de entrada para nuevo cliente.
                 Console.WriteLine("Pantalla de Ingreso de Clientes.\n");
-                int dni = Utilidades.PedirInt("Ingrese su DNI:");
+                int dni = Utilidades.PedirDNI("Ingrese su DNI:");
                 string nombre = Utilidades.PedirString("Ingrese su Nombre:");
                 string apellido = Utilidades.PedirString("Ingrese su Apellido:");
                 DateTime fechaNac = Utilidades.PedirFecha("Ingrese su Fecha de Nacimiento:");
