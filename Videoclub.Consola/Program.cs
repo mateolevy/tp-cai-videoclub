@@ -154,9 +154,12 @@ namespace Videoclub.Consola
             Console.Clear();
             Console.WriteLine("Pantalla de Consulta de Todos los Clientes\n");
 
-            var clienteDatos = new ClienteNegocio();     
+            var clienteDatos = new ClienteNegocio();   
+            
+            // Verificamos si existen clientes.
             if (clienteDatos.ExistenClientesIngresados())
             {
+                // Traemos clientes.
                 var clientesResponse = clienteDatos.ConsultarClientes();
                 foreach (var cliente in clientesResponse.Data)
                 {
