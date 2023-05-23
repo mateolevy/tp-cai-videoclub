@@ -17,11 +17,16 @@ public class ClienteNegocio
 
     public bool AgregarCliente(Cliente nuevoCliente)
     {
+        // Traemos lista de clientes.
         var clientesResponse = _clienteDatos.ConsultarClientes();
+
+        // Verificamos cliente null.
         if (nuevoCliente is null)
         {
             throw new ObjetoNull("Cliente");
         }
+
+        // Si existen clientes registrados, verificamos que el que se quiere agregar no exista.
         if (clientesResponse.Success)
         {
             foreach (var c in clientesResponse.Data)
@@ -32,6 +37,7 @@ public class ClienteNegocio
                 }
             }
         }
+        // Agregamos cliente y si todo sale bien, se le pasa el valor true a la capa de consola.
         var nuevoclienteResponse = _clienteDatos.AltaCliente(nuevoCliente);
         if (nuevoclienteResponse.Success)
         {
@@ -52,6 +58,8 @@ public class ClienteNegocio
     public bool ExistenClientesIngresados()
     {
         var clienteDatos = new ClienteNegocio();
+
+        // Traemos de la capa datos los clientes y verificamos si hay clientes registrados o no.
         var clientesResponse = clienteDatos.ConsultarClientes();
         if (clientesResponse.Success)
         {

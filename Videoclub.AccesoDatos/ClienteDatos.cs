@@ -8,7 +8,6 @@ public class ClienteDatos
     public RestResponse<List<Cliente>> ConsultarClientes()
     {
         var clientesResponse = RestClient.GetAsync<List<Cliente>>("cliente").Result;
-
         return clientesResponse;
     }
     
