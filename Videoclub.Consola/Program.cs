@@ -159,7 +159,7 @@ namespace Videoclub.Consola
             // Verificamos si existen clientes.
             if (clienteDatos.ExistenClientesIngresados())
             {
-                // Traemos clientes.
+                // Traemos clientes e imprimimos.
                 var clientesResponse = clienteDatos.ConsultarClientes();
                 foreach (var cliente in clientesResponse.Data)
                 {
@@ -184,8 +184,10 @@ namespace Videoclub.Consola
                 var clienteDatos = new ClienteNegocio();
                 int idCliente = 1;
 
+                // Verificamos si existen clientes.
                 if (clienteDatos.ExistenClientesIngresados())
                 {
+                    // Traemos clientes y buscamos el ID mas alto.
                     var clientes = clienteDatos.ConsultarClientes();
                     int maxId = 0;
                     foreach (var cliente in clientes.Data)
@@ -197,6 +199,8 @@ namespace Videoclub.Consola
                     }
                     idCliente = maxId + 1;
                 }
+
+                // Datos de entrada para nuevo cliente.
                 Console.WriteLine("Pantalla de Ingreso de Clientes.\n");
                 int dni = Utilidades.PedirInt("Ingrese su DNI:");
                 string nombre = Utilidades.PedirString("Ingrese su Nombre:");
@@ -208,7 +212,10 @@ namespace Videoclub.Consola
                 string usuario = Utilidades.PedirString("Ingrese su Usuario:");
                 bool activo = true;
 
+                // Instanciamos nuevo cliente.
                 Cliente nuevoCliente = new Cliente(dni, apellido, nombre, fechaNac, idCliente, DateTime.Today, direccion, email, telefono, usuario, activo);
+                
+                // Agregamos nuevo cliente y traemos la info sobre como salio la operacion con un booleano.
                 var nuevoClienteResponse = clienteDatos.AgregarCliente(nuevoCliente);
                 if (nuevoClienteResponse)
                 {
