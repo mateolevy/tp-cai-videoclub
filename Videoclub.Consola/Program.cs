@@ -1,4 +1,5 @@
-﻿using Videoclub.Negocio;
+﻿using Videoclub.Entidades;
+using Videoclub.Negocio;
 
 namespace Videoclub.Consola
 {
@@ -168,7 +169,52 @@ namespace Videoclub.Consola
 
         private static void IngresarNuevoCliente()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var clienteDatos = new ClienteNegocio();
+                var clientesResponse = clienteDatos.ConsultarClientes();
+                int idCliente = 1;
+
+                if (clientesResponse.Success)
+                {
+                    int maxId = 0;
+                    foreach (var cliente in clientesResponse.Data)
+                    {
+                        if (cliente.Id > maxId)
+                        {
+                            maxId = cliente.Id;
+                        }
+                    }
+                    idCliente = maxId + 1;
+                }
+                int dni = Utilidades.PedirInt("Ingrese su DNI:");
+                string nombre = Utilidades.PedirString("Ingrese su Nombre:");
+                string apellido = Utilidades.PedirString("Ingrese su Apellido:");
+                DateTime fechaNac = Utilidades.PedirFecha("Ingrese su Fecha de Nacimiento:");
+                string direccion = Utilidades.PedirString("Ingrese su Fecha de Nacimiento:");
+                string email = Utilidades.PedirString("Ingrese su Email:");
+                string telefono = Utilidades.PedirTelefono("Ingrese su Número de Teléfono:");
+                string usuario = Utilidades.PedirString("Ingrese su Usuario:");
+                bool activo = true;
+
+                Cliente nuevoCliente = new Cliente(dni, apellido, nombre, fechaNac, idCliente, DateTime.Today, direccion, email, telefono, usuario, activo);
+                var nuevoClienteResponse = clienteDatos.AgregarCliente(nuevoCliente);
+                if (nuevoClienteResponse.Success)
+                {
+                    Console.WriteLine("Cliente agregado con éxito! \nPresione una tecla para continuar.");
+                    Console.ReadKey();
+                }
+                else
+                {
+                    Console.WriteLine("Error al agregar cliente! \nPresione una tecla para continuar.");
+                    Console.ReadKey();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex} \nDescripción del Error: {ex.Message}.");
+            }
+            
         }
     }
 }

@@ -12,9 +12,10 @@ public class ClienteDatos
         return clientesResponse;
     }
     
-    public Cliente AltaCliente()
+    public RestResponse<Cliente> AltaCliente(Cliente nuevoCliente)
     {
-        throw new NotImplementedException();
+        var clientesResponse = RestClient.PostAsync<Cliente>("cliente", nuevoCliente).Result;
+        return clientesResponse;
     }
     
     public Cliente ConsultarClientePorUsuario(string usuario)

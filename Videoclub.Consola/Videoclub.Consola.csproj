@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Videoclub.Entidades\Videoclub.Entidades.csproj" />
       <ProjectReference Include="..\Videoclub.Negocio\Videoclub.Negocio.csproj" />
     </ItemGroup>
 

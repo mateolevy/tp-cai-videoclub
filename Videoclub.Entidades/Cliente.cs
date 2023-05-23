@@ -19,7 +19,7 @@ public class Cliente : Persona
     {
     }
     
-    public Cliente(int dni, string apellido, string nombre, DateTime fechaNac, int idCliente, DateTime fechaAlta, string direccion, string email, string telefono, string usuario, string host) : base(dni, apellido, nombre, fechaNac)
+    public Cliente(int dni, string apellido, string nombre, DateTime fechaNac, int idCliente, DateTime fechaAlta, string direccion, string email, string telefono, string usuario, bool activo) : base(dni, apellido, nombre, fechaNac)
     {
         _idCliente = idCliente;
         _fechaAlta = fechaAlta;
@@ -27,7 +27,7 @@ public class Cliente : Persona
         _email = email;
         _telefono = telefono;
         _usuario = usuario;
-        _host = host;
+        _activo = activo;
     }
     
     public int Id { get => _idCliente; set => _idCliente = value; }
@@ -38,5 +38,5 @@ public class Cliente : Persona
     public string Telefono { get => _telefono; set => _telefono = value; }
     public bool Activo { get => _activo; set => _activo = value; }
     public string Usuario { get => _usuario; set => _usuario = value; }
-    public string Host { get => _host; set => _host = value; }
+    private string Host { get => _host; set => _host = value; }
 }

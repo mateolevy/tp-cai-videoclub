@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Videoclub.AccesoDatos\Videoclub.AccesoDatos.csproj" />
+      <ProjectReference Include="..\Videoclub.Entidades\Videoclub.Entidades.csproj" />
     </ItemGroup>
 
 </Project>

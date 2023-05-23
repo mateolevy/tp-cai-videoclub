@@ -4,6 +4,50 @@ namespace Videoclub.Consola
 {
     internal class Utilidades
     {
+        internal static DateTime PedirFecha(string mensaje)
+        {
+            string? input;
+            while (true)
+            {
+                Console.WriteLine(mensaje);
+                input = Console.ReadLine();
+                if (string.IsNullOrWhiteSpace(input))
+                {
+                    Console.WriteLine("Debe ingresar un valor.");
+                    continue;
+                }
+                if (!DateTime.TryParse(input, out _))
+                {
+                    Console.WriteLine("Debe ingresar una fecha.");
+                    continue;
+                }
+                break;
+            }
+            return Convert.ToDateTime(input);
+        }
+
+        internal static int PedirInt(string mensaje)
+        {
+            string? input;
+            while (true)
+            {
+                Console.WriteLine(mensaje);
+                input = Console.ReadLine();
+                if (string.IsNullOrWhiteSpace(input))
+                {
+                    Console.WriteLine("Debe ingresar un valor.");
+                    continue;
+                }
+                if (!int.TryParse(input, out _))
+                {
+                    Console.WriteLine("Debe ingresar un valor numérico.");
+                    continue;
+                }
+                break;
+            }
+            return Convert.ToInt32(input);
+        }
+
         internal static int PedirMenu(string mensaje, int min, int max)
         {
             string? input;
@@ -29,6 +73,33 @@ namespace Videoclub.Consola
                 break;
             }
             return Convert.ToInt32(input);
+        }
+
+        internal static string PedirString(string mensaje)
+        {
+            string? input;
+            while (true)
+            {
+                Console.WriteLine(mensaje);
+                input = Console.ReadLine();
+                if (string.IsNullOrWhiteSpace(input))
+                {
+                    Console.WriteLine("Debe ingresar un valor.");
+                    continue;
+                }
+                if (int.TryParse(input, out _))
+                {
+                    Console.WriteLine("Debe ingresar una cadena de texto.");
+                    continue;
+                }
+                break;
+            }
+            return input;
+        }
+
+        internal static string PedirTelefono(string v)
+        {
+            throw new NotImplementedException();
         }
     }
 }
