@@ -162,7 +162,7 @@ namespace Videoclub.Consola
                 {
                     if (cliente.Dni == dni)
                     {
-                        Console.WriteLine($"Nombre: {cliente.Nombre} \nApellido: {cliente.Apellido} \nDNI: {cliente.Dni} \nFecha de Nacimiento: {cliente.FechaNacimiento} \nActivo: {cliente.Activo}");
+                        Console.WriteLine("Nombre: {cliente.Nombre} \nApellido: {cliente.Apellido} \nDNI: {cliente.Dni} \nFecha de Nacimiento: {cliente.FechaNacimiento} \nActivo: {cliente.Activo}");
                     }
                     else
                     {

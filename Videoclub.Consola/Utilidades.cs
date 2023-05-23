@@ -122,9 +122,21 @@ namespace Videoclub.Consola
             return input;
         }
 
-        internal static string PedirTelefono(string v)
+        internal static string PedirTelefono(string mensaje)
         {
-            throw new NotImplementedException();
+            string? input;
+            while (true)
+            {
+                Console.WriteLine(mensaje);
+                input = Console.ReadLine();
+                if (string.IsNullOrWhiteSpace(input))
+                {
+                    Console.WriteLine("Debe ingresar un valor.");
+                    continue;
+                }
+                break;
+            }
+            return input;
         }
     }
 }
