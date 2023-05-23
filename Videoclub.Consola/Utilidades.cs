@@ -134,6 +134,11 @@ namespace Videoclub.Consola
                     Console.WriteLine("Debe ingresar un valor.");
                     continue;
                 }
+                if(input.Length < 10 || input.Length > 11)
+                {
+                    Console.WriteLine("El número de teléfono debe ser entre 10 y 11 caracteres.");
+                    continue;
+                }
                 break;
             }
             return input;

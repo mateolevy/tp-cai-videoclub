@@ -235,10 +235,10 @@ namespace Videoclub.Consola
                 // Datos de entrada para nuevo cliente.
                 Console.WriteLine("Pantalla de Ingreso de Clientes.\n");
                 int dni = Utilidades.PedirDNI("Ingrese su DNI:");
-                string nombre = Utilidades.PedirString("Ingrese su Nombre:");
-                string apellido = Utilidades.PedirString("Ingrese su Apellido:");
+                string nombre = Utilidades.PedirString("Ingrese su Nombre:").ToUpper();
+                string apellido = Utilidades.PedirString("Ingrese su Apellido:").ToUpper();
                 DateTime fechaNac = Utilidades.PedirFecha("Ingrese su Fecha de Nacimiento:");
-                string direccion = Utilidades.PedirString("Ingrese su Fecha de Nacimiento:");
+                string direccion = Utilidades.PedirString("Ingrese su Dirección:").ToUpper();
                 string email = Utilidades.PedirString("Ingrese su Email:");
                 string telefono = Utilidades.PedirTelefono("Ingrese su Número de Teléfono:");
                 string usuario = Utilidades.PedirString("Ingrese su Usuario:");
@@ -251,7 +251,7 @@ namespace Videoclub.Consola
                 var nuevoClienteResponse = clienteDatos.AgregarCliente(nuevoCliente);
                 if (nuevoClienteResponse)
                 {
-                    Console.WriteLine("Cliente agregado con éxito! \nPresione una tecla para continuar.");
+                    Console.WriteLine("\nCliente agregado con éxito! \nPresione una tecla para continuar.");
                     Console.ReadKey();
                 }
             }
