@@ -2,12 +2,12 @@
 {
     public abstract class Persona
     {
-        protected int _dni;
-        protected string _apellido;
-        protected string _nombre;
-        protected DateTime _fechaNac;
+        private int _dni;
+        private string _apellido;
+        private string _nombre;
+        private DateTime _fechaNac;
 
-        public Persona(int dni, string apellido, string nombre, DateTime fechaNac)
+        protected Persona(int dni, string apellido, string nombre, DateTime fechaNac)
         {
             _dni = dni;
             _apellido = apellido;
@@ -15,7 +15,8 @@
             _fechaNac = fechaNac;
         }
 
-        public Persona()
+        // Agrego empty constructor base con atributo JsonConstructor para poder serializar/deserializar utilizando JSON.Net
+        protected Persona()
         {
         }
 

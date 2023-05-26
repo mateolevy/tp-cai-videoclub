@@ -11,23 +11,23 @@ public class Cliente : Persona
     private string _telefono;
     private bool _activo;
     private string _usuario;
-    private string _host;
 
-    // Agrego empty constructor base con atributo JsonConstructor para poder serializar/desserializar utilizando JSON.Net
+    // Agrego empty constructor base con atributo JsonConstructor para poder serializar/deserializar utilizando JSON.Net
     [JsonConstructor]
     public Cliente()
     {
     }
     
-    public Cliente(int dni, string apellido, string nombre, DateTime fechaNac, int idCliente, DateTime fechaAlta, string direccion, string email, string telefono, string usuario, bool activo) : base(dni, apellido, nombre, fechaNac)
+    public Cliente(int dni, string apellido, string nombre, DateTime fechaNac, int idCliente, string direccion, string email, string telefono) : base(dni, apellido, nombre, fechaNac)
     {
         _idCliente = idCliente;
-        _fechaAlta = fechaAlta;
+        _fechaAlta = DateTime.Now;
         _direccion = direccion;
         _email = email;
         _telefono = telefono;
-        _usuario = usuario;
-        _activo = activo;
+        // utilizar siempre este nro. de registro para filtrar la consulta de GET
+        _usuario = "854851";
+        _activo = true;
     }
     
     public int Id { get => _idCliente; set => _idCliente = value; }
@@ -38,5 +38,4 @@ public class Cliente : Persona
     public string Telefono { get => _telefono; set => _telefono = value; }
     public bool Activo { get => _activo; set => _activo = value; }
     public string Usuario { get => _usuario; set => _usuario = value; }
-    private string Host { get => _host; set => _host = value; }
 }

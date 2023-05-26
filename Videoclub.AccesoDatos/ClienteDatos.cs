@@ -7,18 +7,14 @@ public class ClienteDatos
 {
     public RestResponse<List<Cliente>> ConsultarClientes()
     {
-        var clientesResponse = RestClient.GetAsync<List<Cliente>>("cliente").Result;
+        // Traer clientes unicamente que tengan usuario (registro) nro 854851
+        var clientesResponse = RestClient.GetAsync<List<Cliente>>("cliente/854851").Result;
         return clientesResponse;
     }
     
     public RestResponse<Cliente> AltaCliente(Cliente nuevoCliente)
     {
-        var clientesResponse = RestClient.PostAsync<Cliente>("cliente", nuevoCliente).Result;
+        var clientesResponse = RestClient.PostAsync("cliente", nuevoCliente).Result;
         return clientesResponse;
-    }
-    
-    public Cliente ConsultarClientePorUsuario(string usuario)
-    {
-        throw new NotImplementedException();
     }
 }

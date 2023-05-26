@@ -26,48 +26,28 @@ public class ClienteNegocio
             throw new ObjetoNull("Cliente");
         }
 
-        // Si existen clientes registrados, verificamos que el que se quiere agregar no exista.
+        // Verificamos que el que se quiere agregar no exista.
         if (clientesResponse.Success)
         {
-            foreach (var c in clientesResponse.Data)
+            if (clientesResponse.Data.Any(c => c.Dni == nuevoCliente.Dni))
             {
-                if (c.Dni == nuevoCliente.Dni)
-                {
-                    throw new ObjetoExiste("Cliente", "DNI" ,nuevoCliente.Dni);
-                }
+                throw new ObjetoExiste("Cliente", "DNI" ,nuevoCliente.Dni);
             }
         }
-        // Agregamos cliente y si todo sale bien, se le pasa el valor true a la capa de consola.
+        
+        // Agregamos cliente y si sale bien, se le pasa el valor true a la capa de consola.
         var nuevoclienteResponse = _clienteDatos.AltaCliente(nuevoCliente);
         if (nuevoclienteResponse.Success)
         {
             return true;
         }
-        else
-        {
-            throw new TransactionError(nuevoclienteResponse.Error);
-        }
+
+        throw new TransactionError(nuevoclienteResponse.Error);
     }
 
     public RestResponse<List<Cliente>> ConsultarClientes()
     {
         var clientesResponse = _clienteDatos.ConsultarClientes();
         return clientesResponse;
-    }
-
-    public bool ExistenClientesIngresados()
-    {
-        var clienteDatos = new ClienteNegocio();
-
-        // Traemos de la capa datos los clientes y verificamos si hay clientes registrados o no.
-        var clientesResponse = clienteDatos.ConsultarClientes();
-        if (clientesResponse.Success)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
     }
 }

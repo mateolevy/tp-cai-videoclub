@@ -1,5 +1,8 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using System.Net.Mail;
+using System.Text.RegularExpressions;
+
 namespace Videoclub.Consola
 {
     internal class Utilidades
@@ -18,7 +21,7 @@ namespace Videoclub.Consola
                 }
                 if (!DateTime.TryParse(input, out _))
                 {
-                    Console.WriteLine("Debe ingresar una fecha.");
+                    Console.WriteLine("Debe ingresar una fecha válida en formato DD/MM/AAAA.");
                     continue;
                 }
                 break;
@@ -115,6 +118,40 @@ namespace Videoclub.Consola
                 if (int.TryParse(input, out _))
                 {
                     Console.WriteLine("Debe ingresar una cadena de texto.");
+                    continue;
+                }
+                break;
+            }
+            return input;
+        }
+        
+        internal static string PedirEmail(string mensaje)
+        {
+            string? input;
+            while (true)
+            {
+                Console.WriteLine(mensaje);
+                input = Console.ReadLine();
+                if (string.IsNullOrWhiteSpace(input))
+                {
+                    Console.WriteLine("Debe ingresar un valor.");
+                    continue;
+                }
+
+                bool esMailValido;
+                try
+                {
+                    MailAddress address = new MailAddress(input);
+                    esMailValido = (address.Address == input);
+                }
+                catch (FormatException)
+                {
+                    esMailValido = false;
+                }
+                
+                if (!esMailValido)
+                {
+                    Console.WriteLine("Debe ingresar un email valido.");
                     continue;
                 }
                 break;
