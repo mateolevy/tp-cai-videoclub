@@ -101,9 +101,11 @@ internal class ControladorPrestamos
         try
         {
             var prestamoDatos = new PrestamoNegocio();
+            var clienteDatos = new ClienteNegocio();
             
-            // Traemos prestamos
+            // Traemos prestamos y clientes
             var prestamoResponse = prestamoDatos.ConsultarPrestamos();
+            var clienteResponse = clienteDatos.ConsultarClientes();
 
             // Pedimos ID cliente y buscamos los prestamos asociados
             var IdCliente = Utilidades.PedirInt("Por favor ingrese el ID del cliente para ver sus prestamos");
@@ -112,8 +114,16 @@ internal class ControladorPrestamos
             {
                 if(prestamo.IdCliente == IdCliente)
                 {
-                    Console.WriteLine($"El cliente ingresado solicitó un prestamo el dia: {prestamo.FechaPrestamo} de la pelicula con el ID numero: {prestamo.IdCopia}\n");
-                    prestamosEncontrados = true;
+                    foreach(var cliente in clienteResponse.Data)
+                    {
+                        if(cliente.Id == prestamo.IdCliente)
+                        {
+                            Console.WriteLine($"El cliente {cliente.Nombre} {cliente.Apellido} solicitó un prestamo el dia: {prestamo.FechaPrestamo} de la pelicula con el ID numero: {prestamo.IdCopia}\n");
+                            prestamosEncontrados = true;
+                        }
+                    }
+
+                    
                 }
             }
             if (!prestamosEncontrados)
