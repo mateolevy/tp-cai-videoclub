@@ -81,7 +81,7 @@ internal abstract class Program
                         continue;
                     case 5:
                         Console.Clear();
-                        var opcReportes = Utilidades.PedirMenu("Menú Reportes.\n 1. Visualizar Préstamos por CLiente \n2. Visualizar Copias por Película \n0. Volver al Menú Principal", 0, 2);
+                        var opcReportes = Utilidades.PedirMenu("Menú Reportes.\n1. Visualizar Préstamos por CLiente \n2. Visualizar Copias por Película \n0. Volver al Menú Principal", 0, 2);
                         switch (opcReportes)
                         {
                             case 0: break;

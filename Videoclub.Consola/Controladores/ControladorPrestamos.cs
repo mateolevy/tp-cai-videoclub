@@ -14,7 +14,7 @@ internal class ControladorPrestamos
         {
             var prestamoDatos = new PrestamoNegocio();
 
-            // Traemos clientes
+            // Traemos prestamos
             var prestamoResponse = prestamoDatos.ConsultarPrestamos();
             
             // Pedimos ID de pelicula para buscar el prestamo 
@@ -54,7 +54,7 @@ internal class ControladorPrestamos
             DateTime fechaPrestamo = DateTime.Now;
             
 
-            //Traemos clientes y buscamos ID mas alto
+            //Traemos prestamos y buscamos ID mas alto
             var prestamos = prestamoDatos.ConsultarPrestamos();
             int maxId = 0;  
             foreach (var prestamo in prestamos.Data)
@@ -95,6 +95,40 @@ internal class ControladorPrestamos
     }
     internal static void VisualizarPrestamosCliente()
     {
-        throw new NotImplementedException();
+        Console.Clear();
+        Console.WriteLine("Pantalla de Consulta de Prestamos por Cliente\n");
+
+        try
+        {
+            var prestamoDatos = new PrestamoNegocio();
+            
+            // Traemos prestamos
+            var prestamoResponse = prestamoDatos.ConsultarPrestamos();
+
+            // Pedimos ID cliente y buscamos los prestamos asociados
+            var IdCliente = Utilidades.PedirInt("Por favor ingrese el ID del cliente para ver sus prestamos");
+            bool prestamosEncontrados = false;
+            foreach ( var prestamo in prestamoResponse.Data)
+            {
+                if(prestamo.IdCliente == IdCliente)
+                {
+                    Console.WriteLine($"El cliente ingresado solicitó un prestamo el dia: {prestamo.FechaPrestamo} de la pelicula con el ID numero: {prestamo.IdCopia}\n");
+                    prestamosEncontrados = true;
+                }
+            }
+            if (!prestamosEncontrados)
+            {
+                Console.WriteLine("No se encontraron prestamos asociados a ese ID");
+            }
+            Console.WriteLine("\nPresione una tecla para continuar.");
+            Console.ReadKey();
+
+        }
+        catch (Exception ex) 
+        {
+            Console.WriteLine(" ");
+            Console.WriteLine($"Error al consultar prestamo. Descripción del Error: {ex.Message} \nPresione una tecla para continuar.");
+            Console.ReadKey();
+        }                
     }
 }
