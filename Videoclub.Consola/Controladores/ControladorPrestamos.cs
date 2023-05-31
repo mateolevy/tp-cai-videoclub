@@ -67,21 +67,41 @@ internal class ControladorPrestamos
 
             //Datos de entrada para el nuevo prestamo
             Console.WriteLine("Pantalla de Ingreso de Préstamos");
+
             int idCliente = Utilidades.PedirInt("Ingrese el ID del Cliente que Solicita el Pr´´estamo");
             int idCopia = Utilidades.PedirInt("Ingrese el ID de la Película");
             int plazo = Utilidades.PedirInt("Ingrese el Plazo ");
             DateTime fechaDevolucionTentativa = Utilidades.PedirFecha("Ingrese la Fecha Tentativa de Devolucion");
             DateTime fechaDevolucionReal = Utilidades.PedirFecha("Ingrese la Fecha Real de la Devolucion");
 
-            // Instanciamos nuevo prestamo
-            Prestamo nuevoPrestamo = new Prestamo(IdPrestamo, idCliente, idCopia, plazo, fechaPrestamo, fechaDevolucionTentativa, fechaDevolucionReal);
-
-            //Agregamos prestamo e informamos si se realizó correctamente o no 
-            var nuevoPrestamoResponse = prestamoDatos.AgregarPrestamo(nuevoPrestamo);
-            if (nuevoPrestamoResponse)
+            // Validamos préstamo previo a su ingreso
+            Console.WriteLine("\nSe han ingresado los siguientes datos de préstamo:" +
+                $"\nId Cliente: {idCliente}" +
+                $"\nId Película: {idCopia}" +
+                $"\nPlazo: {plazo}" +
+                $"\nFecha Tentativa de Devolución: {fechaDevolucionTentativa}" +
+                $"\nFecha Real de Devolución:{fechaDevolucionReal}");
+            int opcMenu = Utilidades.PedirMenu("1. Continuar 2. Abortar", 1, 2);
+            switch (opcMenu)
             {
-                Console.WriteLine("\nPréstamo agregado con éxito! \nPresione una tecla para continuar.");
-                Console.ReadKey();
+                case 1:
+                    // Instanciamos nuevo prestamo
+                    Prestamo nuevoPrestamo = new Prestamo(IdPrestamo, idCliente, idCopia, plazo, fechaPrestamo, fechaDevolucionTentativa, fechaDevolucionReal);
+
+                    //Agregamos prestamo e informamos si se realizó correctamente o no 
+                    var nuevoPrestamoResponse = prestamoDatos.AgregarPrestamo(nuevoPrestamo);
+                    if (nuevoPrestamoResponse)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("\nPréstamo agregado con éxito! \nPresione una tecla para continuar.");
+                        Console.ReadKey();
+                    }
+                    break;
+                case 2:
+                    Console.Clear();
+                    Console.WriteLine("\nIngreso de préstamo abortado! \nPresione una tecla para continuar.");
+                    Console.ReadKey();
+                    break;
             }
         }
         catch (Exception ex) 

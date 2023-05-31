@@ -100,6 +100,7 @@ internal static class ControladorClientes
 
             // Datos de entrada para nuevo cliente.
             Console.WriteLine("Pantalla de Ingreso de Clientes.\n");
+
             int dni = Utilidades.PedirDNI("Ingrese su DNI:");
             string nombre = Utilidades.PedirString("Ingrese su Nombre:").ToUpper();
             string apellido = Utilidades.PedirString("Ingrese su Apellido:").ToUpper();
@@ -107,6 +108,9 @@ internal static class ControladorClientes
             string direccion = Utilidades.PedirString("Ingrese su Dirección:").ToUpper();
             string email = Utilidades.PedirEmail("Ingrese su Email:");
             string telefono = Utilidades.PedirTelefono("Ingrese su Número de Teléfono:");
+
+            // Validamos cliente previo a su registro
+            
 
             // Instanciamos nuevo cliente.
             Cliente nuevoCliente = new Cliente(dni, apellido, nombre, fechaNac, idCliente, direccion, email, telefono);
