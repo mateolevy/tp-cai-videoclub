@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Videoclub.Entidades
 {
-    internal class Pelicula
+    public class Pelicula
     {
         private int _idPelicula;
         private int _anio;
