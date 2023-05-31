@@ -12,16 +12,17 @@ namespace Videoclub.Consola
             string? input;
             while (true)
             {
+                Console.ForegroundColor = ConsoleColor.Gray;
                 Console.WriteLine(mensaje);
                 input = Console.ReadLine();
                 if (string.IsNullOrWhiteSpace(input))
                 {
-                    Console.WriteLine("Debe ingresar un valor.");
+                    IngreseValor();
                     continue;
                 }
                 if (!DateTime.TryParse(input, out _))
                 {
-                    Console.WriteLine("Debe ingresar una fecha válida en formato DD/MM/AAAA.");
+                    IngreseFechaValida();
                     continue;
                 }
                 break;
@@ -34,16 +35,17 @@ namespace Videoclub.Consola
             string? input;
             while (true)
             {
+                Console.ForegroundColor = ConsoleColor.Gray;
                 Console.WriteLine(mensaje);
                 input = Console.ReadLine();
                 if (string.IsNullOrWhiteSpace(input))
                 {
-                    Console.WriteLine("Debe ingresar un valor.");
+                    IngreseValor();
                     continue;
                 }
                 if (!int.TryParse(input, out _))
                 {
-                    Console.WriteLine("Debe ingresar un valor numérico.");
+                    IngreseValorNumerico();
                     continue;
                 }
                 break;
@@ -65,12 +67,12 @@ namespace Videoclub.Consola
                 }
                 if (!int.TryParse(input, out _))
                 {
-                    Console.WriteLine("Debe ingresar un valor numérico.");
+                    IngreseValorNumerico();
                     continue;
                 }
                 if (input.Length != 8)
                 {
-                    Console.WriteLine("El DNI debe contener 8 dígitos.");
+                    DniLargoDigitos();
                     continue;
                 }
                 break;
@@ -83,21 +85,22 @@ namespace Videoclub.Consola
             string? input;
             while (true)
             {
+                Console.ForegroundColor = ConsoleColor.Gray;
                 Console.WriteLine(mensaje);
                 input = Console.ReadLine();
                 if (string.IsNullOrWhiteSpace(input))
                 {
-                    Console.WriteLine("Debe ingresar un valor.");
+                    IngreseValor();
                     continue;
                 }
                 if (!int.TryParse(input, out _))
                 {
-                    Console.WriteLine("Debe ingresar un valor numérico.");
+                    IngreseValorNumerico();
                     continue;
                 }
                 if (Convert.ToInt32(input) < min || Convert.ToInt32(input) > max)
                 {
-                    Console.WriteLine($"Debe ingresar un valor numérico entre: {min} y {max}.");
+                    IngreseValorNumericoEntre(min, max);
                     continue;
                 }
                 break;
@@ -110,16 +113,17 @@ namespace Videoclub.Consola
             string? input;
             while (true)
             {
+                Console.ForegroundColor = ConsoleColor.Gray;
                 Console.WriteLine(mensaje);
                 input = Console.ReadLine();
                 if (string.IsNullOrWhiteSpace(input))
                 {
-                    Console.WriteLine("Debe ingresar un valor.");
+                    IngreseValor();
                     continue;
                 }
                 if (int.TryParse(input, out _))
                 {
-                    Console.WriteLine("Debe ingresar una cadena de texto.");
+                    IngreseCadena();
                     continue;
                 }
                 break;
@@ -132,11 +136,12 @@ namespace Videoclub.Consola
             string? input;
             while (true)
             {
+                Console.ForegroundColor = ConsoleColor.Gray;
                 Console.WriteLine(mensaje);
                 input = Console.ReadLine();
                 if (string.IsNullOrWhiteSpace(input))
                 {
-                    Console.WriteLine("Debe ingresar un valor.");
+                    IngreseValor();
                     continue;
                 }
 
@@ -153,7 +158,7 @@ namespace Videoclub.Consola
                 
                 if (!esMailValido)
                 {
-                    Console.WriteLine("Debe ingresar un email valido.");
+                    IngreseMailValido();
                     continue;
                 }
                 break;
@@ -166,16 +171,17 @@ namespace Videoclub.Consola
             string? input;
             while (true)
             {
+                Console.ForegroundColor = ConsoleColor.Gray;
                 Console.WriteLine(mensaje);
                 input = Console.ReadLine();
                 if (string.IsNullOrWhiteSpace(input))
                 {
-                    Console.WriteLine("Debe ingresar un valor.");
+                    IngreseValor();
                     continue;
                 }
                 if(input.Length < 10 || input.Length > 11)
                 {
-                    Console.WriteLine("El número de teléfono debe ser entre 10 y 11 caracteres.");
+                    TelefonoLargoDigitos();
                     continue;
                 }
                 break;
@@ -183,10 +189,46 @@ namespace Videoclub.Consola
             return input;
         }
 
+        private static void TelefonoLargoDigitos()
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("El número de teléfono debe ser entre 10 y 11 caracteres.");
+        }
         private static void IngreseValor()
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Debe ingresar un valor.");
         }
+        private static void IngreseValorNumerico()
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Debe ingresar un valor numérico.");
+        }
+        private static void IngreseValorNumericoEntre(int min, int max)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"Debe ingresar un valor numérico entre {min} y {max}.");
+        }
+        private static void DniLargoDigitos()
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("El DNI debe contener 8 dígitos.");
+        }
+        private static void IngreseFechaValida()
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Debe ingresar una fecha válida en formato DD/MM/AAAA.");
+        }
+        private static void IngreseCadena()
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Debe ingresar una cadena de texto.");
+        }
+        private static void IngreseMailValido()
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Debe ingresar un email valido.");
+        }
+        
     }
 }
