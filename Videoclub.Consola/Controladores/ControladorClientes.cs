@@ -110,18 +110,36 @@ internal static class ControladorClientes
             string telefono = Utilidades.PedirTelefono("Ingrese su Número de Teléfono:");
 
             // Validamos cliente previo a su registro
-            
-
-            // Instanciamos nuevo cliente.
-            Cliente nuevoCliente = new Cliente(dni, apellido, nombre, fechaNac, idCliente, direccion, email, telefono);
-            
-            // Agregamos nuevo cliente y traemos la info sobre como salio la operacion con un booleano.
-            var nuevoClienteResponse = clienteDatos.AgregarCliente(nuevoCliente);
-            if (nuevoClienteResponse)
+            Console.WriteLine("\nSe han ingresado los siguientes datos de cliente: " +
+                $"\nDNI: {dni}" +
+                $"\nNombre: {nombre}" +
+                $"\nApellido: {apellido}" +
+                $"\nFecha de Nacimiento: {fechaNac}" +
+                $"\nDirección: {direccion}" +
+                $"\nEmail: {email}" +
+                $"\nTeléfono: {telefono}");
+            int opcMenu = Utilidades.PedirMenu("1. Continuar 2. Abortar", 1, 2);
+            switch (opcMenu)
             {
-                Console.WriteLine("\nCliente agregado con éxito! \nPresione una tecla para continuar.");
-                Console.ReadKey();
-            }
+                case 1:
+                    // Instanciamos nuevo cliente.
+                    Cliente nuevoCliente = new Cliente(dni, apellido, nombre, fechaNac, idCliente, direccion, email, telefono);
+
+                    // Agregamos nuevo cliente y traemos la info sobre como salio la operacion con un booleano.
+                    var nuevoClienteResponse = clienteDatos.AgregarCliente(nuevoCliente);
+                    if (nuevoClienteResponse)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("\nCliente agregado con éxito! \nPresione una tecla para continuar.");
+                        Console.ReadKey();
+                    }
+                    break;
+                case 2:
+                    Console.Clear();
+                    Console.WriteLine("\nIngreso de cliente abortado! \nPresione una tecla para continuar.");
+                    Console.ReadKey();
+                    break;
+            }            
         }
         catch (Exception ex)
         {
