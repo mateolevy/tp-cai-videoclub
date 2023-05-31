@@ -41,6 +41,11 @@ internal class ControladorPrestamos
         }
     }
 
+    /* Le agregaría a Entidad Copia un atributo que sea la cantidad de copias.
+     * Para inresar prestamo:
+     1. Buscaria el el cliente por DNI y a partir de ahi asigno el IdCliente
+     2. Mostraria lista de peliculas y que el usuario ingrese su nombre
+     3. A partir de la pelicula buscaria si la misma tiene copias realizadas o disponibles y a partir de ahi haria efectivo el prestamo.*/
     internal static void IngresarNuevoPrestamo()
     {
         Console.Clear();
