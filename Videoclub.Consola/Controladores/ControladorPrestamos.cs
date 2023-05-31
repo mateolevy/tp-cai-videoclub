@@ -53,9 +53,48 @@ internal class ControladorPrestamos
         try
         {
             var prestamoDatos = new PrestamoNegocio();
-            int IdPrestamo;
-            DateTime fechaPrestamo = DateTime.Now;
+
+            DateTime fechaPrestamo;
+            int idCliente;
+            int idCopia;
+            int idPrestamo;
+
+            /*
+            /*var peliculaDatos = new PeliculaNegocio();
+              var copiaDatos = new CopiaNegocio();*/
+            var clienteDatos = new ClienteNegocio();
+
+            /*var peliculas = peliculaDatos.ConsultarPeliculas();
+              var copias = copiaDatos.ConsultarCopias();
+              var clientes = clienteDatos.ConsultarClientes();*/
+            /*
+            int dni = Utilidades.PedirDNI("Ingrese DNI del cliente:");
+            foreach (var cliente in clientes.Data)
+            {
+                /*Consultamos el cliente exista y nos devuelve el IdCliente 
+                int id = clienteDatos.ConsultarIdCliente(dni);
+            }
             
+            
+            foreach (var pelicula in peliculas.Data)
+            {
+                Console.WriteLine($"Id Pelicula: {pelicula.IdPelicula} - Titulo: {pelicula.Titulo}");
+            }
+            int Idpelicula = Utilidades.PedirInt("Ingrese el Id de la película:");
+            foreach (var copia in copias.Data)
+            {
+                if (copia.IdPelicula.Equals(Idpelicula))
+                {
+                     Buscar que tenga copias disponibles
+                     idCopia = copia.IdCopia
+                }
+                else
+                {
+                    Utilidades.MensajeError("La película seleccionada no posee copias disponibles. \nPresione una tecla para continuar.");
+                    Console.ReadKey();
+                }
+            }
+            */
 
             //Traemos prestamos y buscamos ID mas alto
             var prestamos = prestamoDatos.ConsultarPrestamos();
@@ -67,14 +106,15 @@ internal class ControladorPrestamos
                     maxId = prestamo.IdPrestamo;
                 }
             } 
-            IdPrestamo = maxId + 1;
+            idPrestamo = maxId + 1;
 
             //Datos de entrada para el nuevo prestamo
             Console.WriteLine("Pantalla de Ingreso de Préstamos");
 
-            int idCliente = Utilidades.PedirInt("Ingrese el ID del Cliente que Solicita el Pr´´estamo");
-            int idCopia = Utilidades.PedirInt("Ingrese el ID de la Película");
+            idCliente = Utilidades.PedirInt("Ingrese el ID del Cliente que Solicita el Pr´´estamo");
+            idCopia = Utilidades.PedirInt("Ingrese el ID de la Película");
             int plazo = Utilidades.PedirInt("Ingrese el Plazo ");
+            fechaPrestamo = DateTime.Now;
             DateTime fechaDevolucionTentativa = Utilidades.PedirFecha("Ingrese la Fecha Tentativa de Devolucion");
             DateTime fechaDevolucionReal = Utilidades.PedirFecha("Ingrese la Fecha Real de la Devolucion");
 
@@ -90,7 +130,7 @@ internal class ControladorPrestamos
             {
                 case 1:
                     // Instanciamos nuevo prestamo
-                    Prestamo nuevoPrestamo = new Prestamo(IdPrestamo, idCliente, idCopia, plazo, fechaPrestamo, fechaDevolucionTentativa, fechaDevolucionReal);
+                    Prestamo nuevoPrestamo = new Prestamo(idPrestamo, idCliente, idCopia, plazo, fechaPrestamo, fechaDevolucionTentativa, fechaDevolucionReal);
 
                     //Agregamos prestamo e informamos si se realizó correctamente o no 
                     var nuevoPrestamoResponse = prestamoDatos.AgregarPrestamo(nuevoPrestamo);
