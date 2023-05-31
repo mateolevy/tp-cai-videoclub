@@ -8,7 +8,7 @@ internal class ControladorPrestamos
     internal static void ConsultarPrestamoExistente()
     {
         Console.Clear();
-        Console.WriteLine("Pantalla de Consulta de Prestamos\n");
+        Console.WriteLine("Pantalla de Consulta de Préstamos\n");
 
         try
         {
@@ -18,19 +18,18 @@ internal class ControladorPrestamos
             var prestamoResponse = prestamoDatos.ConsultarPrestamos();
             
             // Pedimos ID de pelicula para buscar el prestamo 
-            var idPelicula = Utilidades.PedirInt("Ingrese el ID de la Pelicula para Ver los Prestamos Asociados");
-            bool prestamosEncontrados = false;
+            var idPelicula = Utilidades.PedirInt("Ingrese el ID de la Película para Ver los Préstamos Asociados");
             foreach( var prestamo in prestamoResponse.Data )
             {
                 if(prestamo.IdCopia.Equals(idPelicula))
                 {
-                    Console.WriteLine($"El cliente con el ID: {prestamo.IdCliente} realizó el prestamo el dia {prestamo.FechaPrestamo}\n");
-                    prestamosEncontrados = true;
-                }           
-            }
-            if (!prestamosEncontrados)
-            {
-                Console.WriteLine("No se encontraron prestamos asociados a ese ID");
+                    Console.WriteLine($"El cliente con el ID: {prestamo.IdCliente} realizó el préstamo el día {prestamo.FechaPrestamo}\n");
+                }
+                else
+                {
+                    Console.WriteLine("\nNo se encontraron préstamos asociados a ese ID");
+                }
+                break;
             }
             Console.WriteLine("\nPresione una tecla para continuar.");
             Console.ReadKey();
@@ -38,7 +37,7 @@ internal class ControladorPrestamos
         catch (Exception ex) 
         {
             Console.WriteLine(" ");
-            Console.WriteLine($"Error al consultar prestamo. Descripción del Error: {ex.Message} \nPresione una tecla para continuar.");
+            Console.WriteLine($"Error al consultar préstamo. Descripción del Error: {ex.Message} \nPresione una tecla para continuar.");
             Console.ReadKey();
         }
     }
@@ -67,9 +66,9 @@ internal class ControladorPrestamos
             IdPrestamo = maxId + 1;
 
             //Datos de entrada para el nuevo prestamo
-            Console.WriteLine("Pantalla de Ingreso de Prestamos");
-            int idCliente = Utilidades.PedirInt("Ingrese el ID del Cliente que Solicita el Prestamo");
-            int idCopia = Utilidades.PedirInt("Ingrese el ID de la Pelicula");
+            Console.WriteLine("Pantalla de Ingreso de Préstamos");
+            int idCliente = Utilidades.PedirInt("Ingrese el ID del Cliente que Solicita el Pr´´estamo");
+            int idCopia = Utilidades.PedirInt("Ingrese el ID de la Película");
             int plazo = Utilidades.PedirInt("Ingrese el Plazo ");
             DateTime fechaDevolucionTentativa = Utilidades.PedirFecha("Ingrese la Fecha Tentativa de Devolucion");
             DateTime fechaDevolucionReal = Utilidades.PedirFecha("Ingrese la Fecha Real de la Devolucion");
@@ -81,14 +80,13 @@ internal class ControladorPrestamos
             var nuevoPrestamoResponse = prestamoDatos.AgregarPrestamo(nuevoPrestamo);
             if (nuevoPrestamoResponse)
             {
-                Console.WriteLine("\nPrestamo agregado con éxito! \nPresione una tecla para continuar.");
+                Console.WriteLine("\nPréstamo agregado con éxito! \nPresione una tecla para continuar.");
                 Console.ReadKey();
             }
         }
         catch (Exception ex) 
         {
-            Console.WriteLine(" ");
-            Console.WriteLine($"Error al agregar prestamo. Descripción del Error: {ex.Message} \nPresione una tecla para continuar.");
+            Console.WriteLine($"\nError al agregar préstamo. Descripción del Error: {ex.Message} \nPresione una tecla para continuar.");
             Console.ReadKey();
         }
 
@@ -96,7 +94,7 @@ internal class ControladorPrestamos
     internal static void VisualizarPrestamosCliente()
     {
         Console.Clear();
-        Console.WriteLine("Pantalla de Consulta de Prestamos por Cliente\n");
+        Console.WriteLine("Pantalla de Consulta de Préstamos por Cliente\n");
 
         try
         {
@@ -107,28 +105,46 @@ internal class ControladorPrestamos
             var prestamoResponse = prestamoDatos.ConsultarPrestamos();
             var clienteResponse = clienteDatos.ConsultarClientes();
 
+            /*
+            var copiaResponse = copiaDatos.ConsultarCopias();
+            var peliculaResponse = peliculaDatos.ConsultarPeliculas();
+            */
+
             // Pedimos ID cliente y buscamos los prestamos asociados
-            var IdCliente = Utilidades.PedirInt("Por favor ingrese el ID del cliente para ver sus prestamos");
-            bool prestamosEncontrados = false;
+            var IdCliente = Utilidades.PedirInt("Por favor ingrese el ID del cliente para ver sus préstamos:");
             foreach ( var prestamo in prestamoResponse.Data)
             {
-                if(prestamo.IdCliente == IdCliente)
+                if(prestamo.IdCliente.Equals(IdCliente))
                 {
                     foreach(var cliente in clienteResponse.Data)
                     {
-                        if(cliente.Id == prestamo.IdCliente)
+                        if(cliente.Id.Equals(prestamo.IdCliente))
                         {
-                            Console.WriteLine($"El cliente {cliente.Nombre} {cliente.Apellido} solicitó un prestamo el dia: {prestamo.FechaPrestamo} de la pelicula con el ID numero: {prestamo.IdCopia}\n");
-                            prestamosEncontrados = true;
+                            /*
+                            foreach (var copia in copiaResponse.Data)
+                            {
+                                if (copia.IdCopia.Equals(prestamo.IdCopia))
+                                {
+                                    foreach (var pelicula in peliculaResponse.Data)
+                                    {
+                                        if (pelicula.IdPelicula.Equals(copia.IdPelicula))
+                                        {
+                            */
+                                            Console.WriteLine($"El cliente {cliente.Nombre} {cliente.Apellido} solicitó un préstamo el déa: {prestamo.FechaPrestamo} de la pelicula: 'pelicula.Titulo'\n");
+                            /*
+                                        }
+                                    }
+                                }
+                            }
+                            */
+                            
                         }
                     }
-
-                    
                 }
-            }
-            if (!prestamosEncontrados)
-            {
-                Console.WriteLine("No se encontraron prestamos asociados a ese ID");
+                else
+                {
+                    Console.WriteLine("\nNo se encontraron préstamos asociados a ese ID.");
+                }
             }
             Console.WriteLine("\nPresione una tecla para continuar.");
             Console.ReadKey();
@@ -136,8 +152,7 @@ internal class ControladorPrestamos
         }
         catch (Exception ex) 
         {
-            Console.WriteLine(" ");
-            Console.WriteLine($"Error al consultar prestamo. Descripción del Error: {ex.Message} \nPresione una tecla para continuar.");
+            Console.WriteLine($"\nError al consultar préstamo. Descripción del Error: {ex.Message} \nPresione una tecla para continuar.");
             Console.ReadKey();
         }                
     }
