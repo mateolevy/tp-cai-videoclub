@@ -17,7 +17,7 @@ internal abstract class Program
                 {
                     case 0:
                         Console.Clear();
-                        Console.WriteLine("Gracias por utilizar nuestros servicios! \nPresione una tecla para salir del programa.");
+                        Utilidades.MensajeExito("Gracias por utilizar nuestros servicios! \nPresione una tecla para salir del programa.");
                         Environment.Exit(0);
                         break;
                     case 1:

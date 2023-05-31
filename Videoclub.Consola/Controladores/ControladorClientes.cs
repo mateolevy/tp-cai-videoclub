@@ -142,7 +142,7 @@ internal static class ControladorClientes
         }
         catch (Exception ex)
         {
-            Utilidades.MensajeError($"\nError al agregar cliente. Descripción del Error: {ex.Message} \nPresione una tecla para continuar.");
+            Utilidades.MensajeError($"\nError al agregar cliente. \nDescripción del Error: {ex.Message} \nPresione una tecla para continuar.");
             Console.ReadKey();
         }
     }

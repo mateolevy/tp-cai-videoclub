@@ -36,7 +36,7 @@ internal class ControladorPrestamos
         }
         catch (Exception ex) 
         {
-            Utilidades.MensajeError($"\nError al consultar préstamo. Descripción del Error: {ex.Message} \nPresione una tecla para continuar.");
+            Utilidades.MensajeError($"\nError al consultar préstamo. \nDescripción del Error: {ex.Message} \nPresione una tecla para continuar.");
             Console.ReadKey();
         }
     }
