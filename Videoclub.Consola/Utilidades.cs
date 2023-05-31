@@ -55,11 +55,12 @@ namespace Videoclub.Consola
             string? input;
             while (true)
             {
+                Console.ForegroundColor = ConsoleColor.Gray;
                 Console.WriteLine(mensaje);
                 input = Console.ReadLine();
                 if (string.IsNullOrWhiteSpace(input))
                 {
-                    Console.WriteLine("Debe ingresar un valor.");
+                    IngreseValor();
                     continue;
                 }
                 if (!int.TryParse(input, out _))
@@ -76,6 +77,7 @@ namespace Videoclub.Consola
             }
             return Convert.ToInt32(input);
         }
+
         internal static int PedirMenu(string mensaje, int min, int max)
         {
             string? input;
@@ -179,6 +181,12 @@ namespace Videoclub.Consola
                 break;
             }
             return input;
+        }
+
+        private static void IngreseValor()
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Debe ingresar un valor.");
         }
     }
 }
