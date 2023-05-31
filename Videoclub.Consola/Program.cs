@@ -98,7 +98,7 @@ internal abstract class Program
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error. Descripción del Error: {ex.Message}.");
+            Utilidades.MensajeError($"Error. Descripción del Error: {ex.Message}.");
         }
     }
 }

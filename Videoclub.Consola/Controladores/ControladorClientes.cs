@@ -27,7 +27,7 @@ internal static class ControladorClientes
                 }
                 else
                 {
-                    Console.WriteLine("\nNo existe un cliente registrado bajo el DNI ingresado.");
+                    Utilidades.MensajeError("No existe un cliente registrado bajo el DNI ingresado.");
                 }
                 break;
             }
@@ -36,8 +36,7 @@ internal static class ControladorClientes
         }
         catch (Exception ex)
         {
-            Console.WriteLine(" ");
-            Console.WriteLine($"Error al consultar cliente existente. Descripción del Error: {ex.Message} \nPresione una tecla para continuar.");
+            Utilidades.MensajeError($"\nError al consultar cliente existente. Descripción del Error: {ex.Message} \nPresione una tecla para continuar.");
             Console.ReadKey();
         }
     }
@@ -57,7 +56,7 @@ internal static class ControladorClientes
             // Verificamos si existen clientes.
             if (!clientesResponse.Data.Any())
             {
-                Console.WriteLine("No existen clientes registrados. \nPresione una tecla para continuar.");
+                Utilidades.MensajeError("No existen clientes registrados. \nPresione una tecla para continuar.");
                 Console.ReadKey();
                 return;
             }
@@ -71,8 +70,7 @@ internal static class ControladorClientes
         }
         catch (Exception ex)
         {
-            Console.WriteLine(" ");
-            Console.WriteLine($"Error al consultar todos los cliente. Descripción del Error: {ex.Message} \nPresione una tecla para continuar.");
+            Utilidades.MensajeError($"\nError al consultar todos los cliente. Descripción del Error: {ex.Message} \nPresione una tecla para continuar.");
             Console.ReadKey();
         }
     }
@@ -110,6 +108,7 @@ internal static class ControladorClientes
             string telefono = Utilidades.PedirTelefono("Ingrese su Número de Teléfono:");
 
             // Validamos cliente previo a su registro
+            Console.Clear();
             Console.WriteLine("\nSe han ingresado los siguientes datos de cliente: " +
                 $"\nDNI: {dni}" +
                 $"\nNombre: {nombre}" +
@@ -118,7 +117,7 @@ internal static class ControladorClientes
                 $"\nDirección: {direccion}" +
                 $"\nEmail: {email}" +
                 $"\nTeléfono: {telefono}");
-            int opcMenu = Utilidades.PedirMenu("1. Continuar 2. Abortar", 1, 2);
+            int opcMenu = Utilidades.PedirMenu("\n1. Continuar 2. Abortar", 1, 2);
             switch (opcMenu)
             {
                 case 1:
@@ -130,21 +129,20 @@ internal static class ControladorClientes
                     if (nuevoClienteResponse)
                     {
                         Console.Clear();
-                        Console.WriteLine("\nCliente agregado con éxito! \nPresione una tecla para continuar.");
+                        Utilidades.MensajeExito("Cliente agregado con éxito! \nPresione una tecla para continuar.");
                         Console.ReadKey();
                     }
                     break;
                 case 2:
                     Console.Clear();
-                    Console.WriteLine("\nIngreso de cliente abortado! \nPresione una tecla para continuar.");
+                    Utilidades.MensajeError("\nIngreso de cliente abortado! \nPresione una tecla para continuar.");
                     Console.ReadKey();
                     break;
             }            
         }
         catch (Exception ex)
         {
-            Console.WriteLine(" ");
-            Console.WriteLine($"Error al agregar cliente. Descripción del Error: {ex.Message} \nPresione una tecla para continuar.");
+            Utilidades.MensajeError($"\nError al agregar cliente. Descripción del Error: {ex.Message} \nPresione una tecla para continuar.");
             Console.ReadKey();
         }
     }

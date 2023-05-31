@@ -12,7 +12,6 @@ namespace Videoclub.Consola
             string? input;
             while (true)
             {
-                Console.ForegroundColor = ConsoleColor.Gray;
                 Console.WriteLine(mensaje);
                 input = Console.ReadLine();
                 if (string.IsNullOrWhiteSpace(input))
@@ -35,7 +34,6 @@ namespace Videoclub.Consola
             string? input;
             while (true)
             {
-                Console.ForegroundColor = ConsoleColor.Gray;
                 Console.WriteLine(mensaje);
                 input = Console.ReadLine();
                 if (string.IsNullOrWhiteSpace(input))
@@ -56,8 +54,7 @@ namespace Videoclub.Consola
         {
             string? input;
             while (true)
-            {
-                Console.ForegroundColor = ConsoleColor.Gray;
+            {     
                 Console.WriteLine(mensaje);
                 input = Console.ReadLine();
                 if (string.IsNullOrWhiteSpace(input))
@@ -85,7 +82,6 @@ namespace Videoclub.Consola
             string? input;
             while (true)
             {
-                Console.ForegroundColor = ConsoleColor.Gray;
                 Console.WriteLine(mensaje);
                 input = Console.ReadLine();
                 if (string.IsNullOrWhiteSpace(input))
@@ -113,7 +109,6 @@ namespace Videoclub.Consola
             string? input;
             while (true)
             {
-                Console.ForegroundColor = ConsoleColor.Gray;
                 Console.WriteLine(mensaje);
                 input = Console.ReadLine();
                 if (string.IsNullOrWhiteSpace(input))
@@ -136,7 +131,6 @@ namespace Videoclub.Consola
             string? input;
             while (true)
             {
-                Console.ForegroundColor = ConsoleColor.Gray;
                 Console.WriteLine(mensaje);
                 input = Console.ReadLine();
                 if (string.IsNullOrWhiteSpace(input))
@@ -171,7 +165,6 @@ namespace Videoclub.Consola
             string? input;
             while (true)
             {
-                Console.ForegroundColor = ConsoleColor.Gray;
                 Console.WriteLine(mensaje);
                 input = Console.ReadLine();
                 if (string.IsNullOrWhiteSpace(input))
@@ -193,42 +186,63 @@ namespace Videoclub.Consola
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("El número de teléfono debe ser entre 10 y 11 caracteres.");
+            Console.ForegroundColor = ConsoleColor.Gray;
         }
         private static void IngreseValor()
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Debe ingresar un valor.");
+            Console.ForegroundColor = ConsoleColor.Gray;
         }
         private static void IngreseValorNumerico()
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Debe ingresar un valor numérico.");
+            Console.ForegroundColor = ConsoleColor.Gray;
         }
         private static void IngreseValorNumericoEntre(int min, int max)
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine($"Debe ingresar un valor numérico entre {min} y {max}.");
+            Console.ForegroundColor = ConsoleColor.Gray;
         }
         private static void DniLargoDigitos()
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("El DNI debe contener 8 dígitos.");
+            Console.ForegroundColor = ConsoleColor.Gray;
         }
         private static void IngreseFechaValida()
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Debe ingresar una fecha válida en formato DD/MM/AAAA.");
+            Console.ForegroundColor = ConsoleColor.Gray;
         }
         private static void IngreseCadena()
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Debe ingresar una cadena de texto.");
+            Console.ForegroundColor = ConsoleColor.Gray;
         }
         private static void IngreseMailValido()
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Debe ingresar un email valido.");
+            Console.ForegroundColor = ConsoleColor.Gray;
         }
-        
+
+        internal static void MensajeError(string mensaje)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(mensaje);
+            Console.ForegroundColor = ConsoleColor.Gray;
+        }
+
+        internal static void MensajeExito(string mensaje)
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine(mensaje);
+            Console.ForegroundColor = ConsoleColor.Gray;
+        }
     }
 }

@@ -36,8 +36,7 @@ internal class ControladorPrestamos
         }
         catch (Exception ex) 
         {
-            Console.WriteLine(" ");
-            Console.WriteLine($"Error al consultar préstamo. Descripción del Error: {ex.Message} \nPresione una tecla para continuar.");
+            Utilidades.MensajeError($"\nError al consultar préstamo. Descripción del Error: {ex.Message} \nPresione una tecla para continuar.");
             Console.ReadKey();
         }
     }
@@ -93,20 +92,20 @@ internal class ControladorPrestamos
                     if (nuevoPrestamoResponse)
                     {
                         Console.Clear();
-                        Console.WriteLine("\nPréstamo agregado con éxito! \nPresione una tecla para continuar.");
+                        Utilidades.MensajeExito("\nPréstamo agregado con éxito! \nPresione una tecla para continuar.");
                         Console.ReadKey();
                     }
                     break;
                 case 2:
                     Console.Clear();
-                    Console.WriteLine("\nIngreso de préstamo abortado! \nPresione una tecla para continuar.");
+                    Utilidades.MensajeError("\nIngreso de préstamo abortado! \nPresione una tecla para continuar.");
                     Console.ReadKey();
                     break;
             }
         }
         catch (Exception ex) 
         {
-            Console.WriteLine($"\nError al agregar préstamo. Descripción del Error: {ex.Message} \nPresione una tecla para continuar.");
+            Utilidades.MensajeError($"\nError al agregar préstamo. Descripción del Error: {ex.Message} \nPresione una tecla para continuar.");
             Console.ReadKey();
         }
 
@@ -163,7 +162,7 @@ internal class ControladorPrestamos
                 }
                 else
                 {
-                    Console.WriteLine("\nNo se encontraron préstamos asociados a ese ID.");
+                    Utilidades.MensajeError("\nNo se encontraron préstamos asociados a ese ID.");
                 }
             }
             Console.WriteLine("\nPresione una tecla para continuar.");
@@ -172,7 +171,7 @@ internal class ControladorPrestamos
         }
         catch (Exception ex) 
         {
-            Console.WriteLine($"\nError al consultar préstamo. Descripción del Error: {ex.Message} \nPresione una tecla para continuar.");
+            Utilidades.MensajeError($"\nError al consultar préstamo. Descripción del Error: {ex.Message} \nPresione una tecla para continuar.");
             Console.ReadKey();
         }                
     }
