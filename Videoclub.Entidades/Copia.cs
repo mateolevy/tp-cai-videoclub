@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Videoclub.Entidades
 {
-    internal class Copia
+    public class Copia
     {
         private int _idCopia;
         private int _idPelicula;
