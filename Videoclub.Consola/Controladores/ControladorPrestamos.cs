@@ -2,6 +2,7 @@ using Videoclub.Negocio;
 using Videoclub.Entidades;
 using Videoclub.Negocio.Excepciones;
 using System.Reflection.Metadata.Ecma335;
+using Videoclub.AccesoDatos;
 
 namespace Videoclub.Consola.Controladores;
 
@@ -90,7 +91,7 @@ internal class ControladorPrestamos
                     }
                     else
                     {
-                        Utilidades.MensajeError("El cliente con DNI: {dni} no existe. \nPresione una tecla para intentar de nuevo.");
+                        Utilidades.MensajeError($"El cliente con DNI: {dni} no existe. \nPresione una tecla para intentar de nuevo.");
                         Console.ReadKey();
                         continue;
                     }
@@ -215,44 +216,55 @@ internal class ControladorPrestamos
         {
             var prestamoDatos = new PrestamoNegocio();
             var clienteDatos = new ClienteNegocio();
+            var copiaDatos = new CopiaNegocio();
+            var peliculaDatos = new PeliculaNegocio();
             
             // Traemos prestamos y clientes
-            var prestamoResponse = prestamoDatos.ConsultarPrestamos();
-            var clienteResponse = clienteDatos.ConsultarClientes();
+            var prestamosResponse = prestamoDatos.ConsultarPrestamos();
+            var clientesResponse = clienteDatos.ConsultarClientes();
+            var copiasResponse = copiaDatos.ConsultarCopias();
+            var peliculasResponse = peliculaDatos.ConsultarPeliculas();
 
-            /*
-            var copiaResponse = copiaDatos.ConsultarCopias();
-            var peliculaResponse = peliculaDatos.ConsultarPeliculas();
-            */
+            int idCliente = 0;
+            string clienteNombre = null;
 
-            // Pedimos ID cliente y buscamos los prestamos asociados
-            var IdCliente = Utilidades.PedirInt("Por favor ingrese el ID del cliente para ver sus préstamos:");
-            foreach ( var prestamo in prestamoResponse.Data)
+
+            // Pedimos DNI del cliente y buscamos su Id Cliente para luego buscar Prestamos.
+            var dni = Utilidades.PedirDNI("Por favor ingrese el DNI del cliente para ver sus préstamos:");
+            while (true)
             {
-                if(prestamo.IdCliente.Equals(IdCliente))
+                dni = Utilidades.PedirDNI("Ingrese DNI del cliente:");
+                foreach (var cliente in clientesResponse.Data)
                 {
-                    foreach(var cliente in clienteResponse.Data)
+                    //Consultamos el cliente exista y nos devuelve el IdCliente 
+                    if (cliente.Dni.Equals(dni))
                     {
-                        if(cliente.Id.Equals(prestamo.IdCliente))
+                        idCliente = cliente.Id;
+                        clienteNombre = cliente.Nombre + cliente.Apellido;
+                    }
+                    else
+                    {
+                        Utilidades.MensajeError($"El cliente con DNI: {dni} no existe. \nPresione una tecla para intentar de nuevo.");
+                        Console.ReadKey();
+                        continue;
+                    }
+                    break;
+                }
+                break;
+            }
+
+            // Buscamos prestamos asociados al Id Cliente
+            int contadorPrestamos = 0;
+            foreach (var prestamo in prestamosResponse.Data)
+            {
+                if (prestamo.IdCliente.Equals(idCliente))
+                {
+                    foreach (var pelicula in peliculasResponse.Data)
+                    {
+                        if (pelicula.IdPelicula.Equals(pelicula.IdPelicula))
                         {
-                            /*
-                            foreach (var copia in copiaResponse.Data)
-                            {
-                                if (copia.IdCopia.Equals(prestamo.IdCopia))
-                                {
-                                    foreach (var pelicula in peliculaResponse.Data)
-                                    {
-                                        if (pelicula.IdPelicula.Equals(copia.IdPelicula))
-                                        {
-                            */
-                                            Console.WriteLine($"El cliente {cliente.Nombre} {cliente.Apellido} solicitó un préstamo el déa: {prestamo.FechaPrestamo} de la pelicula: 'pelicula.Titulo'\n");
-                            /*
-                                        }
-                                    }
-                                }
-                            }
-                            */
-                            
+                            contadorPrestamos++;
+                            Console.WriteLine($"Préstamos del Cliente: {clienteNombre} \nNro de Préstamo: {contadorPrestamos} - Fecha Préstamo: {prestamo.FechaPrestamo} - Película: {pelicula.Titulo}\n");
                         }
                     }
                 }
@@ -261,13 +273,34 @@ internal class ControladorPrestamos
                     Utilidades.MensajeError("\nNo se encontraron préstamos asociados a ese ID.");
                 }
             }
+
+            /* CODIGO VIEJO
+            foreach ( var prestamo in prestamosResponse.Data)
+            {
+                if(prestamo.IdCliente.Equals(idCliente))
+                {
+                    foreach(var cliente in clientesResponse.Data)
+                    {
+                        if(cliente.Id.Equals(prestamo.IdCliente))
+                        {
+                            Console.WriteLine($"El cliente {cliente.Nombre} {cliente.Apellido} solicitó un préstamo el déa: {prestamo.FechaPrestamo} de la pelicula: 'pelicula.Titulo'\n");
+                        }
+                    }
+                }
+                else
+                {
+                    Utilidades.MensajeError("\nNo se encontraron préstamos asociados a ese ID.");
+                }
+            }
+            FIN CODIGO VIEJO */ 
+
             Console.WriteLine("\nPresione una tecla para continuar.");
             Console.ReadKey();
 
         }
         catch (Exception ex) 
         {
-            Utilidades.MensajeError($"\nError al consultar préstamo. Descripción del Error: {ex.Message} \nPresione una tecla para continuar.");
+            Utilidades.MensajeError($"\nError al consultar préstamo. \nDescripción del Error: {ex.Message} \nPresione una tecla para continuar.");
             Console.ReadKey();
         }                
     }
