@@ -11,15 +11,82 @@ internal class ControladorPrestamos
     internal static void ConsultarPrestamoExistente()
     {
         Console.Clear();
-        Console.WriteLine("Pantalla de Consulta de Préstamos\n");
+        Console.WriteLine("Pantalla de Consulta de Préstamos por Película\n");
 
         try
         {
             var prestamoDatos = new PrestamoNegocio();
+            var peliculaDatos = new PeliculaNegocio();
+            var copiasDatos = new CopiaNegocio();
+            var clienteDatos = new ClienteDatos();
 
-            // Traemos prestamos
+            // Traemos prestamos y peliculas
             var prestamoResponse = prestamoDatos.ConsultarPrestamos();
-            
+            var peliculasResponse = peliculaDatos.ConsultarPeliculas();
+            var copiasResponse = copiasDatos.ConsultarCopias();
+            var clientesResponse = clienteDatos.ConsultarClientes();
+
+            int idPelicula = 0;
+            string nombrePelicula = null;
+
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine("Películas:\n");
+                foreach (var pelicula in peliculasResponse.Data)
+                {
+                    Console.WriteLine($"Id Pelicula: {pelicula.IdPelicula} - Titulo: {pelicula.Titulo}");
+                }
+
+                idPelicula = Utilidades.PedirInt("\nIngrese el Id de la película:");
+
+                // Validamos el Id de Pelicula ingresado.
+                foreach (var pelicula in peliculasResponse.Data)
+                {
+                    if (pelicula.IdPelicula.Equals(idPelicula))
+                    {
+                        nombrePelicula = pelicula.Titulo;
+                        Utilidades.MensajeExito($"\nSeleccionó la película: {pelicula.Titulo} con Id: {pelicula.IdPelicula}");
+                        int opc = Utilidades.PedirMenu("1. Continuar 2. Eligir nueva película", 1, 2);
+                        switch (opc)
+                        {
+                            case 1:
+                                Console.Clear();
+                                Console.WriteLine($"Consulta de Préstamos para la Película: {nombrePelicula}:\n");
+                                foreach (var copia in copiasResponse.Data)
+                                {
+                                    if (copia.IdPelicula.Equals(idPelicula))
+                                    {
+                                        foreach (var prestamo in prestamoResponse.Data)
+                                        {
+                                            if (prestamo.IdCopia.Equals(copia.IdCopia))
+                                            {
+                                                foreach (var cliente in clientesResponse.Data)
+                                                {
+                                                    if (cliente.Id.Equals(prestamo.IdCliente))
+                                                    {
+                                                        Console.WriteLine($"Fecha: {prestamo.FechaPrestamo} - Cliente: {cliente.Nombre} {cliente.Apellido}");
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                break;
+                            case 2: continue;
+                        }
+                    }
+                    else
+                    {
+                        Utilidades.MensajeError($"No se encontró el Id de Película: {idPelicula}. \nPresione una tecla para ingresar nueva película.");
+                        Console.ReadKey();
+                        continue;
+                    }
+                }
+                break;
+            }
+
+            /* INICIO CODIGO VIEJO
             // Pedimos ID de pelicula para buscar el prestamo 
             var idPelicula = Utilidades.PedirInt("Ingrese el ID de la Película para Ver los Préstamos Asociados");
             foreach( var prestamo in prestamoResponse.Data )
@@ -34,6 +101,7 @@ internal class ControladorPrestamos
                 }
                 break;
             }
+            FIN CODIGO VIEJO*/
             Console.WriteLine("\nPresione una tecla para continuar.");
             Console.ReadKey();
         }
@@ -104,6 +172,7 @@ internal class ControladorPrestamos
             while (true)
             {
                 Console.Clear();
+                Console.WriteLine("Películas disponibles:\n");
                 foreach (var pelicula in peliculasResponse.Data)
                 {
                     Console.WriteLine($"Id Pelicula: {pelicula.IdPelicula} - Titulo: {pelicula.Titulo}");
