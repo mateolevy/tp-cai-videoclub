@@ -13,14 +13,15 @@ namespace Videoclub.Entidades
         private DateTime _fechaAlta;
         private string _observaciones;
         private decimal _precio;
-
-        public Copia(int idCopia, int idPelicula, DateTime fechaAlta, string observaciones, decimal precio)
+        private int _copiasDisponibles;
+        public Copia(int idCopia, int idPelicula, DateTime fechaAlta, string observaciones, decimal precio, int copiasDisponibles)
         {
             _idCopia = idCopia;
             _idPelicula = idPelicula;
             _fechaAlta = fechaAlta;
             _observaciones = observaciones;
             _precio = precio;
+            _copiasDisponibles = copiasDisponibles;
         }
 
         public int IdCopia { get => _idCopia; set => _idCopia = value; }
@@ -28,5 +29,6 @@ namespace Videoclub.Entidades
         public DateTime FechaAlta { get => _fechaAlta; set => _fechaAlta = value; }
         public string Observaciones { get => _observaciones; set => _observaciones = value; }
         public decimal Precio { get => _precio; set => _precio = value; }
+        public int CopiasDisponibles { get => _copiasDisponibles ; set => _copiasDisponibles = value; }
     }
 }
