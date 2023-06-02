@@ -119,7 +119,6 @@ internal class ControladorPrestamos
             // Traemos datos de las pelculas / copias / clientes.
             var peliculasResponse = peliculaDatos.ConsultarPeliculas();
             var clientesResponse = clienteDatos.ConsultarClientes();
-            var copiasResponse = copiaDatos.ConsultarCopias();
 
             // Pedimos DNI para registrar en el prestamo y validamos que exista.
             Console.WriteLine("Pantalla de Ingreso de Préstamos");
@@ -134,6 +133,7 @@ internal class ControladorPrestamos
                 }
                 else
                 {
+                    Console.Clear();
                     Utilidades.MensajeError($"El cliente con DNI: {dni} no existe.");
                     int opcSeguir = Utilidades.PedirMenu("1. Ingresar otro DNI 2. Volver al Menú Principal", 1, 2);
                     switch (opcSeguir)
@@ -190,6 +190,7 @@ internal class ControladorPrestamos
                     }
                     else
                     {
+                        Console.Clear();
                         Utilidades.MensajeError("Lo sentimos! La película seleccionada no posee copias disponibles.");
                         int opcSeguir = Utilidades.PedirMenu("1. Elegir otra Película 2. Volver al Menú Principal", 1, 2);
                         switch (opcSeguir)
@@ -210,6 +211,8 @@ internal class ControladorPrestamos
             {
                 // En este punto ya contamos con: IdCliente - IdPelicula - IdCopia
 
+                Console.Clear();
+
                 //Datos de entrada para el nuevo prestamo
                 int plazo = Utilidades.PedirInt("Ingrese el Plazo ");
                 fechaPrestamo = DateTime.Now;
@@ -217,6 +220,7 @@ internal class ControladorPrestamos
                 DateTime fechaDevolucionReal = Utilidades.PedirFecha("Ingrese la Fecha Real de la Devolución");
 
                 // Validamos prestamo previo a su ingreso
+                Console.Clear();
                 Console.WriteLine("\nSe han ingresado los siguientes datos de préstamo:" +
                     $"\nCliente: {nombreCliente} con DNI: {dni}" +
                     $"\nPelícula: {nombrePelicula} con Id: {idPelicula}" +
