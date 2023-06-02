@@ -138,6 +138,7 @@ internal class ControladorPrestamos
                 {
                     Utilidades.MensajeError($"El cliente con DNI: {dni} no existe. \nPresione una tecla para intentar de nuevo.");
                     Console.ReadKey();
+                    continue;
                 }
                 break;
             }
