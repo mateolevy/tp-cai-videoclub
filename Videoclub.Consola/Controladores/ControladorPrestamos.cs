@@ -40,7 +40,7 @@ internal class ControladorPrestamos
                 {
                     var pelicula = peliculaResponse.Data;
                     Utilidades.MensajeExito($"\nSeleccionó la película: {pelicula.Titulo} con Id: {pelicula.Id}");
-                    int opc = Utilidades.PedirMenu("1. Continuar 2. Eligir nueva película", 1, 2);
+                    int opc = Utilidades.PedirMenu("1. Continuar \n2. Eligir nueva película", 1, 2);
                     switch (opc)
                     {
                         case 1:
@@ -65,6 +65,9 @@ internal class ControladorPrestamos
                                             if (clienteDelPrestamo != null)
                                             {
                                                 Console.WriteLine($"Id Préstamo: {prestamo.Id} - Fecha Préstamo: {prestamo.FechaPrestamo} - Película: {pelicula.Titulo} Cliente: {clienteDelPrestamo.Nombre} {clienteDelPrestamo.Apellido}");
+                                                
+                                                Console.WriteLine("\nPresione una tecla para continuar.");
+                                                Console.ReadKey();
                                             }
                                         }
                                     }
@@ -84,9 +87,6 @@ internal class ControladorPrestamos
 
                 break;
             }
-
-            Console.WriteLine("\nPresione una tecla para continuar.");
-            Console.ReadKey();
         }
         catch (Exception ex) 
         {
