@@ -12,28 +12,43 @@ internal static class ControladorClientes
 
         try
         {
-            var clienteNegocio = new ClienteNegocio();
-
-            // Traemos clientes e imprimimos.
-            var clientesResponse = clienteNegocio.ConsultarClientes();
-
-            // Pedimos DNI a del cliente a buscar.
-            var dni = Utilidades.PedirDNI("Ingrese el DNI del cliente que desea visualizar:");
-            
-            var clienteExistente = clientesResponse.Data.FirstOrDefault(cliente => cliente.Dni.Equals(dni));
-
-            if (clienteExistente != null)
+            while (true)
             {
-                Console.WriteLine("");
-                Console.WriteLine($"Nombre: {clienteExistente.Nombre} \nApellido: {clienteExistente.Apellido} \nDNI: {clienteExistente.Dni} \nFecha de Nacimiento: {clienteExistente.FechaNacimiento} \nActivo: {clienteExistente.Activo}");
-            }
-            else
-            {
-                Utilidades.MensajeError($"No existen clientes registrados con el DNI ${dni}.");
+                var clienteNegocio = new ClienteNegocio();
+
+                // Traemos clientes e imprimimos.
+                var clientesResponse = clienteNegocio.ConsultarClientes();
+
+                // Pedimos DNI a del cliente a buscar.
+                var dni = Utilidades.PedirDNI("Ingrese el DNI del cliente que desea visualizar:");
+
+                var clienteExistente = clientesResponse.Data.FirstOrDefault(cliente => cliente.Dni.Equals(dni));
+
+                if (clienteExistente != null)
+                {
+                    Console.Clear();
+                    Console.WriteLine("");
+                    Console.WriteLine($"Nombre: {clienteExistente.Nombre} \nApellido: {clienteExistente.Apellido} \nDNI: {clienteExistente.Dni} \nFecha de Nacimiento: {clienteExistente.FechaNacimiento} \nActivo: {clienteExistente.Activo}");
+
+                    Console.WriteLine("\nPresione una tecla para continuar.");
+                    Console.ReadKey();
+                }
+                else
+                {
+                    Console.Clear();
+                    Utilidades.MensajeError($"No existen clientes registrados con el DNI ${dni}.");
+                    int opcSeguir = Utilidades.PedirMenu("1. Ingresar otro DNI \n2. Volver al Menú Principal", 1, 2);
+                    switch (opcSeguir)
+                    {
+                        case 1:
+                            continue;
+                        case 2:
+                            break;
+                    }
+                }
+                break;
             }
             
-            Console.WriteLine("\nPresione una tecla para continuar.");
-            Console.ReadKey();
         }
         catch (Exception ex)
         {
@@ -49,26 +64,40 @@ internal static class ControladorClientes
 
         try
         {
-            var clienteNegocio = new ClienteNegocio();
-
-            // Pedimos DNI a del cliente a buscar.
-            var telefono = Utilidades.PedirTelefono("Ingrese el telefono del cliente que desea visualizar:");
-            
-            var clienteResponse = clienteNegocio.ConsultarClientePorTelefono(telefono);
-
-            if (clienteResponse.Success)
+            while (true)
             {
-                var cliente = clienteResponse.Data;
-                Console.WriteLine("");
-                Console.WriteLine($"Nombre: {cliente.Nombre} \nApellido: {cliente.Apellido} \nDNI: {cliente.Dni} \nFecha de Nacimiento: {cliente.FechaNacimiento.Date} \nActivo: {cliente.Activo}");
+                var clienteNegocio = new ClienteNegocio();
+
+                // Pedimos DNI a del cliente a buscar.
+                var telefono = Utilidades.PedirTelefono("Ingrese el telefono del cliente que desea visualizar:");
+
+                var clienteResponse = clienteNegocio.ConsultarClientePorTelefono(telefono);
+
+                if (clienteResponse.Success)
+                {
+                    Console.Clear();
+                    var cliente = clienteResponse.Data;
+                    Console.WriteLine("");
+                    Console.WriteLine($"Nombre: {cliente.Nombre} \nApellido: {cliente.Apellido} \nDNI: {cliente.Dni} \nFecha de Nacimiento: {cliente.FechaNacimiento.Date} \nActivo: {cliente.Activo}");
+
+                    Console.WriteLine("\nPresione una tecla para continuar.");
+                    Console.ReadKey();
+                }
+                else
+                {
+                    Console.Clear();
+                    Utilidades.MensajeError($"No existen clientes registrados con el telefono {telefono}.");
+                    int opcSeguir = Utilidades.PedirMenu("1. Ingresar otro Teléfono \n2. Volver al Menú Principal", 1, 2);
+                    switch (opcSeguir)
+                    {
+                        case 1:
+                            continue;
+                        case 2:
+                            break;
+                    }
+                }
+                break;
             }
-            else
-            {
-                Utilidades.MensajeError($"No existen clientes registrados con el telefono {telefono}.");
-            }
-            
-            Console.WriteLine("\nPresione una tecla para continuar.");
-            Console.ReadKey();
         }
         catch (Exception ex)
         {
