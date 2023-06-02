@@ -66,11 +66,12 @@ internal class ControladorPrestamos
                                             {
                                                 Console.WriteLine($"Id Préstamo: {prestamo.Id} - Fecha Préstamo: {prestamo.FechaPrestamo} - Película: {pelicula.Titulo} Cliente: {clienteDelPrestamo.Nombre} {clienteDelPrestamo.Apellido}");
                                                 
-                                                Console.WriteLine("\nPresione una tecla para continuar.");
-                                                Console.ReadKey();
+                                                
                                             }
                                         }
                                     }
+                                    Console.WriteLine("\nPresione una tecla para continuar.");
+                                    Console.ReadKey();
                                 }
 
                             }
@@ -272,8 +273,14 @@ internal class ControladorPrestamos
             var peliculaNegocio = new PeliculaNegocio();
             var copiasNegocio = new CopiaNegocio();
             
-            // Traemos clientes
+            // Traemos clientes y los mostramos en pantalla
             var clientesResponse = clienteNegocio.ConsultarClientes();
+            Console.WriteLine("Listado de Clientes:\n");
+
+            foreach(var cliente in clientesResponse.Data)
+            {
+                Console.WriteLine($"Cliente {cliente.Nombre} {cliente.Apellido}, DNI: {cliente.Dni}");
+            }
 
             int idCliente = 0;
             string? nombreCliente = null;
@@ -282,7 +289,7 @@ internal class ControladorPrestamos
             // Pedimos DNI del cliente y buscamos su Id Cliente para luego buscar Prestamos.
             while (true)
             {
-                var dni = Utilidades.PedirDNI("Ingrese DNI del cliente:");
+                var dni = Utilidades.PedirDNI("\nIngrese DNI del cliente:");
                 
                 var clienteExistente = clientesResponse.Data.FirstOrDefault(cliente => cliente.Dni.Equals(dni));
                 if (clienteExistente != null)
