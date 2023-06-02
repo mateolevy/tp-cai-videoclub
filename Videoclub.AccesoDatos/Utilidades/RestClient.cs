@@ -1,3 +1,4 @@
+using System.Net;
 using System.Text.Json;
 using Videoclub.AccesoDatos.Utilidades;
 
@@ -19,8 +20,10 @@ internal static class RestClient
         };
         try
         {
-            string response = await Client.GetStringAsync(url);
-            if (!string.IsNullOrWhiteSpace(response))
+            var res = await Client.GetAsync(url);
+            var response = await res.Content.ReadAsStringAsync();
+
+            if (!string.IsNullOrWhiteSpace(response) || res.StatusCode != HttpStatusCode.OK)
             {
                 restResponse.Data = JsonSerializer.Deserialize<T>(response, new JsonSerializerOptions
                 {

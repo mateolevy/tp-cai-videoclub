@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text.Json.Serialization;
 
 namespace Videoclub.Entidades
 {
@@ -14,6 +10,13 @@ namespace Videoclub.Entidades
         private string _observaciones;
         private decimal _precio;
         private int _copiasDisponibles;
+        
+        // Agrego empty constructor base con atributo JsonConstructor para poder serializar/deserializar utilizando JSON.Net
+        [JsonConstructor]
+        public Copia()
+        {
+        }
+        
         public Copia(int idCopia, int idPelicula, DateTime fechaAlta, string observaciones, decimal precio, int copiasDisponibles)
         {
             _idCopia = idCopia;

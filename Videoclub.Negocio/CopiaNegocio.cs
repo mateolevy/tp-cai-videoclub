@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Videoclub.AccesoDatos.Utilidades;
+﻿using Videoclub.AccesoDatos.Utilidades;
 using Videoclub.AccesoDatos;
 using Videoclub.Entidades;
-using Videoclub.Negocio.Excepciones;
 
 namespace Videoclub.Negocio
 {

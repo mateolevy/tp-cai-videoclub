@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Videoclub.AccesoDatos.Utilidades;
+﻿using Videoclub.AccesoDatos.Utilidades;
 using Videoclub.Entidades;
 
 namespace Videoclub.AccesoDatos
@@ -14,6 +9,12 @@ namespace Videoclub.AccesoDatos
         {
             var peliculasResponse = RestClient.GetAsync<List<Pelicula>>("VideoClub/Pelicula").Result;
             return peliculasResponse; 
+        }
+        
+        public RestResponse<Pelicula> ConsultarPeliculaPorId(int idPelicula)
+        {
+            var peliculaResponse = RestClient.GetAsync<Pelicula>($"VideoClub/Pelicula/{idPelicula}").Result;
+            return peliculaResponse;
         }
 
         public RestResponse<Pelicula> AltaPelicula(Pelicula nuevaPelicula)

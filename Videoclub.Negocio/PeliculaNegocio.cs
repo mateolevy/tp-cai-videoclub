@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Videoclub.AccesoDatos;
+﻿using Videoclub.AccesoDatos;
 using Videoclub.AccesoDatos.Utilidades;
 using Videoclub.Entidades;
 using Videoclub.Negocio.Excepciones;
@@ -12,7 +7,7 @@ namespace Videoclub.Negocio;
 
 public class PeliculaNegocio
 {
-    private PeliculaDatos _peliculaDatos;
+    private readonly PeliculaDatos _peliculaDatos;
 
     public PeliculaNegocio()
     {
@@ -47,12 +42,17 @@ public class PeliculaNegocio
         }
 
         throw new TransactionError(nuevaPeliculaResponse.Error);
-
     }
 
     public RestResponse<List<Pelicula>> ConsultarPeliculas()
     {
         var peliculaResponse = _peliculaDatos.ConsultarPeliculas();
+        return peliculaResponse;
+    }
+    
+    public RestResponse<Pelicula> ConsultarPeliculaPorId(int idPelicula)
+    {
+        var peliculaResponse = _peliculaDatos.ConsultarPeliculaPorId(idPelicula);
         return peliculaResponse;
     }
 }

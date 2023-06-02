@@ -22,7 +22,7 @@ internal abstract class Program
                         break;
                     case 1:
                         Console.Clear();
-                        var opcClientes = Utilidades.PedirMenu("Menú Clientes.\n1. Ingresar Nuevo Cliente \n2. Consultar Cliente Existente \n3. Consultar Todos los Clientes \n0. Volver al Menú Principal", 0, 3);
+                        var opcClientes = Utilidades.PedirMenu("Menú Clientes.\n1. Ingresar Nuevo Cliente \n2. Consultar Cliente por DNI \n3. Consultar Cliente por Telefono \n4. Consultar Todos los Clientes \n0. Volver al Menú Principal", 0, 4);
                         switch (opcClientes)
                         {
                             case 0: break;
@@ -30,9 +30,12 @@ internal abstract class Program
                                 ControladorClientes.IngresarNuevoCliente();
                                 continue;
                             case 2:
-                                ControladorClientes.ConsultarClienteExistente();
+                                ControladorClientes.ConsultarClientePorDNI();
                                 continue;
                             case 3:
+                                ControladorClientes.ConsultarClientePorTelefono();
+                                continue;
+                            case 4:
                                 ControladorClientes.ConsultarTodosLosClientes();
                                 continue;
                         }
@@ -53,7 +56,7 @@ internal abstract class Program
                         continue;
                     case 3:
                         Console.Clear();
-                        var opcPeliculas = Utilidades.PedirMenu("Menú Películas.\n1. Ingresar Película \n2. Consultar Película \n0. Volver al Menú Principal", 0, 2);
+                        var opcPeliculas = Utilidades.PedirMenu("Menú Películas.\n1. Ingresar Película \n2. Consultar Película \n3. Consultar Todas las Películas \n0. Volver al Menú Principal", 0, 3);
                         switch (opcPeliculas)
                         {
                             case 0: break;
@@ -61,7 +64,10 @@ internal abstract class Program
                                 ControladorPeliculas.IngresarNuevaPelicula();
                                 continue;
                             case 2:
-                                ControladorPeliculas.ConsultarPeliculaExistente();
+                                ControladorPeliculas.ConsultarPeliculaPorId();
+                                continue;
+                            case 3:
+                                ControladorPeliculas.ConsultarTodasLasPeliculas();
                                 continue;
                         }
                         continue;

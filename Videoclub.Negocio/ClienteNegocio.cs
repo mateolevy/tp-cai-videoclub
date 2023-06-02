@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Videoclub.AccesoDatos;
 using Videoclub.AccesoDatos.Utilidades;
 using Videoclub.Entidades;
@@ -48,6 +47,12 @@ public class ClienteNegocio
     public RestResponse<List<Cliente>> ConsultarClientes()
     {
         var clientesResponse = _clienteDatos.ConsultarClientes();
+        return clientesResponse;
+    }
+    
+    public RestResponse<Cliente> ConsultarClientePorTelefono(string telefono)
+    {
+        var clientesResponse = _clienteDatos.ConsultarClientePorTelefono(telefono);
         return clientesResponse;
     }
 }

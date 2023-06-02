@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text.Json.Serialization;
 
 namespace Videoclub.Entidades
 {
@@ -16,6 +12,12 @@ namespace Videoclub.Entidades
         private DateTime _fechaPrestamo;
         private DateTime _fechaDevolucionTentativa;
         private DateTime _fechaDevolucionReal;
+
+        // Agrego empty constructor base con atributo JsonConstructor para poder serializar/deserializar utilizando JSON.Net
+        [JsonConstructor]
+        public Prestamo()
+        {
+        }
 
         public Prestamo(int idPrestamo, int idCliente, int idCopia, int plazo, DateTime fechaPrestamo, DateTime fechaDevolucionTentativa, DateTime fechaDevolucionReal)
         {

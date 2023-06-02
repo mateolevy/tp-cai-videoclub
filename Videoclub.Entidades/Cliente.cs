@@ -18,7 +18,7 @@ public class Cliente : Persona
     {
     }
     
-    public Cliente(int dni, string apellido, string nombre, DateTime fechaNac, int idCliente, string direccion, string email, string telefono) : base(dni, apellido, nombre, fechaNac)
+    public Cliente(int idCliente, int dni, string apellido, string nombre, DateTime fechaNac, string direccion, string email, string telefono) : base(dni, apellido, nombre, fechaNac)
     {
         _idCliente = idCliente;
         _fechaAlta = DateTime.Now;
