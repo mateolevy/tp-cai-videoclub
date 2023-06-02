@@ -32,5 +32,6 @@ namespace Videoclub.Entidades
         public DateTime FechaAlta { get => _fechaAlta; set => _fechaAlta = value; }
         public string Observaciones { get => _observaciones; set => _observaciones = value; }
         public decimal Precio { get => _precio; set => _precio = value; }
+        public int CopiasDisponibles { get => _copiasDisponibles; set => _copiasDisponibles = value; }
     }
 }

@@ -1,6 +1,7 @@
 using Videoclub.Negocio;
 using Videoclub.Entidades;
 using Videoclub.AccesoDatos;
+using System.Linq.Expressions;
 
 namespace Videoclub.Consola.Controladores;
 
@@ -105,10 +106,11 @@ internal class ControladorPrestamos
             DateTime fechaPrestamo;
             int idCliente = 0;
             int idCopia = 0;
-            int idPelicula;
+            int idPelicula = 0;
             int dni;
             string nombreCliente = null;
             string nombrePelicula = null;
+            bool volverAlMenuPrinciapal = false;
                        
             var peliculaDatos = new PeliculaNegocio();
             var copiaDatos = new CopiaNegocio();
@@ -117,6 +119,7 @@ internal class ControladorPrestamos
             // Traemos datos de las pelculas / copias / clientes.
             var peliculasResponse = peliculaDatos.ConsultarPeliculas();
             var clientesResponse = clienteDatos.ConsultarClientes();
+            var copiasResponse = copiaDatos.ConsultarCopias();
 
             // Pedimos DNI para registrar en el prestamo y validamos que exista.
             Console.WriteLine("Pantalla de Ingreso de Préstamos");
@@ -131,95 +134,119 @@ internal class ControladorPrestamos
                 }
                 else
                 {
-                    Utilidades.MensajeError($"El cliente con DNI: {dni} no existe. \nPresione una tecla para intentar de nuevo.");
-                    Console.ReadKey();
-                    continue;
+                    Utilidades.MensajeError($"El cliente con DNI: {dni} no existe.");
+                    int opcSeguir = Utilidades.PedirMenu("1. Ingresar otro DNI 2. Volver al Menú Principal", 1, 2);
+                    switch (opcSeguir)
+                    {
+                        case 1:
+                            continue;
+                        case 2:
+                            volverAlMenuPrinciapal = true;
+                            break;
+                    }
                 }
                 break;
             }
 
-            // Mostramos pelculas disponibles y pedimos al usuario que ingrese el Id de la misma.   
-            while (true)
+            // Mostramos pelculas disponibles y pedimos al usuario que ingrese el Id de la misma.
+            if (volverAlMenuPrinciapal == false)
             {
-                Console.Clear();
-                Console.WriteLine("Películas Disponibles:\n");
-                foreach (var pelicula in peliculasResponse.Data)
+                while (true)
                 {
-                    Console.WriteLine($"Id Película: {pelicula.Id} - Título: {pelicula.Titulo}");
-                }
-
-                idPelicula = Utilidades.PedirInt("\nIngrese el Id de la Película:");
-                var peliculaPorId = peliculaDatos.ConsultarPeliculaPorId(idPelicula);
-                // Validamos el Id de Pelicula ingresado.
-                if (peliculaPorId.Success)
-                {
-                    var pelicula = peliculaPorId.Data;
-                    nombrePelicula = pelicula.Titulo;
-                    Utilidades.MensajeExito($"\nSeleccionó la película: {pelicula.Titulo} con Id: {pelicula.Id}");
-                    int opc = Utilidades.PedirMenu("1. Continuar 2. Eligir nueva pelicula", 1, 2);
-                    switch(opc)
-                    {
-                        case 1: break; 
-                        case 2: continue;
-                    }
-                }
-                else
-                {
-                    Utilidades.MensajeError("No se encontró el Id de película ingresada. \nPresione una tecla para ingresar nueva película.");
-                    Console.ReadKey();
-                }
-
-                // Validamos que la pelcula tenga copias
-                var copiasPorPeliculaId = copiaDatos.ConsultarCopiasPorIdPelicula(idPelicula);
-                if (copiasPorPeliculaId.Success && copiasPorPeliculaId.Data.Any())
-                {
-                    idCopia = copiasPorPeliculaId.Data.First().Id;
-                }
-                else
-                {
-                    Utilidades.MensajeError("Lo sentimos! La película seleccionada no posee copias disponibles. \nPresione una tecla para elegir nuevamente.");
-                    Console.ReadKey();
-                }
-                break;
-            }
-
-            // En este punto ya contamos con: IdCliente - IdPelicula - IdCopia
-
-            //Datos de entrada para el nuevo prestamo
-            int plazo = Utilidades.PedirInt("Ingrese el Plazo ");
-            fechaPrestamo = DateTime.Now;
-            DateTime fechaDevolucionTentativa = Utilidades.PedirFecha("Ingrese la Fecha Tentativa de Devolución");
-            DateTime fechaDevolucionReal = Utilidades.PedirFecha("Ingrese la Fecha Real de la Devolución");
-
-            // Validamos prestamo previo a su ingreso
-            Console.WriteLine("\nSe han ingresado los siguientes datos de préstamo:" +
-                $"\nCliente: {nombreCliente} con DNI: {dni}" +
-                $"\nPelícula: {nombrePelicula} con Id: {idPelicula}" +
-                $"\nPlazo: {plazo}" +
-                $"\nFecha Tentativa de Devolución: {fechaDevolucionTentativa}" +
-                $"\nFecha Real de Devolución:{fechaDevolucionReal}");
-            int opcMenu = Utilidades.PedirMenu("1. Continuar 2. Abortar", 1, 2);
-            switch (opcMenu)
-            {
-                case 1:
-                    // Instanciamos nuevo prestamo
-                    Prestamo nuevoPrestamo = new Prestamo(0, idCliente, idCopia, plazo, fechaPrestamo, fechaDevolucionTentativa, fechaDevolucionReal);
-
-                    //Agregamos prestamo e informamos si se realiz correctamente o no 
-                    var nuevoPrestamoResponse = prestamoDatos.AgregarPrestamo(nuevoPrestamo);
-                    if (nuevoPrestamoResponse)
-                    {
-                        Console.Clear();
-                        Utilidades.MensajeExito("\nPréstamo agregado con exito! \nPresione una tecla para continuar.");
-                        Console.ReadKey();
-                    }
-                    break;
-                case 2:
                     Console.Clear();
-                    Utilidades.MensajeError("\nIngreso de préstamo abortado! \nPresione una tecla para continuar.");
-                    Console.ReadKey();
+                    Console.WriteLine("Películas Disponibles:\n");
+                    foreach (var pelicula in peliculasResponse.Data)
+                    {
+                        Console.WriteLine($"Id Película: {pelicula.Id} - Título: {pelicula.Titulo}");
+                    }
+
+                    idPelicula = Utilidades.PedirInt("\nIngrese el Id de la Película:");
+                    var peliculaPorId = peliculaDatos.ConsultarPeliculaPorId(idPelicula);
+                    // Validamos el Id de Pelicula ingresado.
+                    if (peliculaPorId.Success)
+                    {
+                        var pelicula = peliculaPorId.Data;
+                        nombrePelicula = pelicula.Titulo;
+                        Utilidades.MensajeExito($"\nSeleccionó la película: {pelicula.Titulo} con Id: {pelicula.Id}");
+                        int opc = Utilidades.PedirMenu("1. Continuar 2. Eligir nueva pelicula", 1, 2);
+                        switch (opc)
+                        {
+                            case 1: break;
+                            case 2: continue;
+                        }
+                    }
+                    else
+                    {
+                        Utilidades.MensajeError("No se encontró el Id de película ingresada. \nPresione una tecla para ingresar nueva película.");
+                        Console.ReadKey();
+                        continue;
+                    }
+
+                    // Validamos que la pelcula tenga copias
+                    var copiasPorPeliculaId = copiaDatos.ConsultarCopiasPorIdPelicula(idPelicula);
+                    if (copiasPorPeliculaId.Success && copiasPorPeliculaId.Data.Any())
+                    {
+                        idCopia = copiasPorPeliculaId.Data.First().Id;
+                    }
+                    else
+                    {
+                        Utilidades.MensajeError("Lo sentimos! La película seleccionada no posee copias disponibles.");
+                        int opcSeguir = Utilidades.PedirMenu("1. Elegir otra Película 2. Volver al Menú Principal", 1, 2);
+                        switch (opcSeguir)
+                        {
+                            case 1:
+                                continue;
+                            case 2:
+                                volverAlMenuPrinciapal = true;
+                                break;
+                        }
+                    }
                     break;
+                }
             }
+
+
+            if (volverAlMenuPrinciapal == false)
+            {
+                // En este punto ya contamos con: IdCliente - IdPelicula - IdCopia
+
+                //Datos de entrada para el nuevo prestamo
+                int plazo = Utilidades.PedirInt("Ingrese el Plazo ");
+                fechaPrestamo = DateTime.Now;
+                DateTime fechaDevolucionTentativa = Utilidades.PedirFecha("Ingrese la Fecha Tentativa de Devolución");
+                DateTime fechaDevolucionReal = Utilidades.PedirFecha("Ingrese la Fecha Real de la Devolución");
+
+                // Validamos prestamo previo a su ingreso
+                Console.WriteLine("\nSe han ingresado los siguientes datos de préstamo:" +
+                    $"\nCliente: {nombreCliente} con DNI: {dni}" +
+                    $"\nPelícula: {nombrePelicula} con Id: {idPelicula}" +
+                    $"\nPlazo: {plazo}" +
+                    $"\nFecha Tentativa de Devolución: {fechaDevolucionTentativa}" +
+                    $"\nFecha Real de Devolución:{fechaDevolucionReal}");
+                int opcMenu = Utilidades.PedirMenu("1. Continuar 2. Abortar", 1, 2);
+                switch (opcMenu)
+                {
+                    case 1:
+                        // Instanciamos nuevo prestamo
+                        Prestamo nuevoPrestamo = new Prestamo(0, idCliente, idCopia, plazo, fechaPrestamo, fechaDevolucionTentativa, fechaDevolucionReal);
+
+                        //Agregamos prestamo e informamos si se realiz correctamente o no 
+                        var nuevoPrestamoResponse = prestamoDatos.AgregarPrestamo(nuevoPrestamo);
+                        if (nuevoPrestamoResponse)
+                        {
+                            Console.Clear();
+                            Utilidades.MensajeExito("\nPréstamo agregado con exito! \nPresione una tecla para continuar.");
+                            Console.ReadKey();
+                        }
+                        break;
+                    case 2:
+                        Console.Clear();
+                        Utilidades.MensajeError("\nIngreso de préstamo abortado! \nPresione una tecla para continuar.");
+                        Console.ReadKey();
+                        break;
+                }
+            }
+            
         }
         catch (Exception ex) 
         {
