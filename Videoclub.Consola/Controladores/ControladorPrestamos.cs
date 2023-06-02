@@ -277,6 +277,7 @@ internal class ControladorPrestamos
 
             int idCliente = 0;
             string? nombreCliente = null;
+            bool volverAlMenuPrinciapal = false;
 
             // Pedimos DNI del cliente y buscamos su Id Cliente para luego buscar Prestamos.
             while (true)
@@ -291,41 +292,60 @@ internal class ControladorPrestamos
                 }
                 else
                 {
-                    Utilidades.MensajeError($"El cliente con DNI: {dni} no existe. \nPresione una tecla para intentar de nuevo.");
-                    Console.ReadKey();
-                }
-                
-                // Buscamos prestamos asociados al Id Cliente
-                var prestamosResponse = prestamoNegocio.ConsultarPrestamos();
-
-                var prestamosExistentes = prestamosResponse.Data.Where(cliente => cliente.IdCliente.Equals(idCliente)).ToList();
-
-                if (prestamosExistentes.Any())
-                {
-                    Console.WriteLine("");
-                    Console.WriteLine($"Reporte de préstamos del cliente: {nombreCliente}. \nTotal de préstamos encontrados: {prestamosExistentes.Count}");
-                    Console.WriteLine("");
-                    
-                    var copiasResponse = copiasNegocio.ConsultarCopias();
-
-                    foreach (var prestamo in prestamosExistentes)
+                    Console.Clear();
+                    Utilidades.MensajeError($"El cliente con DNI: {dni} no existe.");
+                    int opcSeguir = Utilidades.PedirMenu("1. Ingresar otro DNI 2. Volver al Menú Principal", 1, 2);
+                    switch (opcSeguir)
                     {
-                        var copia = copiasResponse.Data.FirstOrDefault(copia => copia.Id.Equals(prestamo.IdCopia));
-                        if (copia == null) continue;
-                        
-                        var pelicula = peliculaNegocio.ConsultarPeliculaPorId(copia.IdPelicula);
-                        Console.WriteLine($"Fecha Préstamo: {prestamo.FechaPrestamo} - Fecha Devolución Tent.: {prestamo.FechaPrestamo.Date} - Plazo: {prestamo.Plazo} días - Pelicula: {pelicula.Data.Titulo} - Id de Copia: {copia.Id}\n");
+                        case 1:
+                            continue;
+                        case 2:
+                            volverAlMenuPrinciapal = true;
+                            break;
                     }
                 }
-                else
+                if (volverAlMenuPrinciapal == false)
                 {
-                    Utilidades.MensajeError("\nNo se encontraron préstamos asociados a ese cliente.");
+                    // Buscamos prestamos asociados al Id Cliente
+                    var prestamosResponse = prestamoNegocio.ConsultarPrestamos();
+
+                    var prestamosExistentes = prestamosResponse.Data.Where(cliente => cliente.IdCliente.Equals(idCliente)).ToList();
+
+                    if (prestamosExistentes.Any())
+                    {
+                        Console.WriteLine($"\nReporte de préstamos del cliente: {nombreCliente}. \nTotal de préstamos encontrados: {prestamosExistentes.Count}\n");
+
+                        var copiasResponse = copiasNegocio.ConsultarCopias();
+
+                        foreach (var prestamo in prestamosExistentes)
+                        {
+                            var copia = copiasResponse.Data.FirstOrDefault(copia => copia.Id.Equals(prestamo.IdCopia));
+                            if (copia == null) continue;
+
+                            var pelicula = peliculaNegocio.ConsultarPeliculaPorId(copia.IdPelicula);
+                            Console.WriteLine($"Fecha Préstamo: {prestamo.FechaPrestamo} - Fecha Devolución Tent.: {prestamo.FechaPrestamo.Date} - Plazo: {prestamo.Plazo} días - Pelicula: {pelicula.Data.Titulo} - Id de Copia: {copia.Id}\n");
+
+                            Console.WriteLine("\nPresione una tecla para continuar.");
+                            Console.ReadKey();
+                        }
+                    }
+                    else
+                    {
+                        Console.Clear();
+                        Utilidades.MensajeError("\nNo se encontraron préstamos asociados a ese cliente.");
+                        int opcSeguir = Utilidades.PedirMenu("1. Ingresar otro DNI 2. Volver al Menú Principal", 1, 2);
+                        switch (opcSeguir)
+                        {
+                            case 1:
+                                continue;
+                            case 2:
+                                break;
+                        }
+                    }
                 }
                 break;
             }
 
-            Console.WriteLine("\nPresione una tecla para continuar.");
-            Console.ReadKey();
         }
         catch (Exception ex) 
         {
