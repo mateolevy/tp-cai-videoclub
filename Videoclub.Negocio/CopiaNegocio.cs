@@ -18,5 +18,11 @@ namespace Videoclub.Negocio
             var copiasResponse = _copiaDatos.ConsultarCopias();
             return copiasResponse;
         }
+        
+        public RestResponse<List<Copia>> ConsultarCopiasPorIdPelicula(int idPelicula)
+        {
+            var copiasResponse = _copiaDatos.ConsultarCopiasPorIdPelicula(idPelicula);
+            return copiasResponse;
+        }
     }
 }

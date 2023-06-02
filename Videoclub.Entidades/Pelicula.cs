@@ -29,7 +29,7 @@ namespace Videoclub.Entidades
             _duracion = duracion;
         }
 
-        public int IdPelicula { get => _idPelicula; set => _idPelicula = value; }
+        public int Id { get => _idPelicula; set => _idPelicula = value; }
         public int Anio { get => _anio; set => _anio = value; }
         public string Titulo { get => _titulo; set => _titulo = value; }
         public string Productora { get => _prductora; set => _prductora = value; }

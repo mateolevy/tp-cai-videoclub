@@ -6,7 +6,7 @@ namespace Videoclub.Consola.Controladores;
 
 internal class ControladorPrestamos
 {
-    internal static void ConsultarPrestamoExistente()
+    internal static void ConsultarPrestamosPorPelicula()
     {
         Console.Clear();
         Console.WriteLine("Pantalla de Consulta de Prstamos por Pelicula\n");
@@ -18,87 +18,72 @@ internal class ControladorPrestamos
             var copiasDatos = new CopiaNegocio();
             var clienteDatos = new ClienteDatos();
 
-            // Traemos prestamos y peliculas
-            var prestamoResponse = prestamoDatos.ConsultarPrestamos();
-            var peliculasResponse = peliculaDatos.ConsultarPeliculas();
-            var copiasResponse = copiasDatos.ConsultarCopias();
-            var clientesResponse = clienteDatos.ConsultarClientes();
-
             int idPelicula;
-            string nombrePelicula;
 
             while (true)
             {
                 Console.Clear();
                 Console.WriteLine("Peliculas:\n");
+                
+                var peliculasResponse = peliculaDatos.ConsultarPeliculas();
                 foreach (var pelicula in peliculasResponse.Data)
                 {
-                    Console.WriteLine($"Id Pelicula: {pelicula.IdPelicula} - Titulo: {pelicula.Titulo}");
+                    Console.WriteLine($"Id Pelicula: {pelicula.Id} - Titulo: {pelicula.Titulo}");
                 }
 
-                idPelicula = Utilidades.PedirInt("\nIngrese el Id de la pelcula:");
+                idPelicula = Utilidades.PedirInt("\nIngrese el Id de la pelicula:");
 
                 // Validamos el Id de Pelicula ingresado.
-                foreach (var pelicula in peliculasResponse.Data)
+                var peliculaResponse = peliculaDatos.ConsultarPeliculaPorId(idPelicula);
+                if (peliculaResponse.Success)
                 {
-                    if (pelicula.IdPelicula.Equals(idPelicula))
+                    var pelicula = peliculaResponse.Data;
+                    Utilidades.MensajeExito($"\nSeleccionó la película: {pelicula.Titulo} con Id: {pelicula.Id}");
+                    int opc = Utilidades.PedirMenu("1. Continuar 2. Eligir nueva pelcula", 1, 2);
+                    switch (opc)
                     {
-                        nombrePelicula = pelicula.Titulo;
-                        Utilidades.MensajeExito($"\nSeleccion la pelcula: {pelicula.Titulo} con Id: {pelicula.IdPelicula}");
-                        int opc = Utilidades.PedirMenu("1. Continuar 2. Eligir nueva pelcula", 1, 2);
-                        switch (opc)
-                        {
-                            case 1:
-                                Console.Clear();
-                                Console.WriteLine($"Consulta de Prstamos para la Pelicula: {nombrePelicula}:\n");
-                                foreach (var copia in copiasResponse.Data)
+                        case 1:
+                            Console.Clear();
+                            Console.WriteLine($"Consulta de Prestamos para la Pelicula: {pelicula.Titulo}:\n");
+
+                            var copiasDePeliculaElegida = copiasDatos.ConsultarCopiasPorIdPelicula(pelicula.Id);
+
+                            if (copiasDePeliculaElegida.Success)
+                            {
+                                var copias = copiasDePeliculaElegida.Data;
+                                var prestamos = prestamoDatos.ConsultarPrestamos();
+
+                                if (prestamos.Success)
                                 {
-                                    if (copia.IdPelicula.Equals(idPelicula))
+                                    foreach (var copia in copias)
                                     {
-                                        foreach (var prestamo in prestamoResponse.Data)
+                                        var prestamosPorIdCopia = prestamos.Data.Where(prestamo => prestamo.IdCopia.Equals(copia.Id)).ToList();
+                                        foreach (var prestamo in prestamosPorIdCopia)
                                         {
-                                            if (prestamo.IdCopia.Equals(copia.IdCopia))
+                                            var clienteDelPrestamo = clienteDatos.ConsultarClientes().Data.FirstOrDefault(cliente => cliente.Id.Equals(prestamo.IdCliente));
+                                            if (clienteDelPrestamo != null)
                                             {
-                                                foreach (var cliente in clientesResponse.Data)
-                                                {
-                                                    if (cliente.Id.Equals(prestamo.IdCliente))
-                                                    {
-                                                        Console.WriteLine($"Fecha: {prestamo.FechaPrestamo} - Cliente: {cliente.Nombre} {cliente.Apellido}");
-                                                    }
-                                                }
+                                                Console.WriteLine($"Id Prestamo: {prestamo.Id} - Fecha Prestamo: {prestamo.FechaPrestamo} - Pelicula: {pelicula.Titulo} Cliente: {clienteDelPrestamo.Nombre} {clienteDelPrestamo.Apellido}");
                                             }
                                         }
                                     }
                                 }
-                                break;
-                            case 2: continue;
-                        }
-                    }
-                    else
-                    {
-                        Utilidades.MensajeError($"No se encontr el Id de Pelicula: {idPelicula}. \nPresione una tecla para ingresar nueva pelcula.");
-                        Console.ReadKey();
-                    }
-                }
-                break;
-            }
 
-            /* INICIO CODIGO VIEJO
-            // Pedimos ID de pelicula para buscar el prestamo 
-            var idPelicula = Utilidades.PedirInt("Ingrese el ID de la Pelicula para Ver los Prstamos Asociados");
-            foreach( var prestamo in prestamoResponse.Data )
-            {
-                if(prestamo.IdCopia.Equals(idPelicula))
-                {
-                    Console.WriteLine($"El cliente con el ID: {prestamo.IdCliente} realiz el prestamo el da {prestamo.FechaPrestamo}\n");
+                            }
+                            break;
+                        case 2:
+                            break;
+                    }
                 }
                 else
                 {
-                    Console.WriteLine("\nNo se encontraron prestamos asociados a ese ID");
+                    Utilidades.MensajeError($"No se encontró el Id de Pelicula: {idPelicula}. \nPresione una tecla para ingresar nueva pelcula.");
+                    Console.ReadKey();
                 }
+
                 break;
             }
-            FIN CODIGO VIEJO*/
+
             Console.WriteLine("\nPresione una tecla para continuar.");
             Console.ReadKey();
         }
@@ -136,30 +121,23 @@ internal class ControladorPrestamos
 
             // Traemos datos de las pelculas / copias / clientes.
             var peliculasResponse = peliculaDatos.ConsultarPeliculas();
-            var copiasResponse = copiaDatos.ConsultarCopias();
             var clientesResponse = clienteDatos.ConsultarClientes();
-            var prestamosResponse = prestamoDatos.ConsultarPrestamos();
 
             // Pedimos DNI para registrar en el prestamo y validamos que exista.
             Console.WriteLine("Pantalla de Ingreso de Prstamos");
             while (true)
             {
                 dni = Utilidades.PedirDNI("Ingrese DNI del cliente:");
-                foreach (var cliente in clientesResponse.Data)
+                var clientePorDni = clientesResponse.Data.FirstOrDefault(cliente => cliente.Dni.Equals(dni));
+                if (clientePorDni != null)
                 {
-                    //Consultamos el cliente exista y nos devuelve el IdCliente 
-                    if (cliente.Dni.Equals(dni))
-                    {
-                        idCliente = cliente.Id;
-                        nombreCliente = cliente.Nombre + cliente.Apellido;
-                    }
-                    else
-                    {
-                        Utilidades.MensajeError($"El cliente con DNI: {dni} no existe. \nPresione una tecla para intentar de nuevo.");
-                        Console.ReadKey();
-                        continue;
-                    }
-                    break;
+                    idCliente = clientePorDni.Id;
+                    nombreCliente = clientePorDni.Nombre + clientePorDni.Apellido;
+                }
+                else
+                {
+                    Utilidades.MensajeError($"El cliente con DNI: {dni} no existe. \nPresione una tecla para intentar de nuevo.");
+                    Console.ReadKey();
                 }
                 break;
             }
@@ -171,51 +149,45 @@ internal class ControladorPrestamos
                 Console.WriteLine("Peliculas disponibles:\n");
                 foreach (var pelicula in peliculasResponse.Data)
                 {
-                    Console.WriteLine($"Id Pelicula: {pelicula.IdPelicula} - Titulo: {pelicula.Titulo}");
+                    Console.WriteLine($"Id Pelicula: {pelicula.Id} - Titulo: {pelicula.Titulo}");
                 }
 
                 idPelicula = Utilidades.PedirInt("\nIngrese el Id de la pelcula:");
+                var peliculaPorId = peliculaDatos.ConsultarPeliculaPorId(idPelicula);
                 // Validamos el Id de Pelicula ingresado.
-                foreach (var pelicula in peliculasResponse.Data)
+                if (peliculaPorId.Success)
                 {
-                    if (pelicula.IdPelicula.Equals(idPelicula))
+                    var pelicula = peliculaPorId.Data;
+                    nombrePelicula = pelicula.Titulo;
+                    Utilidades.MensajeExito($"\nSeleccion la pelcula: {pelicula.Titulo} con Id: {pelicula.Id}");
+                    int opc = Utilidades.PedirMenu("1. Continuar 2. Eligir nueva pelicula", 1, 2);
+                    switch(opc)
                     {
-                        nombrePelicula = pelicula.Titulo;
-                        Utilidades.MensajeExito($"\nSeleccion la pelcula: {pelicula.Titulo} con Id: {pelicula.IdPelicula}");
-                        int opc = Utilidades.PedirMenu("1. Continuar 2. Eligir nueva pelicula", 1, 2);
-                        switch(opc)
-                        {
-                            case 1: break; 
-                            case 2: continue;
-                        }
-                    }
-                    else
-                    {
-                        Utilidades.MensajeError("No se encontr el Id de Pelicula ingresado. \nPresione una tecla para ingresar nueva pelcula.");
-                        Console.ReadKey();
+                        case 1: break; 
+                        case 2: continue;
                     }
                 }
-                // Validamos que la pelcula tenga copias
-                foreach (var copia in copiasResponse.Data)
+                else
                 {
-                    if (copia.IdPelicula.Equals(idPelicula))
-                    {
-                        idCopia = copia.IdCopia;
-                        copia.CopiasDisponibles --;
-                    }
-                    else
-                    {
-                        Utilidades.MensajeError("Lo sentimos! La pelcula seleccionada no posee copias disponibles. \nPresione una tecla para elegir nuevamente.");
-                        Console.ReadKey();
-                        continue;
-                    }
-                    break;
+                    Utilidades.MensajeError("No se encontro el Id de Pelicula ingresada. \nPresione una tecla para ingresar nueva pelcula.");
+                    Console.ReadKey();
+                }
+
+                // Validamos que la pelcula tenga copias
+                var copiasPorPeliculaId = copiaDatos.ConsultarCopiasPorIdPelicula(idPelicula);
+                if (copiasPorPeliculaId.Success && copiasPorPeliculaId.Data.Any())
+                {
+                    idCopia = copiasPorPeliculaId.Data.First().Id;
+                }
+                else
+                {
+                    Utilidades.MensajeError("Lo sentimos! La pelcula seleccionada no posee copias disponibles. \nPresione una tecla para elegir nuevamente.");
+                    Console.ReadKey();
                 }
                 break;
             }
 
             // En este punto ya contamos con: IdCliente - IdPelicula - IdCopia
-
 
             //Datos de entrada para el nuevo prestamo
             int plazo = Utilidades.PedirInt("Ingrese el Plazo ");
@@ -260,96 +232,77 @@ internal class ControladorPrestamos
         }
 
     }
-    internal static void VisualizarPrestamosCliente()
+    
+    internal static void VisualizarReportePrestamosPorCliente()
     {
         Console.Clear();
-        Console.WriteLine("Pantalla de Consulta de Prstamos por Cliente\n");
+        Console.WriteLine("Pantalla de Reporte de Prestamos por Cliente\n");
 
         try
         {
-            var prestamoDatos = new PrestamoNegocio();
-            var clienteDatos = new ClienteNegocio();
-            var copiaDatos = new CopiaNegocio();
-            var peliculaDatos = new PeliculaNegocio();
+            var prestamoNegocio = new PrestamoNegocio();
+            var clienteNegocio = new ClienteNegocio();
+            var peliculaNegocio = new PeliculaNegocio();
+            var copiasNegocio = new CopiaNegocio();
             
-            // Traemos prestamos y clientes
-            var prestamosResponse = prestamoDatos.ConsultarPrestamos();
-            var clientesResponse = clienteDatos.ConsultarClientes();
-            var copiasResponse = copiaDatos.ConsultarCopias();
-            var peliculasResponse = peliculaDatos.ConsultarPeliculas();
+            // Traemos clientes
+            var clientesResponse = clienteNegocio.ConsultarClientes();
 
             int idCliente = 0;
-            string? clienteNombre = null;
-
+            string? nombreCliente = null;
 
             // Pedimos DNI del cliente y buscamos su Id Cliente para luego buscar Prestamos.
             while (true)
             {
                 var dni = Utilidades.PedirDNI("Ingrese DNI del cliente:");
-                foreach (var cliente in clientesResponse.Data)
+                
+                var clienteExistente = clientesResponse.Data.FirstOrDefault(cliente => cliente.Dni.Equals(dni));
+                if (clienteExistente != null)
                 {
-                    //Consultamos el cliente exista y nos devuelve el IdCliente 
-                    if (cliente.Dni.Equals(dni))
+                    idCliente = clienteExistente.Id;
+                    nombreCliente = clienteExistente.NombreCompleto;
+                }
+                else
+                {
+                    Utilidades.MensajeError($"El cliente con DNI: {dni} no existe. \nPresione una tecla para intentar de nuevo.");
+                    Console.ReadKey();
+                }
+                
+                // Buscamos prestamos asociados al Id Cliente
+                var prestamosResponse = prestamoNegocio.ConsultarPrestamos();
+
+                var prestamosExistentes = prestamosResponse.Data.Where(cliente => cliente.IdCliente.Equals(idCliente)).ToList();
+
+                if (prestamosExistentes.Any())
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine($"Reporte de prestamos del cliente: {nombreCliente}. \nTotal de prestamos encontrados: {prestamosExistentes.Count}");
+                    Console.WriteLine("");
+                    
+                    var copiasResponse = copiasNegocio.ConsultarCopias();
+
+                    foreach (var prestamo in prestamosExistentes)
                     {
-                        idCliente = cliente.Id;
-                        clienteNombre = cliente.Nombre + cliente.Apellido;
+                        var copia = copiasResponse.Data.FirstOrDefault(copia => copia.Id.Equals(prestamo.IdCopia));
+                        if (copia == null) continue;
+                        
+                        var pelicula = peliculaNegocio.ConsultarPeliculaPorId(copia.IdPelicula);
+                        Console.WriteLine($"Fecha Prestamo: {prestamo.FechaPrestamo} - Fecha Devolucion Tent.: {prestamo.FechaPrestamo.Date} - Plazo: {prestamo.Plazo} días - Pelicula: {pelicula.Data.Titulo} - Id de Copia: {copia.Id}\n");
                     }
-                    else
-                    {
-                        Utilidades.MensajeError($"El cliente con DNI: {dni} no existe. \nPresione una tecla para intentar de nuevo.");
-                        Console.ReadKey();
-                        continue;
-                    }
-                    break;
+                }
+                else
+                {
+                    Utilidades.MensajeError("\nNo se encontraron prestamos asociados a ese cliente.");
                 }
                 break;
             }
 
-            // Buscamos prestamos asociados al Id Cliente
-            var contadorPrestamos = 0;
-            foreach (var prestamo in prestamosResponse.Data)
-            {
-                if (prestamo.IdCliente.Equals(idCliente))
-                {
-                    foreach (var pelicula in peliculasResponse.Data.Where(pelicula => pelicula.IdPelicula.Equals(pelicula.IdPelicula)))
-                    {
-                        contadorPrestamos++;
-                        Console.WriteLine($"Prestamos del Cliente: {clienteNombre} \nNro de Prestamo: {contadorPrestamos} - Fecha Prestamo: {prestamo.FechaPrestamo} - Pelicula: {pelicula.Titulo}\n");
-                    }
-                }
-                else
-                {
-                    Utilidades.MensajeError("\nNo se encontraron prestamos asociados a ese ID.");
-                }
-            }
-
-            /* CODIGO VIEJO
-            foreach ( var prestamo in prestamosResponse.Data)
-            {
-                if(prestamo.IdCliente.Equals(idCliente))
-                {
-                    foreach(var cliente in clientesResponse.Data)
-                    {
-                        if(cliente.Id.Equals(prestamo.IdCliente))
-                        {
-                            Console.WriteLine($"El cliente {cliente.Nombre} {cliente.Apellido} solicit un prestamo el da: {prestamo.FechaPrestamo} de la pelicula: 'pelicula.Titulo'\n");
-                        }
-                    }
-                }
-                else
-                {
-                    Utilidades.MensajeError("\nNo se encontraron prestamos asociados a ese ID.");
-                }
-            }
-            FIN CODIGO VIEJO */ 
-
             Console.WriteLine("\nPresione una tecla para continuar.");
             Console.ReadKey();
-
         }
         catch (Exception ex) 
         {
-            Utilidades.MensajeError($"\nError al consultar prestamo. \nDescripcion del Error: {ex.Message} \nPresione una tecla para continuar.");
+            Utilidades.MensajeError($"\nError al consultar report de prestamos por cliente. \nDescripcion del Error: {ex.Message} \nPresione una tecla para continuar.");
             Console.ReadKey();
         }                
     }

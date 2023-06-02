@@ -31,7 +31,7 @@ namespace Videoclub.Entidades
             _fechaDevolucionReal = fechaDevolucionReal;
         }
 
-        public int IdPrestamo { get => _idPrestamo; set => _idPrestamo = value; } 
+        public int Id { get => _idPrestamo; set => _idPrestamo = value; } 
 
         public int IdCliente { get => _idCliente;  set => _idCliente = value; } 
         public int IdCopia { get => _idCopia; set => _idCopia = value; } 

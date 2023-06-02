@@ -23,6 +23,7 @@
         public int Dni { get => _dni; set => _dni = value; }
         public string Apellido { get => _apellido; set => _apellido = value; }
         public string Nombre { get => _nombre; set => _nombre = value; }
+        public string NombreCompleto => $"{Nombre} {Apellido}" ;
         public DateTime FechaNacimiento { get => _fechaNac; set => _fechaNac = value; }
     }
 }

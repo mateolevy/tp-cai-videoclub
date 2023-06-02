@@ -60,11 +60,11 @@ internal static class ControladorClientes
             {
                 var cliente = clienteResponse.Data;
                 Console.WriteLine("");
-                Console.WriteLine($"Nombre: {cliente.Nombre} \nApellido: {cliente.Apellido} \nDNI: {cliente.Dni} \nFecha de Nacimiento: {cliente.FechaNacimiento} \nActivo: {cliente.Activo}");
+                Console.WriteLine($"Nombre: {cliente.Nombre} \nApellido: {cliente.Apellido} \nDNI: {cliente.Dni} \nFecha de Nacimiento: {cliente.FechaNacimiento.Date} \nActivo: {cliente.Activo}");
             }
             else
             {
-                Utilidades.MensajeError($"No existen clientes registrados con el telefono ${telefono}.");
+                Utilidades.MensajeError($"No existen clientes registrados con el telefono {telefono}.");
             }
             
             Console.WriteLine("\nPresione una tecla para continuar.");

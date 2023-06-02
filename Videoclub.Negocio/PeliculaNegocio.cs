@@ -28,9 +28,9 @@ public class PeliculaNegocio
         // Verificamos si la pelicula a ingresar ya existe
         if (peliculasResponse.Success)
         {
-            if(peliculasResponse.Data.Any(p => p.IdPelicula == nuevaPelicula.IdPelicula))
+            if(peliculasResponse.Data.Any(p => p.Id == nuevaPelicula.Id))
             {
-                throw new ObjetoExiste("pelicula", "ID", nuevaPelicula.IdPelicula);
+                throw new ObjetoExiste("pelicula", "ID", nuevaPelicula.Id);
             }
         }
 

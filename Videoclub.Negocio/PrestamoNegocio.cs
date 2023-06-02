@@ -29,9 +29,9 @@ namespace Videoclub.Negocio
             // Verificamos que el prestamo a agregar no exista
             if (prestamosResponse.Success)
             {
-                if (prestamosResponse.Data.Any( p => p.IdPrestamo == nuevoPrestamo.IdPrestamo )) 
+                if (prestamosResponse.Data.Any( p => p.Id == nuevoPrestamo.Id )) 
                 {
-                    throw new ObjetoExiste("Prestamo", "Id prestamo", nuevoPrestamo.IdPrestamo);
+                    throw new ObjetoExiste("Prestamo", "Id prestamo", nuevoPrestamo.Id);
                 }
             }
 

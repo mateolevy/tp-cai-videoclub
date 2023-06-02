@@ -7,7 +7,13 @@ namespace Videoclub.AccesoDatos
     {
         public RestResponse<List<Copia>> ConsultarCopias()
         {
-            var copiasResponse = RestClient.GetAsync<List<Copia>>("VideoClub/Copias").Result;
+            var copiasResponse = RestClient.GetAsync<List<Copia>>("VideoClub/Copia").Result;
+            return copiasResponse;
+        }
+        
+        public RestResponse<List<Copia>> ConsultarCopiasPorIdPelicula(int idPelicula)
+        {
+            var copiasResponse = RestClient.GetAsync<List<Copia>>($"VideoClub/Copia/{idPelicula}").Result;
             return copiasResponse;
         }
     }
