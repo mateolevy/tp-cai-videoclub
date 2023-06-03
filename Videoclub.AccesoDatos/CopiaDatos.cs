@@ -16,5 +16,11 @@ namespace Videoclub.AccesoDatos
             var copiasResponse = RestClient.GetAsync<List<Copia>>($"VideoClub/Copia/{idPelicula}").Result;
             return copiasResponse;
         }
+            
+        public RestResponse<Copia> AltaCopia(Copia copia)
+        {
+            var copiaResponse = RestClient.PostAsync<Copia>("VideoClub/Copia", copia).Result;
+            return copiaResponse;
+        }
     }
 }
