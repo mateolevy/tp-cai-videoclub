@@ -5,7 +5,7 @@ namespace Videoclub.Consola.Controladores;
 
 internal static class ControladorClientes
 {
-    internal static void ConsultarClientePorDNI()
+    internal static void ConsultarClientePorDni()
     {
         Console.Clear();
         Console.WriteLine("Pantalla de Consulta de Cliente por DNI\n");

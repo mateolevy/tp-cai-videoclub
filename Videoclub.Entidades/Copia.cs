@@ -16,7 +16,7 @@ namespace Videoclub.Entidades
         {
         }
         
-        public Copia(int idCopia, int idPelicula, DateTime fechaAlta, string observaciones, decimal precio, int copiasDisponibles)
+        public Copia(int idCopia, int idPelicula, DateTime fechaAlta, string observaciones, decimal precio)
         {
             _idCopia = idCopia;
             _idPelicula = idPelicula;

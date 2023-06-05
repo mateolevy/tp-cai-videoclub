@@ -111,7 +111,7 @@ internal class ControladorPrestamos
             int dni;
             string nombreCliente = null;
             string nombrePelicula = null;
-            bool volverAlMenuPrinciapal = false;
+            bool volverAlMenuPrincipal = false;
                        
             var peliculaDatos = new PeliculaNegocio();
             var copiaDatos = new CopiaNegocio();
@@ -142,7 +142,7 @@ internal class ControladorPrestamos
                         case 1:
                             continue;
                         case 2:
-                            volverAlMenuPrinciapal = true;
+                            volverAlMenuPrincipal = true;
                             break;
                     }
                 }
@@ -150,7 +150,7 @@ internal class ControladorPrestamos
             }
 
             // Mostramos pelculas disponibles y pedimos al usuario que ingrese el Id de la misma.
-            if (volverAlMenuPrinciapal == false)
+            if (volverAlMenuPrincipal == false)
             {
                 while (true)
                 {
@@ -199,7 +199,7 @@ internal class ControladorPrestamos
                             case 1:
                                 continue;
                             case 2:
-                                volverAlMenuPrinciapal = true;
+                                volverAlMenuPrincipal = true;
                                 break;
                         }
                     }
@@ -208,7 +208,7 @@ internal class ControladorPrestamos
             }
 
 
-            if (volverAlMenuPrinciapal == false)
+            if (volverAlMenuPrincipal == false)
             {
                 // En este punto ya contamos con: IdCliente - IdPelicula - IdCopia
 
@@ -258,7 +258,6 @@ internal class ControladorPrestamos
             Utilidades.MensajeError($"\nError al agregar préstamo. Descripción del Error: {ex.Message} \nPresione una tecla para continuar.");
             Console.ReadKey();
         }
-
     }
     
     internal static void VisualizarReportePrestamosPorCliente()
@@ -284,7 +283,7 @@ internal class ControladorPrestamos
 
             int idCliente = 0;
             string? nombreCliente = null;
-            bool volverAlMenuPrinciapal = false;
+            bool volverAlMenuPrincipal = false;
 
             // Pedimos DNI del cliente y buscamos su Id Cliente para luego buscar Prestamos.
             while (true)
@@ -307,11 +306,11 @@ internal class ControladorPrestamos
                         case 1:
                             continue;
                         case 2:
-                            volverAlMenuPrinciapal = true;
+                            volverAlMenuPrincipal = true;
                             break;
                     }
                 }
-                if (volverAlMenuPrinciapal == false)
+                if (volverAlMenuPrincipal == false)
                 {
                     Console.Clear();
                     // Buscamos prestamos asociados al Id Cliente

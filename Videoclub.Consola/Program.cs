@@ -30,7 +30,7 @@ internal abstract class Program
                                 ControladorClientes.IngresarNuevoCliente();
                                 continue;
                             case 2:
-                                ControladorClientes.ConsultarClientePorDNI();
+                                ControladorClientes.ConsultarClientePorDni();
                                 continue;
                             case 3:
                                 ControladorClientes.ConsultarClientePorTelefono();
@@ -84,7 +84,7 @@ internal abstract class Program
                                 ControladorCopias.ConsultarTodasLasCopias();
                                 continue;
                             case 3:
-                                ControladorCopias.ConsultarCopiasPorIdPelicula();
+                                ControladorCopias.VisualizarReporteCopiasPorPelicula();
                                 continue;
                         }
                         continue;
