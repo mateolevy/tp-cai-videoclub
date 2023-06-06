@@ -1,5 +1,6 @@
 using Videoclub.Entidades;
 using Videoclub.Negocio;
+using ConsoleTables;
 
 namespace Videoclub.Consola.Controladores;
 
@@ -18,18 +19,30 @@ internal class ControladorCopias
             // Traemos copias (y peliculas para imprimir el nombre)
             var copiasResponse = copiasNegocio.ConsultarCopias();
             var peliculasResponse = peliculasNegocio.ConsultarPeliculas();
-
+            
             // Verificamos que haya copias e imprimimos
             if(copiasResponse.Data.Any() && peliculasResponse.Data.Any())
             {
-                foreach(var copia in copiasResponse.Data)
+                string precio = "No Registrado";
+
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                var table = new ConsoleTable("Título", "Fecha Alta", "Precio", "Id Copia");
+                Console.ForegroundColor = ConsoleColor.Gray;
+
+                foreach (var copia in copiasResponse.Data)
                 {
                     foreach(var pelicula in peliculasResponse.Data)
                     {
-                        if(copia.Id == pelicula.Id)
-                        Console.WriteLine($"Copia de la pelicula: {pelicula.Titulo}, realizada el dia {copia.FechaAlta}, Precio: ${copia.Precio} ID: {copia.Id}");
+                        if (copia.Id == pelicula.Id)
+                            //Console.WriteLine($"Copia de la pelicula: {pelicula.Titulo}, realizada el dia {copia.FechaAlta}, Precio: ${copia.Precio} ID: {copia.Id}");
+                            if (!string.IsNullOrEmpty(copia.Precio.ToString()))
+                            {
+                                precio = "$ " + copia.Precio;
+                            }
+                            table.AddRow(pelicula.Titulo, copia.FechaAlta, precio, copia.Id);
                     }                   
                 }
+                table.Write();
                 Console.WriteLine("\nPresione una tecla para continuar.");
                 Console.ReadKey();
             }
