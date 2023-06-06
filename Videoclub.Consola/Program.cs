@@ -11,7 +11,7 @@ internal abstract class Program
             while (true)
             {
                 Console.Clear();
-                var opcMenu = Utilidades.PedirMenu("Bienvenido al 'Sistema de Gestión Video Club'!\n" +
+                var opcMenu = Utilidades.PedirMenu("\nBienvenido al 'Sistema de Gestión Video Club'!\n" +
                                                    "1. Menú Clientes \n2. Menú Préstamos \n3. Menú Películas \n4. Menú Copia de Películas \n5. Menú Reportes \n0. Salir", 0, 5);
                 switch (opcMenu)
                 {

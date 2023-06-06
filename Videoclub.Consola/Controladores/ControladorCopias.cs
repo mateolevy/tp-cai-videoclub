@@ -71,11 +71,13 @@ internal class ControladorCopias
                 Console.WriteLine("Películas:\n");
                 
                 var peliculasResponse = peliculaDatos.ConsultarPeliculas();
+
+                var tablePeliculas = new ConsoleTable("Id Película", "Título");
                 foreach (var pelicula in peliculasResponse.Data)
                 {
-                    Console.WriteLine($"Id Película: {pelicula.Id} - Título: {pelicula.Titulo}");
+                    tablePeliculas.AddRow(pelicula.Id, pelicula.Titulo);
                 }
-
+                tablePeliculas.Write();
                 idPelicula = Utilidades.PedirInt("\nIngrese el Id de la Película:");
 
                 // Validamos el Id de Pelicula ingresado.
@@ -97,12 +99,17 @@ internal class ControladorCopias
                             {
                                 var copias = copiasDePeliculaElegida.Data;
                                 {
+                                    var tableCopias = new ConsoleTable("Id Copia", "Fecha Alta Copia", "Precio", "Observaciones");
+                                    string precio = "No Registrado";
                                     foreach (var copia in copias)
                                     {
-                                        Console.WriteLine(
-                                            $"Id Copia: {copia.Id} - Fecha Alta Copia: {copia.FechaAlta} - Precio: ${copia.Precio} Observaciones: {copia.Observaciones}");
+                                        if (!string.IsNullOrEmpty(copia.Precio.ToString()))
+                                        {
+                                            precio = "$ " + copia.Precio;
+                                        }
+                                        tableCopias.AddRow(copia.Id, copia.FechaAlta, precio, copia.Observaciones);
                                     }
-
+                                    tableCopias.Write();
                                     Console.WriteLine("\nPresione una tecla para continuar.");
                                     Console.ReadKey();
                                 }
@@ -154,11 +161,12 @@ internal class ControladorCopias
                 {
                     Console.Clear();
                     Console.WriteLine("Películas Disponibles:\n");
+                    var tablePeliculas = new ConsoleTable("Id Película", "Título");
                     foreach (var pelicula in peliculasResponse.Data)
                     {
-                        Console.WriteLine($"Id Película: {pelicula.Id} - Título: {pelicula.Titulo}");
+                        tablePeliculas.AddRow(pelicula.Id, pelicula.Titulo);
                     }
-
+                    tablePeliculas.Write();
                     idPelicula = Utilidades.PedirInt("\nIngrese el Id de la Película que desea hacer una copia:");
                     var peliculaPorId = peliculaDatos.ConsultarPeliculaPorId(idPelicula);
                     // Validamos el Id de Pelicula ingresado.
@@ -201,7 +209,7 @@ internal class ControladorCopias
                               $"\nPrecio de la copia: {precioCopia}" +
                               $"\nObservaciones: {observaciones}");
                               
-            int opcMenu = Utilidades.PedirMenu("1. Continuar 2. Abortar", 1, 2);
+            int opcMenu = Utilidades.PedirMenu("\n1. Continuar 2. Abortar", 1, 2);
             switch (opcMenu)
             {
                 case 1:
