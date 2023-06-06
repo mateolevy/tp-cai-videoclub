@@ -126,14 +126,14 @@ internal static class ControladorClientes
                 Console.ReadKey();
                 return;
             }
-            
-            // Encabezado de la tabla.
-            Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {3, -8}", "Nombre", "Apellido", "DNI", "Fecha Nacimiento\n");
+            /*
             foreach (var cliente in clientesResponse.Data)
             {
-                //Console.WriteLine($"Nombre: {cliente.Nombre} - Apellido: {cliente.Apellido} - DNI: {cliente.Dni} - Fecha de Nacimiento: {cliente.FechaNacimiento}");
-                Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {3, -8}", cliente.Nombre, cliente.Apellido, cliente.Dni, cliente.FechaNacimiento);
-            }
+                Console.WriteLine($"Nombre: {cliente.Nombre} - Apellido: {cliente.Apellido} - DNI: {cliente.Dni} - Fecha de Nacimiento: {cliente.FechaNacimiento}");
+            } 
+            */
+            MostrarClientesEnTabla(clientesResponse.Data);
+
             Console.WriteLine("\nPresione una tecla para continuar.");
             Console.ReadKey();
         }
@@ -200,6 +200,15 @@ internal static class ControladorClientes
         {
             Utilidades.MensajeError($"\nError al agregar cliente. \nDescripción del Error: {ex.Message} \nPresione una tecla para continuar.");
             Console.ReadKey();
+        }
+    }
+
+    static void MostrarClientesEnTabla(List<Cliente> clientes)
+    {
+        Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {3, -8}", "Nombre", "Apellido", "DNI", "Fecha Nacimiento\n");
+        foreach (var cliente in clientes)
+        {
+            Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {3, -8}", cliente.Nombre, cliente.Apellido, cliente.Dni, cliente.FechaNacimiento);
         }
     }
 }

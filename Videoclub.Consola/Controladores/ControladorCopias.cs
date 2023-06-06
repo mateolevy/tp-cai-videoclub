@@ -1,6 +1,7 @@
 using Videoclub.Entidades;
 using Videoclub.Negocio;
 using ConsoleTables;
+using System.Data;
 
 namespace Videoclub.Consola.Controladores;
 
