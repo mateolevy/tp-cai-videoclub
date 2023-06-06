@@ -117,7 +117,8 @@ internal static class ControladorClientes
 
             // Traemos clientes e imprimimos.
             var clientesResponse = clienteNegocio.ConsultarClientes();
-        
+            List<string> lista;
+
             // Verificamos si existen clientes.
             if (!clientesResponse.Data.Any())
             {
@@ -125,10 +126,13 @@ internal static class ControladorClientes
                 Console.ReadKey();
                 return;
             }
-
+            
+            // Encabezado de la tabla.
+            Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {3, -8}", "Nombre", "Apellido", "DNI", "Fecha Nacimiento\n");
             foreach (var cliente in clientesResponse.Data)
             {
-                Console.WriteLine($"Nombre: {cliente.Nombre} - Apellido: {cliente.Apellido} - DNI: {cliente.Dni} - Fecha de Nacimiento: {cliente.FechaNacimiento}");
+                //Console.WriteLine($"Nombre: {cliente.Nombre} - Apellido: {cliente.Apellido} - DNI: {cliente.Dni} - Fecha de Nacimiento: {cliente.FechaNacimiento}");
+                Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {3, -8}", cliente.Nombre, cliente.Apellido, cliente.Dni, cliente.FechaNacimiento);
             }
             Console.WriteLine("\nPresione una tecla para continuar.");
             Console.ReadKey();
