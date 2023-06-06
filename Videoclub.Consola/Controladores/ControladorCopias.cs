@@ -24,17 +24,12 @@ internal class ControladorCopias
             if(copiasResponse.Data.Any() && peliculasResponse.Data.Any())
             {
                 string precio = "No Registrado";
-
-                Console.ForegroundColor = ConsoleColor.Yellow;
                 var table = new ConsoleTable("Título", "Fecha Alta", "Precio", "Id Copia");
-                Console.ForegroundColor = ConsoleColor.Gray;
-
                 foreach (var copia in copiasResponse.Data)
                 {
                     foreach(var pelicula in peliculasResponse.Data)
                     {
                         if (copia.Id == pelicula.Id)
-                            //Console.WriteLine($"Copia de la pelicula: {pelicula.Titulo}, realizada el dia {copia.FechaAlta}, Precio: ${copia.Precio} ID: {copia.Id}");
                             if (!string.IsNullOrEmpty(copia.Precio.ToString()))
                             {
                                 precio = "$ " + copia.Precio;
