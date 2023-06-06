@@ -203,7 +203,7 @@ internal static class ControladorClientes
         }
     }
 
-    static void MostrarClientesEnTabla(List<Cliente> clientes)
+    private static void MostrarClientesEnTabla(List<Cliente> clientes)
     {
         Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {3, -8}", "Nombre", "Apellido", "DNI", "Fecha Nacimiento\n");
         foreach (var cliente in clientes)
