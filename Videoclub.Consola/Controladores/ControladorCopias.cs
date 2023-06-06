@@ -9,7 +9,7 @@ internal class ControladorCopias
     internal static void ConsultarTodasLasCopias()
     {
         Console.Clear();
-        Console.WriteLine("Pantalla de consulta de todas las Copias\n");
+        Console.WriteLine("Pantalla de Consulta de todas las Copias\n");
 
         try
         {
@@ -84,6 +84,7 @@ internal class ControladorCopias
                 var peliculaResponse = peliculaDatos.ConsultarPeliculaPorId(idPelicula);
                 if (peliculaResponse.Success)
                 {
+                    Console.Clear();
                     var pelicula = peliculaResponse.Data;
                     Utilidades.MensajeExito($"\nSeleccionó la película: {pelicula.Titulo} con Id: {pelicula.Id}");
                     int opc = Utilidades.PedirMenu("1. Continuar \n2. Eligir nueva película", 1, 2);
@@ -172,6 +173,7 @@ internal class ControladorCopias
                     // Validamos el Id de Pelicula ingresado.
                     if (peliculaPorId.Success)
                     {
+                        Console.Clear();
                         var pelicula = peliculaPorId.Data;
                         nombrePelicula = pelicula.Titulo;
                         Utilidades.MensajeExito($"\nSeleccionó la película: {pelicula.Titulo} con Id: {pelicula.Id}");
