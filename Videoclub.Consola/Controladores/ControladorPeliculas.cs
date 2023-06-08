@@ -20,9 +20,15 @@ internal class ControladorPeliculas
             // Verificamos si existen Peliculas.
             if (peliculasResponse.Data.Any())
             {
+                // Header de la tabla
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {3, -15} | {3, -15} | {3, -15}", "Título", "Género", "Año", "Productora", "Director", "Duración\n");
+                Console.ForegroundColor = ConsoleColor.Gray;
+
                 foreach (var pelicula in peliculasResponse.Data)
                 {
-                    Console.WriteLine($"Titulo: {pelicula.Titulo} - Genero: {pelicula.Genero} - Año: {pelicula.Anio} - Productora: {pelicula.Productora} - Director: {pelicula.Director} - Duracion: {pelicula.Duracion} minutos");
+                    Console.WriteLine(
+                   "{0, -15} | {1, -15} | {2, -15} | {3, -15} | {3, -15} | {3, -15}", pelicula.Titulo, pelicula.Genero, pelicula.Anio, pelicula.Productora, pelicula.Director, pelicula.Duracion + "minutos");
                 }
             }
             else
@@ -58,8 +64,13 @@ internal class ControladorPeliculas
 
             if (peliculaResponse.Success)
             {
+                // Header de la tabla
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {3, -15} | {3, -15} | {3, -15}", "Título", "Género", "Año", "Productora", "Director", "Duración\n");
+                Console.ForegroundColor = ConsoleColor.Gray;
+
                 Console.WriteLine(
-                    $"Titulo: {peliculaResponse.Data.Titulo} - Genero: {peliculaResponse.Data.Genero} - Año: {peliculaResponse.Data.Anio} - Productora: {peliculaResponse.Data.Productora} - Director: {peliculaResponse.Data.Director} - Duracion: {peliculaResponse.Data.Duracion} minutos");
+                    "{0, -15} | {1, -15} | {2, -15} | {3, -15} | {3, -15} | {3, -15}", peliculaResponse.Data.Titulo, peliculaResponse.Data.Genero, peliculaResponse.Data.Anio, peliculaResponse.Data.Productora, peliculaResponse.Data.Director, peliculaResponse.Data.Duracion + "minutos");
             }
             else
             {

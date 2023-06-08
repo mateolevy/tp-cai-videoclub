@@ -27,9 +27,15 @@ internal class ControladorPrestamos
                 Console.WriteLine("Películas:\n");
                 
                 var peliculasResponse = peliculaDatos.ConsultarPeliculas();
+
+                // Header de la tabla
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("{0, -15} | {1, -15}", "Id Película", "Título\n");
+                Console.ForegroundColor = ConsoleColor.Gray;
+
                 foreach (var pelicula in peliculasResponse.Data)
                 {
-                    Console.WriteLine($"Id Película: {pelicula.Id} - Título: {pelicula.Titulo}");
+                    Console.WriteLine("{0, -15} | {1, -15}", pelicula.Id, pelicula.Titulo);
                 }
 
                 idPelicula = Utilidades.PedirInt("\nIngrese el Id de la Película:");
@@ -56,6 +62,11 @@ internal class ControladorPrestamos
 
                                 if (prestamos.Success)
                                 {
+                                    // Header de la tabla
+                                    Console.ForegroundColor = ConsoleColor.Green;
+                                    Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {3, -30}", "Id Préstamo", "Fecha Préstamo", "Película", "Cliente\n");
+                                    Console.ForegroundColor = ConsoleColor.Gray;
+
                                     foreach (var copia in copias)
                                     {
                                         var prestamosPorIdCopia = prestamos.Data.Where(prestamo => prestamo.IdCopia.Equals(copia.Id)).ToList();
@@ -64,7 +75,8 @@ internal class ControladorPrestamos
                                             var clienteDelPrestamo = clienteDatos.ConsultarClientes().Data.FirstOrDefault(cliente => cliente.Id.Equals(prestamo.IdCliente));
                                             if (clienteDelPrestamo != null)
                                             {
-                                                Console.WriteLine($"Id Préstamo: {prestamo.Id} - Fecha Préstamo: {prestamo.FechaPrestamo} - Película: {pelicula.Titulo} Cliente: {clienteDelPrestamo.Nombre} {clienteDelPrestamo.Apellido}");
+                                                string nombreCliente = clienteDelPrestamo.Nombre + clienteDelPrestamo.Apellido;
+                                                Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {3, -30}", prestamo.Id, prestamo.FechaPrestamo, pelicula.Titulo, nombreCliente);
                                                 
                                                 
                                             }
@@ -156,9 +168,15 @@ internal class ControladorPrestamos
                 {
                     Console.Clear();
                     Console.WriteLine("Películas Disponibles:\n");
+
+                    // Header de la tabla
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("{0, -15} | {1, -15}", "Id Película", "Título\n");
+                    Console.ForegroundColor = ConsoleColor.Gray;
+
                     foreach (var pelicula in peliculasResponse.Data)
                     {
-                        Console.WriteLine($"Id Película: {pelicula.Id} - Título: {pelicula.Titulo}");
+                        Console.WriteLine("{0, -15} | {1, -15}", pelicula.Id, pelicula.Titulo);
                     }
 
                     idPelicula = Utilidades.PedirInt("\nIngrese el Id de la Película:");

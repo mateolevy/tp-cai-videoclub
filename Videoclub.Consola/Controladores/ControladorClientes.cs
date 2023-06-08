@@ -27,9 +27,10 @@ internal static class ControladorClientes
                 if (clienteExistente != null)
                 {
                     Console.Clear();
-                    Console.WriteLine("");
+                    /*
                     Console.WriteLine($"Nombre: {clienteExistente.Nombre} \nApellido: {clienteExistente.Apellido} \nDNI: {clienteExistente.Dni} \nFecha de Nacimiento: {clienteExistente.FechaNacimiento} \nActivo: {clienteExistente.Activo}");
-
+                    */
+                    MostrarClienteEnTabla(clienteExistente);
                     Console.WriteLine("\nPresione una tecla para continuar.");
                     Console.ReadKey();
                 }
@@ -56,7 +57,7 @@ internal static class ControladorClientes
             Console.ReadKey();
         }
     }
-    
+
     internal static void ConsultarClientePorTelefono()
     {
         Console.Clear();
@@ -205,10 +206,20 @@ internal static class ControladorClientes
 
     private static void MostrarClientesEnTabla(List<Cliente> clientes)
     {
+        Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {3, -8}", "Nombre", "Apellido", "DNI", "Fecha Nacimiento\n");
+        Console.ForegroundColor = ConsoleColor.Gray;
         foreach (var cliente in clientes)
         {
             Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {3, -8}", cliente.Nombre, cliente.Apellido, cliente.Dni, cliente.FechaNacimiento);
         }
+    }
+
+    private static void MostrarClienteEnTabla(Cliente clienteExistente)
+    {
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {3, -8} | {4, -2}", "Nombre", "Apellido", "DNI", "Fecha Nacimiento", "Activo\n");
+        Console.ForegroundColor = ConsoleColor.Gray;
+        Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {3, -8} | {4, -2}", clienteExistente.Nombre, clienteExistente.Apellido, clienteExistente.Dni, clienteExistente.FechaNacimiento, clienteExistente.Activo);
     }
 }

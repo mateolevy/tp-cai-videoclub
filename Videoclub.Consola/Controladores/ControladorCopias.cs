@@ -25,7 +25,12 @@ internal class ControladorCopias
             if(copiasResponse.Data.Any() && peliculasResponse.Data.Any())
             {
                 string precio = "No Registrado";
-                var table = new ConsoleTable("Título", "Fecha Alta", "Precio", "Id Copia");
+
+                // Header de la tabla
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {3, -8}", "Título", "Fecha Alta", "Precio", "Id Copia\n");
+                Console.ForegroundColor = ConsoleColor.Gray;
+
                 foreach (var copia in copiasResponse.Data)
                 {
                     foreach(var pelicula in peliculasResponse.Data)
@@ -35,16 +40,16 @@ internal class ControladorCopias
                             {
                                 precio = "$ " + copia.Precio;
                             }
-                            table.AddRow(pelicula.Titulo, copia.FechaAlta, precio, copia.Id);
+                            Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {3, -8} | {4, -2}", pelicula.Titulo, copia.FechaAlta, precio, copia.Id);
                     }                   
                 }
-                table.Write();
                 Console.WriteLine("\nPresione una tecla para continuar.");
                 Console.ReadKey();
             }
             else
             {
                 Utilidades.MensajeError("No existen copias registradas. \n Presione una tecla para continuar");
+                Console.ReadKey();
             }
 
 
@@ -73,12 +78,16 @@ internal class ControladorCopias
                 
                 var peliculasResponse = peliculaDatos.ConsultarPeliculas();
 
-                var tablePeliculas = new ConsoleTable("Id Película", "Título");
+                // Header de la tabla
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("{0, -15} | {1, -15}", "Id Película", "Título\n");
+                Console.ForegroundColor = ConsoleColor.Gray;
+
                 foreach (var pelicula in peliculasResponse.Data)
                 {
-                    tablePeliculas.AddRow(pelicula.Id, pelicula.Titulo);
+                    Console.WriteLine("{0, -15} | {1, -15}", pelicula.Id, pelicula.Titulo);
                 }
-                tablePeliculas.Write();
+
                 idPelicula = Utilidades.PedirInt("\nIngrese el Id de la Película:");
 
                 // Validamos el Id de Pelicula ingresado.
@@ -101,7 +110,11 @@ internal class ControladorCopias
                             {
                                 var copias = copiasDePeliculaElegida.Data;
                                 {
-                                    var tableCopias = new ConsoleTable("Id Copia", "Fecha Alta Copia", "Precio", "Observaciones");
+                                    // Header de la tabla
+                                    Console.ForegroundColor = ConsoleColor.Green;
+                                    Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {3, -30}", "Id Copia", "Fecha Alta Copia", "Precio", "Observaciones\n");
+                                    Console.ForegroundColor = ConsoleColor.Gray;
+
                                     string precio = "No Registrado";
                                     foreach (var copia in copias)
                                     {
@@ -109,9 +122,8 @@ internal class ControladorCopias
                                         {
                                             precio = "$ " + copia.Precio;
                                         }
-                                        tableCopias.AddRow(copia.Id, copia.FechaAlta, precio, copia.Observaciones);
+                                        Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {3, -30}", copia.Id, copia.FechaAlta, precio, copia.Observaciones);
                                     }
-                                    tableCopias.Write();
                                     Console.WriteLine("\nPresione una tecla para continuar.");
                                     Console.ReadKey();
                                 }
@@ -163,12 +175,16 @@ internal class ControladorCopias
                 {
                     Console.Clear();
                     Console.WriteLine("Películas Disponibles:\n");
-                    var tablePeliculas = new ConsoleTable("Id Película", "Título");
+
+                    // Header de la tabla
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("{0, -15} | {1, -15}", "Id Película", "Título\n");
+                    Console.ForegroundColor = ConsoleColor.Gray;
+
                     foreach (var pelicula in peliculasResponse.Data)
                     {
-                        tablePeliculas.AddRow(pelicula.Id, pelicula.Titulo);
+                        Console.WriteLine("{0, -15} | {1, -15}", pelicula.Id, pelicula.Titulo);
                     }
-                    tablePeliculas.Write();
                     idPelicula = Utilidades.PedirInt("\nIngrese el Id de la Película que desea hacer una copia:");
                     var peliculaPorId = peliculaDatos.ConsultarPeliculaPorId(idPelicula);
                     // Validamos el Id de Pelicula ingresado.
