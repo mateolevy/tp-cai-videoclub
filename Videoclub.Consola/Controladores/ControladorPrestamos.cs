@@ -308,9 +308,14 @@ internal class ControladorPrestamos
                 var clientesResponse = clienteNegocio.ConsultarClientes();
                 Console.WriteLine("Listado de Clientes:\n");
 
+                // Header de la tabla
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("{0, -15} | {1, -15} | {2, -15}", "Nombre", "Apellido", "DNI\n");
+                Console.ForegroundColor = ConsoleColor.Gray;
+
                 foreach (var cliente in clientesResponse.Data)
                 {
-                    Console.WriteLine($"Cliente {cliente.Nombre} {cliente.Apellido}, DNI: {cliente.Dni}");
+                    Console.WriteLine("{0, -15} | {1, -15} | {2, -15}", cliente.Nombre, cliente.Apellido, cliente.Dni);
                 }
 
                 int idCliente = 0;
@@ -356,13 +361,17 @@ internal class ControladorPrestamos
 
                             var copiasResponse = copiasNegocio.ConsultarCopias();
 
+                            // Header de la tabla
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {2, -15} | {2, -15}", "Fecha Préstamo", "Fecha Devolución Tentativa", "Plazo", "Título Película", "Id Copia\n");
+                            Console.ForegroundColor = ConsoleColor.Gray;
                             foreach (var prestamo in prestamosExistentes)
                             {
                                 var copia = copiasResponse.Data.FirstOrDefault(copia => copia.Id.Equals(prestamo.IdCopia));
                                 if (copia == null) continue;
 
                                 var pelicula = peliculaNegocio.ConsultarPeliculaPorId(copia.IdPelicula);
-                                Console.WriteLine($"Fecha Préstamo: {prestamo.FechaPrestamo} - Fecha Devolución Tent.: {prestamo.FechaPrestamo.Date} - Plazo: {prestamo.Plazo} días - Pelicula: {pelicula.Data.Titulo} - Id de Copia: {copia.Id}\n");
+                                Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {2, -15} | {2, -15}", prestamo.FechaPrestamo, prestamo.FechaPrestamo.Date, prestamo.Plazo + "días", pelicula.Data.Titulo, copia.Id);
 
                                 Console.WriteLine("\nPresione una tecla para continuar.");
                                 Console.ReadKey();
