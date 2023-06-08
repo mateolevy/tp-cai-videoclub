@@ -48,7 +48,7 @@ internal class ControladorCopias
             }
             else
             {
-                Utilidades.MensajeError("No existen copias registradas. \n Presione una tecla para continuar");
+                Utilidades.MensajeError("No existen copias registradas. \nPresione una tecla para continuar");
                 Console.ReadKey();
             }
 

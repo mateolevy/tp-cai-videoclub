@@ -27,10 +27,13 @@ internal static class ControladorClientes
                 if (clienteExistente != null)
                 {
                     Console.Clear();
-                    /*
-                    Console.WriteLine($"Nombre: {clienteExistente.Nombre} \nApellido: {clienteExistente.Apellido} \nDNI: {clienteExistente.Dni} \nFecha de Nacimiento: {clienteExistente.FechaNacimiento} \nActivo: {clienteExistente.Activo}");
-                    */
-                    MostrarClienteEnTabla(clienteExistente);
+                    // Header de la tabla
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {3, -8} | {4, -2}", "Nombre", "Apellido", "DNI", "Fecha Nacimiento", "Activo\n");
+                    Console.ForegroundColor = ConsoleColor.Gray;
+
+                    Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {3, -8} | {4, -2}", clienteExistente.Nombre, clienteExistente.Apellido, clienteExistente.Dni, clienteExistente.FechaNacimiento, clienteExistente.Activo);
+
                     Console.WriteLine("\nPresione una tecla para continuar.");
                     Console.ReadKey();
                 }
@@ -118,7 +121,6 @@ internal static class ControladorClientes
 
             // Traemos clientes e imprimimos.
             var clientesResponse = clienteNegocio.ConsultarClientes();
-            List<string> lista;
 
             // Verificamos si existen clientes.
             if (!clientesResponse.Data.Any())
@@ -127,14 +129,16 @@ internal static class ControladorClientes
                 Console.ReadKey();
                 return;
             }
-            /*
+
+            // Header de la tabla
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {3, -8}", "Nombre", "Apellido", "DNI", "Fecha Nacimiento\n");
+            Console.ForegroundColor = ConsoleColor.Gray;
+            
             foreach (var cliente in clientesResponse.Data)
             {
-                Console.WriteLine($"Nombre: {cliente.Nombre} - Apellido: {cliente.Apellido} - DNI: {cliente.Dni} - Fecha de Nacimiento: {cliente.FechaNacimiento}");
+                Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {3, -8}", cliente.Nombre, cliente.Apellido, cliente.Dni, cliente.FechaNacimiento);
             } 
-            */
-            MostrarClientesEnTabla(clientesResponse.Data);
-
             Console.WriteLine("\nPresione una tecla para continuar.");
             Console.ReadKey();
         }
@@ -202,24 +206,5 @@ internal static class ControladorClientes
             Utilidades.MensajeError($"\nError al agregar cliente. \nDescripción del Error: {ex.Message} \nPresione una tecla para continuar.");
             Console.ReadKey();
         }
-    }
-
-    private static void MostrarClientesEnTabla(List<Cliente> clientes)
-    {
-        Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {3, -8}", "Nombre", "Apellido", "DNI", "Fecha Nacimiento\n");
-        Console.ForegroundColor = ConsoleColor.Gray;
-        foreach (var cliente in clientes)
-        {
-            Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {3, -8}", cliente.Nombre, cliente.Apellido, cliente.Dni, cliente.FechaNacimiento);
-        }
-    }
-
-    private static void MostrarClienteEnTabla(Cliente clienteExistente)
-    {
-        Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {3, -8} | {4, -2}", "Nombre", "Apellido", "DNI", "Fecha Nacimiento", "Activo\n");
-        Console.ForegroundColor = ConsoleColor.Gray;
-        Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {3, -8} | {4, -2}", clienteExistente.Nombre, clienteExistente.Apellido, clienteExistente.Dni, clienteExistente.FechaNacimiento, clienteExistente.Activo);
     }
 }
