@@ -180,6 +180,39 @@ namespace Videoclub.Consola
             }
             return input;
         }
+        internal static int PedirPlazo(string mensaje)
+        {
+            string? input;
+            while (true)
+            {
+                Console.WriteLine(mensaje);
+                input = Console.ReadLine();
+                if (string.IsNullOrWhiteSpace(input))
+                {
+                    IngreseValor();
+                    continue;
+                }
+                if (!int.TryParse(input, out _))
+                {
+                    IngreseValorNumerico();
+                    continue;
+                }
+                if (Convert.ToInt32(input) > 15)
+                {
+                    IngresePlazoValido();
+                    continue;
+                }
+                break;
+            }
+            return Convert.ToInt32(input);
+        }
+
+        private static void IngresePlazoValido()
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("El plazo es hasta 15 días.");
+            Console.ForegroundColor = ConsoleColor.Gray;
+        }
 
         private static void TelefonoLargoDigitos()
         {

@@ -19,7 +19,7 @@ namespace Videoclub.Entidades
         {
         }
 
-        public Prestamo(int idPrestamo, int idCliente, int idCopia, int plazo, DateTime fechaPrestamo, DateTime fechaDevolucionTentativa, DateTime fechaDevolucionReal)
+        public Prestamo(int idPrestamo, int idCliente, int idCopia, int plazo, DateTime fechaPrestamo, DateTime fechaDevolucionTentativa)//, DateTime fechaDevolucionReal)
         {
             _idPrestamo = idPrestamo;
             _idCliente = idCliente;
@@ -28,7 +28,7 @@ namespace Videoclub.Entidades
             _activo = true;
             _fechaPrestamo = fechaPrestamo;
             _fechaDevolucionTentativa = fechaDevolucionTentativa;
-            _fechaDevolucionReal = fechaDevolucionReal;
+            //_fechaDevolucionReal = fechaDevolucionReal;
         }
 
         public int Id { get => _idPrestamo; set => _idPrestamo = value; } 

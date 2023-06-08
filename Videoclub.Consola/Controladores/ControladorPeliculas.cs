@@ -33,7 +33,7 @@ internal class ControladorPeliculas
             }
             else
             {
-                Utilidades.MensajeError("No existen peliculas registradas. \nPresione una tecla para continuar.");
+                Utilidades.MensajeError("No existen peliculas registradas.");
             }
 
             Console.WriteLine("\nPresione una tecla para continuar.");
@@ -57,27 +57,35 @@ internal class ControladorPeliculas
         {
             var peliuclaNegocio = new PeliculaNegocio();
 
-            // Pedimos id de pelicula a buscar.
-            var idPelicula = Utilidades.PedirInt("Ingrese el ID de la pelicula que desea visualizar:");
-
-            var peliculaResponse = peliuclaNegocio.ConsultarPeliculaPorId(idPelicula);
-
-            if (peliculaResponse.Success)
+            if (peliuclaNegocio.ConsultarPeliculas().Data.Any())
             {
-                // Header de la tabla
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {3, -15} | {3, -15} | {3, -15}", "Título", "Género", "Año", "Productora", "Director", "Duración\n");
-                Console.ForegroundColor = ConsoleColor.Gray;
+                // Pedimos id de pelicula a buscar.
+                var idPelicula = Utilidades.PedirInt("Ingrese el ID de la pelicula que desea visualizar:");
 
-                Console.WriteLine(
-                    "{0, -15} | {1, -15} | {2, -15} | {3, -15} | {3, -15} | {3, -15}", peliculaResponse.Data.Titulo, peliculaResponse.Data.Genero, peliculaResponse.Data.Anio, peliculaResponse.Data.Productora, peliculaResponse.Data.Director, peliculaResponse.Data.Duracion + "minutos");
+                var peliculaResponse = peliuclaNegocio.ConsultarPeliculaPorId(idPelicula);
+
+                if (peliculaResponse.Success)
+                {
+                    // Header de la tabla
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {3, -15} | {3, -15} | {3, -15}", "Título", "Género", "Año", "Productora", "Director", "Duración\n");
+                    Console.ForegroundColor = ConsoleColor.Gray;
+
+                    Console.WriteLine(
+                        "{0, -15} | {1, -15} | {2, -15} | {3, -15} | {3, -15} | {3, -15}", peliculaResponse.Data.Titulo, peliculaResponse.Data.Genero, peliculaResponse.Data.Anio, peliculaResponse.Data.Productora, peliculaResponse.Data.Director, peliculaResponse.Data.Duracion + "minutos");
+                }
+                else
+                {
+                    Utilidades.MensajeError("No existe una pelicula registrada bajo el ID ingresado.");
+                }
+
+                Console.WriteLine("\nPresione una tecla para continuar.");
             }
             else
             {
-                Utilidades.MensajeError("No existe una pelicula registrada bajo el ID ingresado.");
+                Utilidades.MensajeError("No existen peliculas registradas");
+                Console.WriteLine( "\nPresione una tecla para continuar");
             }
-
-            Console.WriteLine("\nPresione una tecla para continuar.");
         }
         catch (Exception ex)
         {
