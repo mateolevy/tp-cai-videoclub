@@ -1,4 +1,4 @@
-﻿namespace Videoclub.Entidades
+﻿namespace Videoclub.Entidades.Base
 {
     public abstract class Persona
     {

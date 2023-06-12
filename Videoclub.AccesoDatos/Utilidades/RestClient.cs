@@ -1,6 +1,7 @@
 using System.Net;
 using System.Text.Json;
-using Videoclub.AccesoDatos.Utilidades;
+
+namespace Videoclub.AccesoDatos.Utilidades;
 
 internal static class RestClient
 {
@@ -85,4 +86,4 @@ internal static class RestClient
 
         return new FormUrlEncodedContent(values);
     }
-} 
+}

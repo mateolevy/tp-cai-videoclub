@@ -2,7 +2,6 @@
 using Videoclub.AccesoDatos;
 using Videoclub.Entidades;
 using Videoclub.Negocio.Excepciones;
-using System.Runtime.InteropServices;
 
 namespace Videoclub.Negocio
 {

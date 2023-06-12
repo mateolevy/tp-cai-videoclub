@@ -1,7 +1,7 @@
+using System.Globalization;
 using Videoclub.Negocio;
 using Videoclub.Entidades;
 using Videoclub.AccesoDatos;
-using System.Linq.Expressions;
 
 namespace Videoclub.Consola.Controladores;
 
@@ -127,8 +127,8 @@ internal class ControladorPrestamos
             int idCopia = 0;
             int idPelicula = 0;
             int dni;
-            string nombreCliente = null;
-            string nombrePelicula = null;
+            string nombreCliente = "";
+            string nombrePelicula = "";
             bool volverAlMenuPrincipal = false;
                        
             var peliculaDatos = new PeliculaNegocio();
@@ -143,7 +143,7 @@ internal class ControladorPrestamos
             Console.WriteLine("Pantalla de Ingreso de Préstamos");
             while (true)
             {
-                dni = Utilidades.PedirDNI("Ingrese DNI del Cliente:");
+                dni = Utilidades.PedirDni("Ingrese DNI del Cliente:");
                 var clientePorDni = clientesResponse.Data.FirstOrDefault(cliente => cliente.Dni.Equals(dni));
                 if (clientePorDni != null)
                 {
@@ -255,7 +255,7 @@ internal class ControladorPrestamos
                     $"\nCliente: {nombreCliente} con DNI: {dni}" +
                     $"\nPelícula: {nombrePelicula} con Id: {idPelicula}" +
                     $"\nPlazo: {plazo}" +
-                    $"\nFecha Tentativa de Devolución: {fechaDevolucionTentativa.ToString()}");
+                    $"\nFecha Tentativa de Devolución: {fechaDevolucionTentativa.ToString(CultureInfo.InvariantCulture)}");
                 int opcMenu = Utilidades.PedirMenu("1. Continuar 2. Abortar", 1, 2);
                 switch (opcMenu)
                 {
@@ -325,7 +325,7 @@ internal class ControladorPrestamos
                 // Pedimos DNI del cliente y buscamos su Id Cliente para luego buscar Prestamos.
                 while (true)
                 {
-                    var dni = Utilidades.PedirDNI("\nIngrese DNI del cliente:");
+                    var dni = Utilidades.PedirDni("\nIngrese DNI del cliente:");
 
                     var clienteExistente = clientesResponse.Data.FirstOrDefault(cliente => cliente.Dni.Equals(dni));
                     if (clienteExistente != null)
@@ -363,7 +363,7 @@ internal class ControladorPrestamos
 
                             // Header de la tabla
                             Console.ForegroundColor = ConsoleColor.Green;
-                            Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {2, -15} | {2, -15}", "Fecha Préstamo", "Fecha Devolución Tentativa", "Plazo", "Título Película", "Id Copia\n");
+                            Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {3, -15} | {4, -15}", "Fecha Préstamo", "Fecha Devolución Tentativa", "Plazo", "Título Película", "Id Copia\n");
                             Console.ForegroundColor = ConsoleColor.Gray;
                             foreach (var prestamo in prestamosExistentes)
                             {
@@ -371,7 +371,7 @@ internal class ControladorPrestamos
                                 if (copia == null) continue;
 
                                 var pelicula = peliculaNegocio.ConsultarPeliculaPorId(copia.IdPelicula);
-                                Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {2, -15} | {2, -15}", prestamo.FechaPrestamo, prestamo.FechaPrestamo.Date, prestamo.Plazo + "días", pelicula.Data.Titulo, copia.Id);
+                                Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {3, -15} | {4, -15}", prestamo.FechaPrestamo, prestamo.FechaPrestamo.Date, prestamo.Plazo + "días", pelicula.Data.Titulo, copia.Id);
 
                                 Console.WriteLine("\nPresione una tecla para continuar.");
                                 Console.ReadKey();

@@ -1,7 +1,6 @@
+using System.Globalization;
 using Videoclub.Entidades;
 using Videoclub.Negocio;
-using ConsoleTables;
-using System.Data;
 
 namespace Videoclub.Consola.Controladores;
 
@@ -36,11 +35,12 @@ internal class ControladorCopias
                     foreach(var pelicula in peliculasResponse.Data)
                     {
                         if (copia.Id == pelicula.Id)
-                            if (!string.IsNullOrEmpty(copia.Precio.ToString()))
+                            if (!string.IsNullOrEmpty(copia.Precio.ToString(CultureInfo.InvariantCulture)))
                             {
                                 precio = "$ " + copia.Precio;
                             }
-                            Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {3, -8} | {4, -2}", pelicula.Titulo, copia.FechaAlta, precio, copia.Id);
+                        Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {3, -8}", pelicula.Titulo,
+                            copia.FechaAlta, precio, copia.Id);
                     }                   
                 }
                 Console.WriteLine("\nPresione una tecla para continuar.");
@@ -121,7 +121,7 @@ internal class ControladorCopias
                                         string precio = "No Registrado";
                                         foreach (var copia in copias)
                                         {
-                                            if (!string.IsNullOrEmpty(copia.Precio.ToString()))
+                                            if (!string.IsNullOrEmpty(copia.Precio.ToString(CultureInfo.InvariantCulture)))
                                             {
                                                 precio = "$ " + copia.Precio;
                                             }
@@ -167,7 +167,7 @@ internal class ControladorCopias
             var copiaNegocio = new CopiaNegocio();
 
             int idPelicula = 0;
-            string nombrePelicula = null;
+            string nombrePelicula = "";
             bool volverAlMenuPrincipal = false;
                        
             var peliculaDatos = new PeliculaNegocio();
@@ -227,7 +227,7 @@ internal class ControladorCopias
 
             //Datos de entrada para la nueva copia
             DateTime fechaAltaCopia = DateTime.Now;
-            decimal precioCopia = Utilidades.PedirInt("Ingrese el Precio ");;
+            decimal precioCopia = Utilidades.PedirInt("Ingrese el Precio ");
             string observaciones = Utilidades.PedirString("Ingrese Observaciones:");
 
             // Validamos prestamo previo a su ingreso
@@ -242,7 +242,7 @@ internal class ControladorCopias
             {
                 case 1:
                     // Instanciamos nuevo prestamo
-                    Copia nuevaCopia = new Copia(0, idPelicula, fechaAltaCopia, observaciones ?? string.Empty, precioCopia);
+                    Copia nuevaCopia = new Copia(0, idPelicula, fechaAltaCopia, observaciones, precioCopia);
 
                     //Agregamos prestamo e informamos si se realiz correctamente o no 
                     var nuevaCopiaRes = copiaNegocio.AltaCopia(nuevaCopia);

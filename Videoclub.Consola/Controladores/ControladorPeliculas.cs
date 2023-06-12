@@ -22,13 +22,13 @@ internal class ControladorPeliculas
             {
                 // Header de la tabla
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {3, -15} | {3, -15} | {3, -15}", "Título", "Género", "Año", "Productora", "Director", "Duración\n");
+                Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {3, -15} | {4, -15} | {5, -15}", "Título", "Género", "Año", "Productora", "Director", "Duración\n");
                 Console.ForegroundColor = ConsoleColor.Gray;
 
                 foreach (var pelicula in peliculasResponse.Data)
                 {
                     Console.WriteLine(
-                   "{0, -15} | {1, -15} | {2, -15} | {3, -15} | {3, -15} | {3, -15}", pelicula.Titulo, pelicula.Genero, pelicula.Anio, pelicula.Productora, pelicula.Director, pelicula.Duracion + "minutos");
+                   "{0, -15} | {1, -15} | {2, -15} | {3, -15} | {4, -15} | {5, -15}", pelicula.Titulo, pelicula.Genero, pelicula.Anio, pelicula.Productora, pelicula.Director, pelicula.Duracion + "minutos");
                 }
             }
             else
@@ -68,11 +68,13 @@ internal class ControladorPeliculas
                 {
                     // Header de la tabla
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {3, -15} | {3, -15} | {3, -15}", "Título", "Género", "Año", "Productora", "Director", "Duración\n");
+                    Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {3, -15} | {4, -15} | {5, -15}", "Título", "Género", "Año", "Productora", "Director", "Duración\n");
                     Console.ForegroundColor = ConsoleColor.Gray;
 
                     Console.WriteLine(
-                        "{0, -15} | {1, -15} | {2, -15} | {3, -15} | {3, -15} | {3, -15}", peliculaResponse.Data.Titulo, peliculaResponse.Data.Genero, peliculaResponse.Data.Anio, peliculaResponse.Data.Productora, peliculaResponse.Data.Director, peliculaResponse.Data.Duracion + "minutos");
+                        "{0, -15} | {1, -15} | {2, -15} | {3, -15} | {4, -15} | {5, -15}", peliculaResponse.Data.Titulo,
+                        peliculaResponse.Data.Genero, peliculaResponse.Data.Anio, peliculaResponse.Data.Productora,
+                        peliculaResponse.Data.Director, peliculaResponse.Data.Duracion + "minutos");
                 }
                 else
                 {

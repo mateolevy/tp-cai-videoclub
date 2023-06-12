@@ -20,22 +20,13 @@ internal static class ControladorClientes
                 var clientesResponse = clienteNegocio.ConsultarClientes();
 
                 // Pedimos DNI a del cliente a buscar.
-                var dni = Utilidades.PedirDNI("Ingrese el DNI del cliente que desea visualizar:");
+                var dni = Utilidades.PedirDni("Ingrese el DNI del cliente que desea visualizar:");
 
                 var clienteExistente = clientesResponse.Data.FirstOrDefault(cliente => cliente.Dni.Equals(dni));
 
                 if (clienteExistente != null)
                 {
-                    Console.Clear();
-                    // Header de la tabla
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {3, -8} | {4, -2}", "Nombre", "Apellido", "DNI", "Fecha Nacimiento", "Activo\n");
-                    Console.ForegroundColor = ConsoleColor.Gray;
-
-                    Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {3, -8} | {4, -2}", clienteExistente.Nombre, clienteExistente.Apellido, clienteExistente.Dni, clienteExistente.FechaNacimiento, clienteExistente.Activo);
-
-                    Console.WriteLine("\nPresione una tecla para continuar.");
-                    Console.ReadKey();
+                    PrintCliente(clienteExistente);
                 }
                 else
                 {
@@ -79,13 +70,7 @@ internal static class ControladorClientes
 
                 if (clienteResponse.Success)
                 {
-                    Console.Clear();
-                    var cliente = clienteResponse.Data;
-                    Console.WriteLine("");
-                    Console.WriteLine($"Nombre: {cliente.Nombre} \nApellido: {cliente.Apellido} \nDNI: {cliente.Dni} \nFecha de Nacimiento: {cliente.FechaNacimiento.Date} \nActivo: {cliente.Activo}");
-
-                    Console.WriteLine("\nPresione una tecla para continuar.");
-                    Console.ReadKey();
+                    PrintCliente(clienteResponse.Data);
                 }
                 else
                 {
@@ -130,17 +115,7 @@ internal static class ControladorClientes
                 return;
             }
 
-            // Header de la tabla
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {3, -8}", "Nombre", "Apellido", "DNI", "Fecha Nacimiento\n");
-            Console.ForegroundColor = ConsoleColor.Gray;
-            
-            foreach (var cliente in clientesResponse.Data)
-            {
-                Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {3, -8}", cliente.Nombre, cliente.Apellido, cliente.Dni, cliente.FechaNacimiento);
-            } 
-            Console.WriteLine("\nPresione una tecla para continuar.");
-            Console.ReadKey();
+            PrintTablaClientes(clientesResponse.Data);
         }
         catch (Exception ex)
         {
@@ -160,7 +135,7 @@ internal static class ControladorClientes
             // Datos de entrada para nuevo cliente.
             Console.WriteLine("Pantalla de Ingreso de Clientes.\n");
 
-            int dni = Utilidades.PedirDNI("Ingrese su DNI:");
+            int dni = Utilidades.PedirDni("Ingrese su DNI:");
             string nombre = Utilidades.PedirString("Ingrese su Nombre:").ToUpper();
             string apellido = Utilidades.PedirString("Ingrese su Apellido:").ToUpper();
             DateTime fechaNac = Utilidades.PedirFecha("Ingrese su Fecha de Nacimiento:");
@@ -206,5 +181,30 @@ internal static class ControladorClientes
             Utilidades.MensajeError($"\nError al agregar cliente. \nDescripción del Error: {ex.Message} \nPresione una tecla para continuar.");
             Console.ReadKey();
         }
+    }
+    
+    private static void PrintCliente(Cliente cliente)
+    {
+        PrintTablaClientes(new List<Cliente> { cliente });
+    }
+    
+    private static void PrintTablaClientes(List<Cliente> clientes)
+    {
+        Console.Clear();
+        
+        // Header de la tabla
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine("{0, -12} | {1, -12} | {2, -8} | {3, -18} | {4, -10} | {5, -20} | {6, -15}", "Nombre", "Apellido", "DNI", "Fecha Nacimiento", "Telefono", "Dirección", "Fecha Alta");
+        Console.ForegroundColor = ConsoleColor.White;
+
+        foreach (Cliente cliente in clientes)
+        {
+            Console.WriteLine("{0, -12} | {1, -12} | {2, -8} | {3, -18} | {4, -10} | {5, -20} | {6, -15}",
+                cliente.Nombre, cliente.Apellido, cliente.Dni, cliente.FechaNacimiento.ToShortDateString(), cliente.Telefono,
+                cliente.Direccion, cliente.FechaAlta);
+        }
+        
+        Console.WriteLine("\nPresione una tecla para continuar.");
+        Console.ReadKey();
     }
 }

@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using Videoclub.Entidades.Base;
 
 namespace Videoclub.Entidades;
 

@@ -49,7 +49,7 @@ namespace Videoclub.Consola
             }
             return Convert.ToInt32(input);
         }
-        internal static int PedirDNI(string mensaje)
+        internal static int PedirDni(string mensaje)
         {
             string? input;
             while (true)
@@ -211,70 +211,70 @@ namespace Videoclub.Consola
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("El plazo es hasta 15 días.");
-            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.ForegroundColor = ConsoleColor.White;
         }
 
         private static void TelefonoLargoDigitos()
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("El número de teléfono debe ser entre 10 y 11 caracteres.");
-            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.ForegroundColor = ConsoleColor.White;
         }
         private static void IngreseValor()
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Debe ingresar un valor.");
-            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.ForegroundColor = ConsoleColor.White;
         }
         private static void IngreseValorNumerico()
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Debe ingresar un valor numérico.");
-            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.ForegroundColor = ConsoleColor.White;
         }
         private static void IngreseValorNumericoEntre(int min, int max)
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine($"Debe ingresar un valor numérico entre {min} y {max}.");
-            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.ForegroundColor = ConsoleColor.White;
         }
         private static void DniLargoDigitos()
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("El DNI debe contener 8 dígitos.");
-            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.ForegroundColor = ConsoleColor.White;
         }
         private static void IngreseFechaValida()
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Debe ingresar una fecha válida en formato DD/MM/AAAA.");
-            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.ForegroundColor = ConsoleColor.White;
         }
         private static void IngreseCadena()
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Debe ingresar una cadena de texto.");
-            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.ForegroundColor = ConsoleColor.White;
         }
         private static void IngreseMailValido()
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Debe ingresar un email valido.");
-            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.ForegroundColor = ConsoleColor.White;
         }
 
         internal static void MensajeError(string mensaje)
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine(mensaje);
-            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.ForegroundColor = ConsoleColor.White;
         }
 
         internal static void MensajeExito(string mensaje)
         {
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine(mensaje);
-            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.ForegroundColor = ConsoleColor.White;
         }
     }
 }
