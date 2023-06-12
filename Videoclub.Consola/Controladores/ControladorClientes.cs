@@ -41,13 +41,19 @@ internal static class ControladorClientes
                             break;
                     }
                 }
+
                 break;
             }
-            
+
         }
         catch (Exception ex)
         {
-            Utilidades.MensajeError($"\nError al consultar cliente existente. Descripción del Error: {ex.Message} \nPresione una tecla para continuar.");
+            Utilidades.MensajeError(
+                $"\nError al consultar cliente existente. Descripción del Error: {ex.Message} \nPresione una tecla para continuar.");
+        }
+        finally
+        {
+            Console.WriteLine("\nPresione una tecla para continuar.");
             Console.ReadKey();
         }
     }
@@ -91,6 +97,10 @@ internal static class ControladorClientes
         catch (Exception ex)
         {
             Utilidades.MensajeError($"\nError al consultar cliente existente. Descripción del Error: {ex.Message} \nPresione una tecla para continuar.");
+        }
+        finally
+        {
+            Console.WriteLine("\nPresione una tecla para continuar.");
             Console.ReadKey();
         }
     }
@@ -110,8 +120,7 @@ internal static class ControladorClientes
             // Verificamos si existen clientes.
             if (!clientesResponse.Data.Any())
             {
-                Utilidades.MensajeError("No existen clientes registrados. \nPresione una tecla para continuar.");
-                Console.ReadKey();
+                Utilidades.MensajeError("No existen clientes registrados.");
                 return;
             }
 
@@ -119,7 +128,11 @@ internal static class ControladorClientes
         }
         catch (Exception ex)
         {
-            Utilidades.MensajeError($"\nError al consultar todos los cliente. Descripción del Error: {ex.Message} \nPresione una tecla para continuar.");
+            Utilidades.MensajeError($"\nError al consultar todos los cliente. Descripción del Error: {ex.Message}.");
+        }
+        finally
+        {
+            Console.WriteLine("\nPresione una tecla para continuar.");
             Console.ReadKey();
         }
     }
@@ -146,39 +159,43 @@ internal static class ControladorClientes
             // Validamos cliente previo a su registro
             Console.Clear();
             Console.WriteLine("\nSe han ingresado los siguientes datos de cliente: " +
-                $"\nDNI: {dni}" +
-                $"\nNombre: {nombre}" +
-                $"\nApellido: {apellido}" +
-                $"\nFecha de Nacimiento: {fechaNac}" +
-                $"\nDirección: {direccion}" +
-                $"\nEmail: {email}" +
-                $"\nTeléfono: {telefono}");
+                              $"\nDNI: {dni}" +
+                              $"\nNombre: {nombre}" +
+                              $"\nApellido: {apellido}" +
+                              $"\nFecha de Nacimiento: {fechaNac}" +
+                              $"\nDirección: {direccion}" +
+                              $"\nEmail: {email}" +
+                              $"\nTeléfono: {telefono}");
             var opcMenu = Utilidades.PedirMenu("\n1. Continuar 2. Abortar", 1, 2);
             switch (opcMenu)
             {
                 case 1:
                     // Instanciamos nuevo cliente.
-                    Cliente nuevoCliente = new Cliente(0, dni, apellido, nombre, fechaNac,  direccion, email, telefono);
+                    Cliente nuevoCliente = new Cliente(0, dni, apellido, nombre, fechaNac, direccion, email, telefono);
 
                     // Agregamos nuevo cliente y traemos la info sobre como salio la operacion con un booleano.
                     var nuevoClienteResponse = clienteNegocio.AgregarCliente(nuevoCliente);
                     if (nuevoClienteResponse)
                     {
                         Console.Clear();
-                        Utilidades.MensajeExito("Cliente agregado con éxito! \nPresione una tecla para continuar.");
-                        Console.ReadKey();
+                        Utilidades.MensajeExito("Cliente agregado con éxito.");
                     }
+
                     break;
                 case 2:
                     Console.Clear();
-                    Utilidades.MensajeError("\nIngreso de cliente abortado! \nPresione una tecla para continuar.");
-                    Console.ReadKey();
+                    Utilidades.MensajeError("\nIngreso de cliente abortado.");
                     break;
-            }            
+            }
         }
         catch (Exception ex)
         {
-            Utilidades.MensajeError($"\nError al agregar cliente. \nDescripción del Error: {ex.Message} \nPresione una tecla para continuar.");
+            Utilidades.MensajeError(
+                $"\nError al agregar cliente. \nDescripción del Error: {ex.Message}");
+        }
+        finally
+        {
+            Console.WriteLine("\nPresione una tecla para continuar.");
             Console.ReadKey();
         }
     }
@@ -203,8 +220,5 @@ internal static class ControladorClientes
                 cliente.Nombre, cliente.Apellido, cliente.Dni, cliente.FechaNacimiento.ToShortDateString(), cliente.Telefono,
                 cliente.Direccion, cliente.FechaAlta);
         }
-        
-        Console.WriteLine("\nPresione una tecla para continuar.");
-        Console.ReadKey();
     }
 }

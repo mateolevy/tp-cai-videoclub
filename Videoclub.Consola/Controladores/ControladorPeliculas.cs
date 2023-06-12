@@ -20,23 +20,12 @@ internal class ControladorPeliculas
             // Verificamos si existen Peliculas.
             if (peliculasResponse.Data.Any())
             {
-                // Header de la tabla
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {3, -15} | {4, -15} | {5, -15}", "Título", "Género", "Año", "Productora", "Director", "Duración\n");
-                Console.ForegroundColor = ConsoleColor.Gray;
-
-                foreach (var pelicula in peliculasResponse.Data)
-                {
-                    Console.WriteLine(
-                   "{0, -15} | {1, -15} | {2, -15} | {3, -15} | {4, -15} | {5, -15}", pelicula.Titulo, pelicula.Genero, pelicula.Anio, pelicula.Productora, pelicula.Director, pelicula.Duracion + "minutos");
-                }
+                PrintTablaPeliculas(peliculasResponse.Data);
             }
             else
             {
                 Utilidades.MensajeError("No existen peliculas registradas.");
             }
-
-            Console.WriteLine("\nPresione una tecla para continuar.");
         }
         catch (Exception ex)
         {
@@ -44,6 +33,7 @@ internal class ControladorPeliculas
         }
         finally
         {
+            Console.WriteLine( "\nPresione una tecla para continuar");
             Console.ReadKey();
         }
     }
@@ -66,36 +56,26 @@ internal class ControladorPeliculas
 
                 if (peliculaResponse.Success)
                 {
-                    // Header de la tabla
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {3, -15} | {4, -15} | {5, -15}", "Título", "Género", "Año", "Productora", "Director", "Duración\n");
-                    Console.ForegroundColor = ConsoleColor.Gray;
-
-                    Console.WriteLine(
-                        "{0, -15} | {1, -15} | {2, -15} | {3, -15} | {4, -15} | {5, -15}", peliculaResponse.Data.Titulo,
-                        peliculaResponse.Data.Genero, peliculaResponse.Data.Anio, peliculaResponse.Data.Productora,
-                        peliculaResponse.Data.Director, peliculaResponse.Data.Duracion + "minutos");
+                    PrintPelicula(peliculaResponse.Data);
                 }
                 else
                 {
                     Utilidades.MensajeError("No existe una pelicula registrada bajo el ID ingresado.");
                 }
-
-                Console.WriteLine("\nPresione una tecla para continuar.");
             }
             else
             {
                 Utilidades.MensajeError("No existen peliculas registradas");
-                Console.WriteLine( "\nPresione una tecla para continuar");
             }
         }
         catch (Exception ex)
         {
             Utilidades.MensajeError(
-                $"\nError al consultar pelicula existente. Descripción del Error: {ex.Message} \nPresione una tecla para continuar.");
+                $"\nError al consultar pelicula existente. Descripción del Error: {ex.Message}");
         }
         finally
         {
+            Console.WriteLine( "\nPresione una tecla para continuar");
             Console.ReadKey();
         }
     }
@@ -121,12 +101,12 @@ internal class ControladorPeliculas
             // Validamos cliente previo a su registro
             Console.Clear();
             Console.WriteLine("\nSe han ingresado los siguientes datos de pelicula: " +
-                $"\nAño: {anio}" +
-                $"\nTitulo: {titulo}" +
-                $"\nProductora: {productora}" +
-                $"\nGenero: {genero}" +
-                $"\nDirector: {director}" +
-                $"\nDuracion: {duracion}");
+                              $"\nAño: {anio}" +
+                              $"\nTitulo: {titulo}" +
+                              $"\nProductora: {productora}" +
+                              $"\nGenero: {genero}" +
+                              $"\nDirector: {director}" +
+                              $"\nDuracion: {duracion}");
             int opcMenu = Utilidades.PedirMenu("\n1. Continuar 2. Abortar", 1, 2);
             switch (opcMenu)
             {
@@ -139,21 +119,45 @@ internal class ControladorPeliculas
                     if (nuevaPeliculaOk)
                     {
                         Console.Clear();
-                        Utilidades.MensajeExito("Pelicula agregado con éxito! \nPresione una tecla para continuar.");
+                        Utilidades.MensajeExito("Pelicula agregada con éxito.");
                         Console.ReadKey();
                     }
+
                     break;
                 case 2:
                     Console.Clear();
-                    Utilidades.MensajeError("\nIngreso de pelicula abortado! \nPresione una tecla para continuar.");
-                    Console.ReadKey();
+                    Utilidades.MensajeError("\nIngreso de pelicula abortado.");
                     break;
-            }            
+            }
         }
         catch (Exception ex)
         {
-            Utilidades.MensajeError($"\nError al agregar pelicula. \nDescripción del Error: {ex.Message} \nPresione una tecla para continuar.");
+            Utilidades.MensajeError(
+                $"\nError al agregar pelicula. \nDescripción del Error: {ex.Message}");
+        }
+        finally
+        {
+            Console.WriteLine( "\nPresione una tecla para continuar");
             Console.ReadKey();
+        }
+    }
+    
+    private static void PrintPelicula(Pelicula pelicula)
+    {
+        PrintTablaPeliculas(new List<Pelicula> { pelicula });
+    }
+    
+    private static void PrintTablaPeliculas(List<Pelicula> peliculas)
+    {
+        // Header de la tabla
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {3, -15} | {4, -15} | {5, -15}", "Título", "Género", "Año", "Productora", "Director", "Duración");
+        Console.ForegroundColor = ConsoleColor.White;
+
+        foreach (var pelicula in peliculas)
+        {
+            Console.WriteLine(
+                "{0, -15} | {1, -15} | {2, -15} | {3, -15} | {4, -15} | {5, -15}", pelicula.Titulo, pelicula.Genero, pelicula.Anio, pelicula.Productora, pelicula.Director, pelicula.Duracion + " minutos");
         }
     }
 }
