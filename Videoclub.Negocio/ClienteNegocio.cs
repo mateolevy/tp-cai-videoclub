@@ -33,6 +33,12 @@ public class ClienteNegocio
                 throw new ObjetoExiste("Cliente", "DNI" ,nuevoCliente.Dni);
             }
         }
+
+        // Verificamos edad del cliente.
+        if((DateTime.Today.Year - nuevoCliente.FechaNacimiento.Year) < 8)
+        {
+            throw new EdadRequerida();
+        }
         
         // Agregamos cliente y si sale bien, se le pasa el valor true a la capa de consola.
         var nuevoclienteResponse = _clienteDatos.AltaCliente(nuevoCliente);
