@@ -9,7 +9,7 @@ internal class ControladorCopias
     internal static void ConsultarTodasLasCopias()
     {
         Console.Clear();
-        Console.WriteLine("Pantalla de Consulta de todas las Copias\n");
+        Console.WriteLine("Pantalla de Consulta de Todas las Copias\n");
 
         try
         {
@@ -82,7 +82,7 @@ internal class ControladorCopias
                         Console.Clear();
                         var pelicula = peliculaResponse.Data;
                         Utilidades.MensajeExito($"\nSeleccionó la película: {pelicula.Titulo} con Id: {pelicula.Id}");
-                        int opc = Utilidades.PedirMenu("1. Continuar \n2. Eligir nueva película", 1, 2);
+                        int opc = Utilidades.PedirMenu("1. Continuar. \n2. Eligir Nueva Película.", 1, 2);
                         switch (opc)
                         {
                             case 1:
@@ -176,7 +176,7 @@ internal class ControladorCopias
                         var pelicula = peliculaPorId.Data;
                         nombrePelicula = pelicula.Titulo;
                         Utilidades.MensajeExito($"\nSeleccionó la película: {pelicula.Titulo} con Id: {pelicula.Id}");
-                        int opc = Utilidades.PedirMenu("1. Continuar \n2. Eligir nueva pelicula", 1, 2);
+                        int opc = Utilidades.PedirMenu("1. Continuar. \n2. Eligir Nueva Película.", 1, 2);
                         switch (opc)
                         {
                             case 1: break;
@@ -198,7 +198,7 @@ internal class ControladorCopias
 
             //Datos de entrada para la nueva copia
             DateTime fechaAltaCopia = DateTime.Now;
-            decimal precioCopia = Utilidades.PedirInt("Ingrese el Precio ");
+            decimal precioCopia = Utilidades.PedirInt("Ingrese el Precio:");
             string observaciones = Utilidades.PedirString("Ingrese Observaciones:");
 
             // Validamos prestamo previo a su ingreso
@@ -208,7 +208,7 @@ internal class ControladorCopias
                               $"\nPrecio de la copia: {precioCopia}" +
                               $"\nObservaciones: {observaciones}");
                               
-            int opcMenu = Utilidades.PedirMenu("\n1. Continuar 2. Abortar", 1, 2);
+            int opcMenu = Utilidades.PedirMenu("1. Continuar. 2. Abortar.", 1, 2);
             switch (opcMenu)
             {
                 case 1:
@@ -220,19 +220,19 @@ internal class ControladorCopias
                     if (nuevaCopiaRes)
                     {
                         Console.Clear();
-                        Utilidades.MensajeExito("\nCopia agregada con exito.");
+                        Utilidades.MensajeExito("\nCopia agregada con éxito.");
                     }
                     break;
                 case 2:
                     Console.Clear();
-                    Utilidades.MensajeError("\nIngreso de Copia abortado.");
+                    Utilidades.MensajeError("\nIngreso de copia abortado.");
                     break;
             }
 
         }
         catch (Exception ex) 
         {
-            Utilidades.MensajeError($"\nError al agregar Copia. Descripción del Error: {ex.Message}");
+            Utilidades.MensajeError($"\nError al agregar copia. Descripción del Error: {ex.Message}");
         }
         finally
         {
@@ -247,7 +247,7 @@ internal class ControladorCopias
 
         // Header de la tabla
         Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine("{0, -8} | {1, -15} | {2, -15} | {3, -20} | {4, -15} | {5, -30}", "Id Copia", "Id Pelicula", "Titulo Pelicula", "Fecha Alta", "Precio", "Observaciones");
+        Console.WriteLine("{0, -8} | {1, -15} | {2, -15} | {3, -20} | {4, -15} | {5, -30}", "Id Copia", "Id Película", "Titulo Película", "Fecha Alta", "Precio", "Observaciones");
         Console.ForegroundColor = ConsoleColor.White;
 
         foreach (var copia in copias)

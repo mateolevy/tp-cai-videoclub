@@ -42,11 +42,11 @@ internal class ControladorPrestamos
                 {
                     var pelicula = peliculaResponse.Data;
                     Utilidades.MensajeExito($"\nSeleccionó la película: {pelicula.Titulo} con Id: {pelicula.Id}");
-                    int opc = Utilidades.PedirMenu("1. Continuar \n2. Eligir nueva película", 1, 2);
+                    int opc = Utilidades.PedirMenu("1. Continuar. \n2. Eligir Nueva Película.", 1, 2);
                     if (opc == 1)
                     {
                         Console.Clear();
-                        Console.WriteLine($"Consulta de Préstamos para la Película {pelicula.Titulo}:\n");
+                        Console.WriteLine($"Consulta de Préstamos para la Película: {pelicula.Titulo}:\n");
 
                         var copiasDePeliculaElegida = copiasDatos.ConsultarCopiasPorIdPelicula(pelicula.Id);
 
@@ -62,7 +62,7 @@ internal class ControladorPrestamos
                             else
                             {
                                 Utilidades.MensajeError(
-                                    $"No se encontraron prestamos para la película {pelicula.Titulo}");
+                                    $"No se encontraron préstamos para la película: {pelicula.Titulo}");
                             }
                         }
                         else
@@ -136,7 +136,7 @@ internal class ControladorPrestamos
                 {
                     Console.Clear();
                     Utilidades.MensajeError($"El cliente con DNI: {dni} no existe.");
-                    int opcSeguir = Utilidades.PedirMenu("1. Ingresar otro DNI \n2. Volver al Menú Principal", 1, 2);
+                    int opcSeguir = Utilidades.PedirMenu("1. Ingresar otro DNI. \n2. Volver al Menú Principal.", 1, 2);
                     switch (opcSeguir)
                     {
                         case 1:
@@ -172,7 +172,7 @@ internal class ControladorPrestamos
                             nombrePelicula = pelicula.Titulo;
                             Utilidades.MensajeExito(
                                 $"\nSeleccionó la película: {pelicula.Titulo} con Id: {pelicula.Id}");
-                            int opc = Utilidades.PedirMenu("1. Continuar \n2. Eligir nueva pelicula", 1, 2);
+                            int opc = Utilidades.PedirMenu("1. Continuar. \n2. Eligir nueva película.", 1, 2);
                             switch (opc)
                             {
                                 case 1: break;
@@ -198,7 +198,7 @@ internal class ControladorPrestamos
                             Console.Clear();
                             Utilidades.MensajeError("La película seleccionada no posee copias disponibles.");
                             int opcSeguir =
-                                Utilidades.PedirMenu("1. Elegir otra Película \n2. Volver al Menú Principal", 1, 2);
+                                Utilidades.PedirMenu("1. Elegir otra Película. \n2. Volver al Menú Principal.", 1, 2);
                             switch (opcSeguir)
                             {
                                 case 1:
@@ -239,7 +239,7 @@ internal class ControladorPrestamos
                                   $"\nPelícula: {nombrePelicula} con Id: {idPelicula}" +
                                   $"\nPlazo: {plazo}" +
                                   $"\nFecha Tentativa de Devolución: {fechaDevolucionTentativa.ToString(CultureInfo.InvariantCulture)}");
-                int opcMenu = Utilidades.PedirMenu("1. Continuar 2. Abortar", 1, 2);
+                int opcMenu = Utilidades.PedirMenu("1. Continuar. \n2. Abortar.", 1, 2);
                 switch (opcMenu)
                 {
                     case 1:
@@ -252,13 +252,13 @@ internal class ControladorPrestamos
                         if (nuevoPrestamoResponse)
                         {
                             Console.Clear();
-                            Utilidades.MensajeExito("\nPréstamo agregado con exito.");
+                            Utilidades.MensajeExito("\nPréstamo agregado con éxito.");
                         }
 
                         break;
                     case 2:
                         Console.Clear();
-                        Utilidades.MensajeError("\nIngreso de préstamo abortado/");
+                        Utilidades.MensajeError("\nIngreso de préstamo abortado.");
                         break;
                 }
             }
@@ -317,7 +317,7 @@ internal class ControladorPrestamos
                         Console.Clear();
                         Utilidades.MensajeError($"El cliente con DNI: {dni} no existe.");
                         int opcSeguir =
-                            Utilidades.PedirMenu("1. Ingresar otro DNI \n2. Volver al Menú Principal", 1, 2);
+                            Utilidades.PedirMenu("1. Ingresar otro DNI. \n2. Volver al Menú Principal.", 1, 2);
                         switch (opcSeguir)
                         {
                             case 1:
@@ -365,7 +365,7 @@ internal class ControladorPrestamos
                         {
                             Console.Clear();
                             Utilidades.MensajeError("\nNo se encontraron préstamos asociados a ese cliente.");
-                            int opcSeguir = Utilidades.PedirMenu("1. Ingresar otro DNI \n2. Volver al Menú Principal",
+                            int opcSeguir = Utilidades.PedirMenu("1. Ingresar otro DNI. \n2. Volver al Menú Principal.",
                                 1, 2);
                             switch (opcSeguir)
                             {

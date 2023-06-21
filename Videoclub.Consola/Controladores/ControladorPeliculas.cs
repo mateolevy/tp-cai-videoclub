@@ -8,7 +8,7 @@ internal class ControladorPeliculas
     internal static void ConsultarTodasLasPeliculas()
     {
         Console.Clear();
-        Console.WriteLine("Pantalla de Consulta de Todas las Peliculas\n");
+        Console.WriteLine("Pantalla de Consulta de Todas las Películas\n");
 
         try
         {
@@ -24,7 +24,7 @@ internal class ControladorPeliculas
             }
             else
             {
-                Utilidades.MensajeError("No existen peliculas registradas.");
+                Utilidades.MensajeError("No existen películas registradas.");
             }
         }
         catch (Exception ex)
@@ -41,7 +41,7 @@ internal class ControladorPeliculas
     internal static void ConsultarPeliculaPorId()
     {
         Console.Clear();
-        Console.WriteLine("Pantalla de Consulta de Pelicula\n");
+        Console.WriteLine("Pantalla de Consulta de Película\n");
 
         try
         {
@@ -50,7 +50,7 @@ internal class ControladorPeliculas
             if (peliuclaNegocio.ConsultarPeliculas().Data.Any())
             {
                 // Pedimos id de pelicula a buscar.
-                var idPelicula = Utilidades.PedirInt("Ingrese el ID de la pelicula que desea visualizar:");
+                var idPelicula = Utilidades.PedirInt("Ingrese el ID de la película que desea visualizar:");
 
                 var peliculaResponse = peliuclaNegocio.ConsultarPeliculaPorId(idPelicula);
 
@@ -60,18 +60,18 @@ internal class ControladorPeliculas
                 }
                 else
                 {
-                    Utilidades.MensajeError("No existe una pelicula registrada bajo el ID ingresado.");
+                    Utilidades.MensajeError("No existe una película registrada bajo el ID ingresado.");
                 }
             }
             else
             {
-                Utilidades.MensajeError("No existen peliculas registradas");
+                Utilidades.MensajeError("No existen películas registradas");
             }
         }
         catch (Exception ex)
         {
             Utilidades.MensajeError(
-                $"\nError al consultar pelicula existente. Descripción del Error: {ex.Message}");
+                $"\nError al consultar película existente. Descripción del Error: {ex.Message}");
         }
         finally
         {
@@ -89,25 +89,25 @@ internal class ControladorPeliculas
             var peliculaNegocio = new PeliculaNegocio();
 
             // Datos de entrada para nueva pelicula.
-            Console.WriteLine("Pantalla de Ingreso de Peliculas.\n");
+            Console.WriteLine("Pantalla de Ingreso de Películas.\n");
 
-            int anio = Utilidades.PedirInt("Ingrese el Año de estreno:");
-            string titulo = Utilidades.PedirString("Ingrese el Titulo:").ToUpper();
+            int anio = Utilidades.PedirInt("Ingrese el Año de Estreno:");
+            string titulo = Utilidades.PedirString("Ingrese el Título:").ToUpper();
             string productora = Utilidades.PedirString("Ingrese la Productora:").ToUpper();
-            string genero = Utilidades.PedirString("Ingrese el Genero:").ToUpper();
+            string genero = Utilidades.PedirString("Ingrese el Género:").ToUpper();
             string director = Utilidades.PedirString("Ingrese el Director:");
-            int duracion = Utilidades.PedirInt("Ingrese la duracion en minutos:");
+            int duracion = Utilidades.PedirInt("Ingrese la duración en minutos:");
 
             // Validamos cliente previo a su registro
             Console.Clear();
-            Console.WriteLine("\nSe han ingresado los siguientes datos de pelicula: " +
+            Console.WriteLine("\nSe han ingresado los siguientes datos de película: " +
                               $"\nAño: {anio}" +
-                              $"\nTitulo: {titulo}" +
+                              $"\nTítulo: {titulo}" +
                               $"\nProductora: {productora}" +
-                              $"\nGenero: {genero}" +
+                              $"\nGénero: {genero}" +
                               $"\nDirector: {director}" +
-                              $"\nDuracion: {duracion}");
-            int opcMenu = Utilidades.PedirMenu("\n1. Continuar 2. Abortar", 1, 2);
+                              $"\nDuración: {duracion}");
+            int opcMenu = Utilidades.PedirMenu("1. Continuar. \n2. Abortar.", 1, 2);
             switch (opcMenu)
             {
                 case 1:
@@ -119,21 +119,21 @@ internal class ControladorPeliculas
                     if (nuevaPeliculaOk)
                     {
                         Console.Clear();
-                        Utilidades.MensajeExito("Pelicula agregada con éxito.");
+                        Utilidades.MensajeExito("Película agregada con éxito.");
                         Console.ReadKey();
                     }
 
                     break;
                 case 2:
                     Console.Clear();
-                    Utilidades.MensajeError("\nIngreso de pelicula abortado.");
+                    Utilidades.MensajeError("\nIngreso de película abortado.");
                     break;
             }
         }
         catch (Exception ex)
         {
             Utilidades.MensajeError(
-                $"\nError al agregar pelicula. \nDescripción del Error: {ex.Message}");
+                $"\nError al agregar película. \nDescripción del Error: {ex.Message}");
         }
         finally
         {

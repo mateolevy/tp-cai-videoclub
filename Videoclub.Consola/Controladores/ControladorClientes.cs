@@ -31,7 +31,7 @@ internal static class ControladorClientes
                 else
                 {
                     Console.Clear();
-                    Utilidades.MensajeError($"No existen clientes registrados con el DNI ${dni}.");
+                    Utilidades.MensajeError($"No existen clientes registrados con el DNI: {dni}.");
                     int opcSeguir = Utilidades.PedirMenu("1. Ingresar otro DNI \n2. Volver al Menú Principal", 1, 2);
                     switch (opcSeguir)
                     {
@@ -61,7 +61,7 @@ internal static class ControladorClientes
     internal static void ConsultarClientePorTelefono()
     {
         Console.Clear();
-        Console.WriteLine("Pantalla de Consulta de Cliente por Telefono\n");
+        Console.WriteLine("Pantalla de Consulta de Cliente por Teléfono\n");
 
         try
         {
@@ -70,7 +70,7 @@ internal static class ControladorClientes
                 var clienteNegocio = new ClienteNegocio();
 
                 // Pedimos DNI a del cliente a buscar.
-                var telefono = Utilidades.PedirTelefono("Ingrese el telefono del cliente que desea visualizar:");
+                var telefono = Utilidades.PedirTelefono("Ingrese el teléfono del cliente que desea visualizar:");
 
                 var clienteResponse = clienteNegocio.ConsultarClientePorTelefono(telefono);
 
@@ -81,7 +81,7 @@ internal static class ControladorClientes
                 else
                 {
                     Console.Clear();
-                    Utilidades.MensajeError($"No existen clientes registrados con el telefono {telefono}.");
+                    Utilidades.MensajeError($"No existen clientes registrados con el teléfono: {telefono}.");
                     int opcSeguir = Utilidades.PedirMenu("1. Ingresar otro Teléfono \n2. Volver al Menú Principal", 1, 2);
                     switch (opcSeguir)
                     {
@@ -128,7 +128,7 @@ internal static class ControladorClientes
         }
         catch (Exception ex)
         {
-            Utilidades.MensajeError($"\nError al consultar todos los cliente. Descripción del Error: {ex.Message}.");
+            Utilidades.MensajeError($"\nError al consultar todos los clientes. Descripción del Error: {ex.Message}.");
         }
         finally
         {
@@ -166,7 +166,7 @@ internal static class ControladorClientes
                               $"\nDirección: {direccion}" +
                               $"\nEmail: {email}" +
                               $"\nTeléfono: {telefono}");
-            var opcMenu = Utilidades.PedirMenu("\n1. Continuar 2. Abortar", 1, 2);
+            var opcMenu = Utilidades.PedirMenu("1. Continuar \n2. Abortar", 1, 2);
             switch (opcMenu)
             {
                 case 1:
@@ -211,7 +211,7 @@ internal static class ControladorClientes
         
         // Header de la tabla
         Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine("{0, -12} | {1, -12} | {2, -8} | {3, -18} | {4, -10} | {5, -20} | {6, -15}", "Nombre", "Apellido", "DNI", "Fecha Nacimiento", "Telefono", "Dirección", "Fecha Alta");
+        Console.WriteLine("{0, -12} | {1, -12} | {2, -8} | {3, -18} | {4, -10} | {5, -20} | {6, -15}", "Nombre", "Apellido", "DNI", "Fecha Nacimiento", "Teléfono", "Dirección", "Fecha Alta");
         Console.ForegroundColor = ConsoleColor.White;
 
         foreach (Cliente cliente in clientes)
