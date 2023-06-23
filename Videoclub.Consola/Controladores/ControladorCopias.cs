@@ -81,7 +81,7 @@ internal class ControladorCopias
                     {
                         Console.Clear();
                         var pelicula = peliculaResponse.Data;
-                        Utilidades.MensajeExito($"\nSeleccionó la película: {pelicula.Titulo} con Id: {pelicula.Id}");
+                        Utilidades.MensajeExito($"Seleccionó la película: {pelicula.Titulo} con Id: {pelicula.Id}");
                         int opc = Utilidades.PedirMenu("1. Continuar. \n2. Eligir Nueva Película.", 1, 2);
                         switch (opc)
                         {
