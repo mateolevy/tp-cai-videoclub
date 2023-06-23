@@ -125,7 +125,7 @@ internal class ControladorPrestamos
             Console.WriteLine("Pantalla de Ingreso de Préstamos");
             while (true)
             {
-                dni = Utilidades.PedirDni("Ingrese DNI del Cliente:");
+                dni = Utilidades.PedirDni("\nIngrese DNI del Cliente:");
                 var clientePorDni = clientesResponse.Data.FirstOrDefault(cliente => cliente.Dni.Equals(dni));
                 if (clientePorDni != null)
                 {
@@ -146,7 +146,6 @@ internal class ControladorPrestamos
                             break;
                     }
                 }
-
                 break;
             }
 
@@ -181,24 +180,8 @@ internal class ControladorPrestamos
                         }
                         else
                         {
-                            Utilidades.MensajeError(
-                                "No se encontró el Id de película ingresada. \nPresione una tecla para ingresar nueva película.");
-                            Console.ReadKey();
-                            continue;
-                        }
-
-                        // Validamos que la pelcula tenga copias
-                        var copiasPorPeliculaId = copiaDatos.ConsultarCopiasPorIdPelicula(idPelicula);
-                        if (copiasPorPeliculaId.Success && copiasPorPeliculaId.Data.Any())
-                        {
-                            idCopia = copiasPorPeliculaId.Data.First().Id;
-                        }
-                        else
-                        {
-                            Console.Clear();
-                            Utilidades.MensajeError("La película seleccionada no posee copias disponibles.");
-                            int opcSeguir =
-                                Utilidades.PedirMenu("1. Elegir otra Película. \n2. Volver al Menú Principal.", 1, 2);
+                            Utilidades.MensajeError("\nNo se encontró el Id de película ingresada.");
+                            int opcSeguir = Utilidades.PedirMenu("1. Ingresar otra película. \n2. Volver al Menú Principal.", 1, 2);
                             switch (opcSeguir)
                             {
                                 case 1:
@@ -209,6 +192,30 @@ internal class ControladorPrestamos
                             }
                         }
 
+                        if (volverAlMenuPrincipal == false)
+                        {
+                            // Validamos que la pelcula tenga copias
+                            var copiasPorPeliculaId = copiaDatos.ConsultarCopiasPorIdPelicula(idPelicula);
+                            if (copiasPorPeliculaId.Success && copiasPorPeliculaId.Data.Any())
+                            {
+                                idCopia = copiasPorPeliculaId.Data.First().Id;
+                            }
+                            else
+                            {
+                                Console.Clear();
+                                Utilidades.MensajeError("La película seleccionada no posee copias disponibles.");
+                                int opcSeguir =
+                                    Utilidades.PedirMenu("1. Elegir otra Película. \n2. Volver al Menú Principal.", 1, 2);
+                                switch (opcSeguir)
+                                {
+                                    case 1:
+                                        continue;
+                                    case 2:
+                                        volverAlMenuPrincipal = true;
+                                        break;
+                                }
+                            }
+                        }
                         break;
                     }
                 }

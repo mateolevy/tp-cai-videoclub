@@ -44,7 +44,6 @@ internal class ControladorCopias
     internal static void VisualizarReporteCopiasPorPelicula()
     {
         Console.Clear();
-        Console.WriteLine("Pantalla de Consulta de Copias por Película\n");
 
         try
         {
@@ -59,7 +58,8 @@ internal class ControladorCopias
                 while (true)
                 {
                     Console.Clear();
-                    Console.WriteLine("Películas:\n");
+                    Console.WriteLine("Pantalla de Consulta de Copias por Película\n");
+                    Console.WriteLine("Películas Disponibles:\n");
 
                     var peliculasResponse = peliculaDatos.ConsultarPeliculas();
 
@@ -145,14 +145,13 @@ internal class ControladorCopias
             // Traemos datos de las películas.
             var peliculasResponse = peliculaNegocio.ConsultarPeliculas();
 
-            Console.WriteLine("Pantalla de Ingreso de Copias");
-
             // Mostramos pelculas disponibles y pedimos al usuario que ingrese el Id de la misma.
             if (volverAlMenuPrincipal == false)
             {
                 while (true)
                 {
                     Console.Clear();
+                    Console.WriteLine("Pantalla de Ingreso de Copias");
                     Console.WriteLine("Películas Disponibles:\n");
 
                     if (peliculasResponse.Success && peliculasResponse.Data.Any())
@@ -247,7 +246,7 @@ internal class ControladorCopias
 
         // Header de la tabla
         Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine("{0, -8} | {1, -15} | {2, -15} | {3, -20} | {4, -15} | {5, -30}", "Id Copia", "Id Película", "Titulo Película", "Fecha Alta", "Precio", "Observaciones");
+        Console.WriteLine("{0, -8} | {1, -15} | {2, -25} | {3, -20} | {4, -15} | {5, -30}", "Id Copia", "Id Película", "Titulo Película", "Fecha Alta", "Precio", "Observaciones");
         Console.ForegroundColor = ConsoleColor.White;
 
         foreach (var copia in copias)
@@ -260,7 +259,7 @@ internal class ControladorCopias
                         precio = "$ " + copia.Precio;
                     }
 
-                Console.WriteLine("{0, -8} | {1, -15} | {2, -15} | {3, -20} | {4, -15} | {5, -30}", copia.Id, pelicula.Id, pelicula.Titulo,
+                Console.WriteLine("{0, -8} | {1, -15} | {2, -25} | {3, -20} | {4, -15} | {5, -30}", copia.Id, pelicula.Id, pelicula.Titulo,
                     copia.FechaAlta, precio, copia.Observaciones);
             }
         }
@@ -288,12 +287,12 @@ internal class ControladorCopias
     {
         // Header de la tabla
         Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine("{0, -15} | {1, -15}", "Id Película", "Título");
+        Console.WriteLine("{0, -15} | {1, -25}", "Id Película", "Título");
         Console.ForegroundColor = ConsoleColor.White;
 
         foreach (var pelicula in peliculas)
         {
-            Console.WriteLine("{0, -15} | {1, -15}", pelicula.Id, pelicula.Titulo);
+            Console.WriteLine("{0, -15} | {1, -25}", pelicula.Id, pelicula.Titulo);
         }
     }
 }

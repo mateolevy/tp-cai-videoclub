@@ -33,7 +33,7 @@ internal class ControladorPeliculas
         }
         finally
         {
-            Console.WriteLine( "\nPresione una tecla para continuar");
+            Console.WriteLine( "\nPresione una tecla para continuar.");
             Console.ReadKey();
         }
     }
@@ -41,32 +41,47 @@ internal class ControladorPeliculas
     internal static void ConsultarPeliculaPorId()
     {
         Console.Clear();
-        Console.WriteLine("Pantalla de Consulta de Película\n");
 
         try
         {
             var peliuclaNegocio = new PeliculaNegocio();
-
-            if (peliuclaNegocio.ConsultarPeliculas().Data.Any())
+            while (true)
             {
-                // Pedimos id de pelicula a buscar.
-                var idPelicula = Utilidades.PedirInt("Ingrese el ID de la película que desea visualizar:");
-
-                var peliculaResponse = peliuclaNegocio.ConsultarPeliculaPorId(idPelicula);
-
-                if (peliculaResponse.Success)
+                if (peliuclaNegocio.ConsultarPeliculas().Data.Any())
                 {
-                    PrintPelicula(peliculaResponse.Data);
+                    Console.Clear();
+                    Console.WriteLine("Pantalla de Consulta de Película\n");
+                    Console.WriteLine("Películas Disponibles:\n");
+                    PrintTablaPeliculasPorId(peliuclaNegocio.ConsultarPeliculas().Data);
+                    
+                    // Pedimos id de pelicula a buscar.
+                    var idPelicula = Utilidades.PedirInt("\nIngrese el ID de la película que desea visualizar:");
+
+                    var peliculaResponse = peliuclaNegocio.ConsultarPeliculaPorId(idPelicula);
+
+                    if (peliculaResponse.Success)
+                    {
+                        Console.Clear();
+                        PrintPelicula(peliculaResponse.Data);
+                    }
+                    else
+                    {
+                        Utilidades.MensajeError("No existe una película registrada bajo el ID ingresado.");
+                        int opc = Utilidades.PedirMenu("1. Eligir Nueva Película. \n2. Volver al Menú Principal", 1, 2);
+                        switch (opc)
+                        {
+                            case 1: continue;
+                            case 2: break;
+                        }
+                    }
                 }
                 else
                 {
-                    Utilidades.MensajeError("No existe una película registrada bajo el ID ingresado.");
+                    Utilidades.MensajeError("No existen películas registradas");
                 }
+                break;
             }
-            else
-            {
-                Utilidades.MensajeError("No existen películas registradas");
-            }
+            
         }
         catch (Exception ex)
         {
@@ -75,7 +90,7 @@ internal class ControladorPeliculas
         }
         finally
         {
-            Console.WriteLine( "\nPresione una tecla para continuar");
+            Console.WriteLine( "\nPresione una tecla para continuar.");
             Console.ReadKey();
         }
     }
@@ -120,7 +135,6 @@ internal class ControladorPeliculas
                     {
                         Console.Clear();
                         Utilidades.MensajeExito("Película agregada con éxito.");
-                        Console.ReadKey();
                     }
 
                     break;
@@ -137,7 +151,7 @@ internal class ControladorPeliculas
         }
         finally
         {
-            Console.WriteLine( "\nPresione una tecla para continuar");
+            Console.WriteLine( "\nPresione una tecla para continuar.");
             Console.ReadKey();
         }
     }
@@ -151,13 +165,26 @@ internal class ControladorPeliculas
     {
         // Header de la tabla
         Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine("{0, -15} | {1, -15} | {2, -15} | {3, -15} | {4, -15} | {5, -15}", "Título", "Género", "Año", "Productora", "Director", "Duración");
+        Console.WriteLine("{0, -25} | {1, -20} | {2, -7} | {3, -20} | {4, -20} | {5, -7}", "Título", "Género", "Año", "Productora", "Director", "Duración");
         Console.ForegroundColor = ConsoleColor.White;
 
         foreach (var pelicula in peliculas)
         {
             Console.WriteLine(
-                "{0, -15} | {1, -15} | {2, -15} | {3, -15} | {4, -15} | {5, -15}", pelicula.Titulo, pelicula.Genero, pelicula.Anio, pelicula.Productora, pelicula.Director, pelicula.Duracion + " minutos");
+                "{0, -25} | {1, -20} | {2, -7} | {3, -20} | {4, -20} | {5, -7}", pelicula.Titulo, pelicula.Genero, pelicula.Anio, pelicula.Productora, pelicula.Director, pelicula.Duracion + " minutos");
+        }
+    }
+
+    private static void PrintTablaPeliculasPorId(List<Pelicula> peliculas)
+    {
+        // Header de la tabla
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine("{0, -15} | {1, -25}", "Id Película", "Título");
+        Console.ForegroundColor = ConsoleColor.White;
+
+        foreach (var pelicula in peliculas)
+        {
+            Console.WriteLine("{0, -15} | {1, -25}", pelicula.Id, pelicula.Titulo);
         }
     }
 }

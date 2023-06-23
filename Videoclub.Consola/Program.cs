@@ -73,7 +73,7 @@ internal abstract class Program
                         continue;
                     case 4:
                         Console.Clear();
-                        var opcCopias = Utilidades.PedirMenu("Menú Copias.\n1. Ingresar Copia de Película \n2. Consultar Todas las Copias de Película \n3. Consultar Copias por Película \n0. Volver al Menú Principal", 0, 3);
+                        var opcCopias = Utilidades.PedirMenu("Menú Copias.\n1. Ingresar Copia de Película \n2. Consultar Todas las Copias de Película \n0. Volver al Menú Principal", 0, 2);
                         switch (opcCopias)
                         {
                             case 0: break;
@@ -82,9 +82,6 @@ internal abstract class Program
                                 continue;
                             case 2:
                                 ControladorCopias.ConsultarTodasLasCopias();
-                                continue;
-                            case 3:
-                                ControladorCopias.VisualizarReporteCopiasPorPelicula();
                                 continue;
                         }
                         continue;
