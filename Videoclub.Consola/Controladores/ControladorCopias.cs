@@ -103,7 +103,7 @@ internal class ControladorCopias
                                 }
                                 break;
                             case 2:
-                                break;
+                                continue;
                         }
                     }
                     else
