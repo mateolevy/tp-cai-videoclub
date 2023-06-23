@@ -151,7 +151,7 @@ internal class ControladorCopias
                 while (true)
                 {
                     Console.Clear();
-                    Console.WriteLine("Pantalla de Ingreso de Copias");
+                    Console.WriteLine("Pantalla de Ingreso de Copias\n");
                     Console.WriteLine("Películas Disponibles:\n");
 
                     if (peliculasResponse.Success && peliculasResponse.Data.Any())
@@ -184,7 +184,16 @@ internal class ControladorCopias
                     }
                     else
                     {
-                        Utilidades.MensajeError("No se encontró el Id de película ingresada.");
+                        Console.Clear();
+                        Utilidades.MensajeError("No se encontró el Id de película ingresado.");
+                        int opc = Utilidades.PedirMenu("1. Eligir Nueva Película. \n2. Volver al Menú Principal", 1, 2);
+                        switch (opc)
+                        {
+                            case 1: continue;
+                            case 2:
+                                volverAlMenuPrincipal = true; 
+                                break;
+                        }
                     }
                     break;
                 }
