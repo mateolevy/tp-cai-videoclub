@@ -166,7 +166,7 @@ internal static class ControladorClientes
                               $"\nDirección: {direccion}" +
                               $"\nEmail: {email}" +
                               $"\nTeléfono: {telefono}");
-            var opcMenu = Utilidades.PedirMenu("1. Continuar \n2. Abortar", 1, 2);
+            var opcMenu = Utilidades.PedirMenu("\nQué desea hacer? \n1. Continuar \n2. Abortar", 1, 2);
             switch (opcMenu)
             {
                 case 1:

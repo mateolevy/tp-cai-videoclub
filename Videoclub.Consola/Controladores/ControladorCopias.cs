@@ -222,7 +222,7 @@ internal class ControladorCopias
                               $"\nPrecio de la copia: {precioCopia}" +
                               $"\nObservaciones: {observaciones}");
                               
-            int opcMenu = Utilidades.PedirMenu("1. Continuar. 2. Abortar.", 1, 2);
+            int opcMenu = Utilidades.PedirMenu("\nQué desea hacer? \n1. Continuar. \n2. Abortar.", 1, 2);
             switch (opcMenu)
             {
                 case 1:

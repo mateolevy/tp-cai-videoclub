@@ -122,7 +122,7 @@ internal class ControladorPeliculas
                               $"\nGénero: {genero}" +
                               $"\nDirector: {director}" +
                               $"\nDuración: {duracion}");
-            int opcMenu = Utilidades.PedirMenu("1. Continuar. \n2. Abortar.", 1, 2);
+            int opcMenu = Utilidades.PedirMenu("\nQué desea hacer? \n1. Continuar. \n2. Abortar.", 1, 2);
             switch (opcMenu)
             {
                 case 1:

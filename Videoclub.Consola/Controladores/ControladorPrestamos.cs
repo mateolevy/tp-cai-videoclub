@@ -246,7 +246,7 @@ internal class ControladorPrestamos
                                   $"\nPelícula: {nombrePelicula} con Id: {idPelicula}" +
                                   $"\nPlazo: {plazo}" +
                                   $"\nFecha Tentativa de Devolución: {fechaDevolucionTentativa.ToString(CultureInfo.InvariantCulture)}");
-                int opcMenu = Utilidades.PedirMenu("1. Continuar. \n2. Abortar.", 1, 2);
+                int opcMenu = Utilidades.PedirMenu("\nQué desea hacer? \n1. Continuar. \n2. Abortar.", 1, 2);
                 switch (opcMenu)
                 {
                     case 1:
