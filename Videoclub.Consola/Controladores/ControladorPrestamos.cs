@@ -353,7 +353,7 @@ internal class ControladorPrestamos
 
                             // Header de la tabla
                             Console.ForegroundColor = ConsoleColor.Green;
-                            Console.WriteLine("{0, -20} | {1, -30} | {2, -10} | {3, -15} | {4, -8}", "Fecha Préstamo",
+                            Console.WriteLine("{0, -20} | {1, -30} | {2, -10} | {3, -25} | {4, -8}", "Fecha Préstamo",
                                 "Fecha Devolución Tentativa", "Plazo", "Título Película", "Id Copia");
                             Console.ForegroundColor = ConsoleColor.White;
                             foreach (var prestamo in prestamosExistentes)
@@ -363,8 +363,8 @@ internal class ControladorPrestamos
                                 if (copia == null) continue;
 
                                 var pelicula = peliculaNegocio.ConsultarPeliculaPorId(copia.IdPelicula);
-                                Console.WriteLine("{0, -20} | {1, -30} | {2, -10} | {3, -15} | {4, -8}",
-                                    prestamo.FechaPrestamo, prestamo.FechaPrestamo.Date, $"{prestamo.Plazo} días",
+                                Console.WriteLine("{0, -20} | {1, -30} | {2, -10} | {3, -25} | {4, -8}",
+                                    prestamo.FechaPrestamo.ToShortDateString(), prestamo.FechaPrestamo.ToShortDateString(), $"{prestamo.Plazo} días",
                                     pelicula.Data.Titulo, copia.Id);
                             }
                         }
@@ -436,7 +436,7 @@ internal class ControladorPrestamos
 
         // Header de la tabla
         Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine("{0, -15} | {1, -20} | {2, -15} | {3, -30}", "Id Préstamo",
+        Console.WriteLine("{0, -15} | {1, -20} | {2, -25} | {3, -30}", "Id Préstamo",
             "Fecha Préstamo", "Película", "Cliente");
         Console.ForegroundColor = ConsoleColor.White;
         
@@ -449,8 +449,8 @@ internal class ControladorPrestamos
                     .FirstOrDefault(cliente => cliente.Id.Equals(prestamo.IdCliente));
                 if (clienteDelPrestamo != null)
                 {
-                    Console.WriteLine("{0, -15} | {1, -20} | {2, -15} | {3, -30}",
-                        prestamo.Id, prestamo.FechaPrestamo, pelicula.Titulo,
+                    Console.WriteLine("{0, -15} | {1, -20} | {2, -25} | {3, -30}",
+                        prestamo.Id, prestamo.FechaPrestamo.ToShortDateString(), pelicula.Titulo,
                         clienteDelPrestamo.NombreCompleto);
                 }
             }

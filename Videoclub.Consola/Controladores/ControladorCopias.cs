@@ -87,13 +87,13 @@ internal class ControladorCopias
                         {
                             case 1:
                                 Console.Clear();
-                                Console.WriteLine($"Consulta de Copias para la Película: {pelicula.Titulo}:\n");
 
                                 var copiasDePeliculaElegida = copiasDatos.ConsultarCopiasPorIdPelicula(pelicula.Id);
 
                                 if (copiasDePeliculaElegida.Success && copiasDePeliculaElegida.Data.Any())
                                 {
                                     var copias = copiasDePeliculaElegida.Data;
+                                    Console.WriteLine($"Consulta de Copias para la Película: {pelicula.Titulo}: \nTotal de copias encontradas: {copias.Count}\n");
                                     PrintTablaCopias(copias);
                                 }
                                 else
@@ -107,9 +107,15 @@ internal class ControladorCopias
                     }
                     else
                     {
+                        Console.Clear();
                         Utilidades.MensajeError($"No se encontró el Id de película: {idPelicula}.");
+                        int opcM = Utilidades.PedirMenu("1. Eligir Nueva Película. \n2. Volver al Menú Principal", 1, 2);
+                        switch (opcM)
+                        {
+                            case 1: continue;
+                            case 2: break;
+                        }
                     }
-
                     break;
                 }
             }
@@ -288,7 +294,7 @@ internal class ControladorCopias
             {
                 precio = "$ " + copia.Precio;
             }
-            Console.WriteLine("{0, -15} | {1, -20} | {2, -15} | {3, -30}", copia.Id, copia.FechaAlta, precio, copia.Observaciones);
+            Console.WriteLine("{0, -15} | {1, -20} | {2, -15} | {3, -30}", copia.Id, copia.FechaAlta.ToShortDateString(), precio, copia.Observaciones);
         }
     }
     
