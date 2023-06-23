@@ -178,7 +178,7 @@ internal class ControladorPrestamos
                             var pelicula = peliculaPorId.Data;
                             nombrePelicula = pelicula.Titulo;
                             Utilidades.MensajeExito(
-                                $"\nSeleccionó la película: {pelicula.Titulo} con Id: {pelicula.Id}");
+                                $"Seleccionó la película: {pelicula.Titulo} con Id: {pelicula.Id}");
                             int opc = Utilidades.PedirMenu("1. Continuar. \n2. Eligir nueva película.", 1, 2);
                             switch (opc)
                             {
