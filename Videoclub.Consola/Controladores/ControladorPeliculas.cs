@@ -66,6 +66,7 @@ internal class ControladorPeliculas
                     }
                     else
                     {
+                        Console.Clear();
                         Utilidades.MensajeError("No existe una película registrada bajo el ID ingresado.");
                         int opc = Utilidades.PedirMenu("1. Eligir Nueva Película. \n2. Volver al Menú Principal", 1, 2);
                         switch (opc)

@@ -188,7 +188,7 @@ internal static class ControladorClientes
                     break;
                 case 2:
                     Console.Clear();
-                    Utilidades.MensajeError("\nIngreso de cliente abortado.");
+                    Utilidades.MensajeError("Ingreso de cliente abortado.");
                     break;
             }
         }

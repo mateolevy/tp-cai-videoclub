@@ -98,6 +98,7 @@ internal class ControladorCopias
                                 }
                                 else
                                 {
+                                    Console.WriteLine("Pantalla de Consulta de Copias por Película\n");
                                     Utilidades.MensajeError($"No existen copias registradas para la película: {pelicula.Titulo}.");
                                 }
                                 break;

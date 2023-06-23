@@ -42,7 +42,7 @@ internal class ControladorPrestamos
                 {
                     Console.Clear();
                     var pelicula = peliculaResponse.Data;
-                    Utilidades.MensajeExito($"\nSeleccionó la película: {pelicula.Titulo} con Id: {pelicula.Id}");
+                    Utilidades.MensajeExito($"Seleccionó la película: {pelicula.Titulo} con Id: {pelicula.Id}");
                     int opc = Utilidades.PedirMenu("1. Continuar. \n2. Eligir Nueva Película.", 1, 2);
                     if (opc == 1)
                     {
@@ -53,22 +53,37 @@ internal class ControladorPrestamos
 
                         if (copiasDePeliculaElegida.Success && copiasDePeliculaElegida.Data.Any())
                         {
+
                             var copias = copiasDePeliculaElegida.Data;
                             var prestamos = prestamoDatos.ConsultarPrestamos();
-
                             if (prestamos.Success && prestamos.Data.Any())
                             {
-                                PrintTablaPrestamosPorCliente(prestamos.Data, copias, pelicula);
+                                List<Prestamo> prestamosLista = DevolverListaPrestamo(prestamos.Data);
+                                foreach (var copia in copias)
+                                {
+                                    var prestamosPorIdCopia = prestamosLista.Where(prestamo => prestamo.IdCopia.Equals(copia.Id)).ToList();
+                                    if (prestamosPorIdCopia.Count > 0)
+                                    {
+                                        PrintTablaPrestamosPorCliente(prestamos.Data, copias, pelicula);
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        Utilidades.MensajeError(
+                                            $"No se encontraron préstamos para la película: {pelicula.Titulo}");
+                                    }
+                                }
                             }
                             else
                             {
                                 Utilidades.MensajeError(
                                     $"No se encontraron préstamos para la película: {pelicula.Titulo}");
-                            }
+                            }     
+                           
                         }
                         else
                         {
-                            Utilidades.MensajeError("No existen copias registradas para la película elegida.");
+                            Utilidades.MensajeError("No existen préstamos registrados para la película elegida.");
                         }
                     }
                     else if (opc == 2)
@@ -462,17 +477,22 @@ internal class ControladorPrestamos
         foreach (var copia in copias)
         {
             var prestamosPorIdCopia = prestamos.Where(prestamo => prestamo.IdCopia.Equals(copia.Id)).ToList();
-            foreach (var prestamo in prestamosPorIdCopia)
-            {
-                var clienteDelPrestamo = clienteDatos.ConsultarClientes().Data
-                    .FirstOrDefault(cliente => cliente.Id.Equals(prestamo.IdCliente));
-                if (clienteDelPrestamo != null)
+                foreach (var prestamo in prestamosPorIdCopia)
                 {
-                    Console.WriteLine("{0, -15} | {1, -20} | {2, -25} | {3, -30}",
+                    var clienteDelPrestamo = clienteDatos.ConsultarClientes().Data.FirstOrDefault(cliente => cliente.Id.Equals(prestamo.IdCliente));
+                    if (clienteDelPrestamo != null)
+                    {
+                        Console.WriteLine("{0, -15} | {1, -20} | {2, -25} | {3, -30}",
                         prestamo.Id, prestamo.FechaPrestamo.ToShortDateString(), pelicula.Titulo,
                         clienteDelPrestamo.NombreCompleto);
+                    }
                 }
-            }
+            
         }
     }
+
+    private static List<Prestamo> DevolverListaPrestamo(List<Prestamo> prestamos)
+    {
+        return prestamos;
+    } 
 }
