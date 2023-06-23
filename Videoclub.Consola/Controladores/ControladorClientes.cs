@@ -26,6 +26,8 @@ internal static class ControladorClientes
 
                 if (clienteExistente != null)
                 {
+                    Console.Clear();
+                    Console.WriteLine("Cliente: \n");
                     PrintCliente(clienteExistente);
                 }
                 else
@@ -76,6 +78,8 @@ internal static class ControladorClientes
 
                 if (clienteResponse.Success)
                 {
+                    Console.Clear();
+                    Console.WriteLine("Cliente: \n");
                     PrintCliente(clienteResponse.Data);
                 }
                 else
@@ -207,8 +211,6 @@ internal static class ControladorClientes
     
     private static void PrintTablaClientes(List<Cliente> clientes)
     {
-        Console.Clear();
-        
         // Header de la tabla
         Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine("{0, -12} | {1, -12} | {2, -8} | {3, -18} | {4, -10} | {5, -20} | {6, -15}", "Nombre", "Apellido", "DNI", "Fecha Nacimiento", "Teléfono", "Dirección", "Fecha Alta");
@@ -218,7 +220,7 @@ internal static class ControladorClientes
         {
             Console.WriteLine("{0, -12} | {1, -12} | {2, -8} | {3, -18} | {4, -10} | {5, -20} | {6, -15}",
                 cliente.Nombre, cliente.Apellido, cliente.Dni, cliente.FechaNacimiento.ToShortDateString(), cliente.Telefono,
-                cliente.Direccion, cliente.FechaAlta);
+                cliente.Direccion, cliente.FechaAlta.ToShortDateString());
         }
     }
 }

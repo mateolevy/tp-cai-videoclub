@@ -10,8 +10,6 @@ internal class ControladorPrestamos
     internal static void ConsultarPrestamosPorPelicula()
     {
         Console.Clear();
-        Console.WriteLine("Pantalla de Consulta de Préstamos por Película\n");
-
         try
         {
             var prestamoDatos = new PrestamoNegocio();
@@ -22,6 +20,8 @@ internal class ControladorPrestamos
 
             while (true)
             {
+                Console.Clear();
+                Console.WriteLine("Pantalla de Consulta de Préstamos por Película\n");
                 var peliculasResponse = peliculaDatos.ConsultarPeliculas();
                 
                 if (peliculasResponse.Success && peliculasResponse.Data.Any())
@@ -40,6 +40,7 @@ internal class ControladorPrestamos
                 var peliculaResponse = peliculaDatos.ConsultarPeliculaPorId(idPelicula);
                 if (peliculaResponse.Success)
                 {
+                    Console.Clear();
                     var pelicula = peliculaResponse.Data;
                     Utilidades.MensajeExito($"\nSeleccionó la película: {pelicula.Titulo} con Id: {pelicula.Id}");
                     int opc = Utilidades.PedirMenu("1. Continuar. \n2. Eligir Nueva Película.", 1, 2);
@@ -78,8 +79,14 @@ internal class ControladorPrestamos
                 }
                 else
                 {
-                    Utilidades.MensajeError(
-                        $"No se encontró el Id de película: {idPelicula}.");
+                    Console.Clear();
+                    Utilidades.MensajeError($"No se encontró el Id de película: {idPelicula}.");
+                    int opc = Utilidades.PedirMenu("1. Eligir Nueva Película. \n2. Volver al Menú Principal", 1, 2);
+                    switch( opc )
+                    {
+                        case 1: continue;
+                        case 2: break;
+                    }
                 }
                 break;
             }
@@ -167,6 +174,7 @@ internal class ControladorPrestamos
                         // Validamos el Id de Pelicula ingresado.
                         if (peliculaPorId.Success)
                         {
+                            Console.Clear();
                             var pelicula = peliculaPorId.Data;
                             nombrePelicula = pelicula.Titulo;
                             Utilidades.MensajeExito(
@@ -180,6 +188,7 @@ internal class ControladorPrestamos
                         }
                         else
                         {
+                            Console.Clear();
                             Utilidades.MensajeError("\nNo se encontró el Id de película ingresada.");
                             int opcSeguir = Utilidades.PedirMenu("1. Ingresar otra película. \n2. Volver al Menú Principal.", 1, 2);
                             switch (opcSeguir)
